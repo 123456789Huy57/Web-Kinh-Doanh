@@ -1,0 +1,7 @@
+[
+  { "id": "tpl-healthy-01", "name": "Tuần ăn lành mạnh", "goal": "healthy", "days": 7, "mealPattern": ["breakfast", "lunch", "dinner"], "preferredMealIds": ["meal-001", "meal-005", "meal-006", "meal-008", "meal-010", "meal-012", "meal-015", "meal-016", "meal-018"], "budgetMultiplier": 1, "isActive": true },
+  { "id": "tpl-protein-01", "name": "Tuần high protein", "goal": "high-protein", "days": 7, "mealPattern": ["breakfast", "lunch", "dinner"], "preferredMealIds": ["meal-002", "meal-004", "meal-011", "meal-013", "meal-017", "meal-019", "meal-020"], "budgetMultiplier": 1.15, "isActive": true },
+  { "id": "tpl-vegetarian-01", "name": "Tuần ăn chay", "goal": "vegetarian", "days": 7, "mealPattern": ["breakfast", "lunch", "dinner"], "preferredMealIds": ["meal-008", "meal-009", "meal-010", "meal-014", "meal-016", "meal-018"], "budgetMultiplier": 0.9, "isActive": true },
+  { "id": "tpl-family-01", "name": "Tuần tiết kiệm gia đình", "goal": "healthy", "days": 7, "mealPattern": ["breakfast", "lunch", "dinner"], "preferredMealIds": ["meal-003", "meal-007", "meal-010", "meal-015", "meal-018", "meal-020"], "budgetMultiplier": 0.85, "isActive": true },
+  { "id": "tpl-weekend-01", "name": "Tuần cuối tuần tiện lợi", "goal": "healthy", "days": 7, "mealPattern": ["breakfast", "lunch", "dinner"], "preferredMealIds": ["meal-001", "meal-005", "meal-009", "meal-014", "meal-016", "meal-019"], "budgetMultiplier": 0.95, "isActive": true }
+]
