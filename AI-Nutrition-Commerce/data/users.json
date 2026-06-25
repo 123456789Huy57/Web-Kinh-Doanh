@@ -1,6 +1,0 @@
-[
-  { "id": "u-001", "fullName": "Nguyen Van A", "email": "a@example.com", "phone": "0900000001", "password": "123456", "role": "customer", "avatarUrl": "/assets/images/placeholder-avatar.svg", "address": "Ho Chi Minh City", "isActive": true, "createdAt": "2026-01-01T08:00:00.000Z", "lastLoginAt": "2026-06-10T12:00:00.000Z" },
-  { "id": "u-002", "fullName": "Le Thi B", "email": "b@example.com", "phone": "0900000002", "password": "123456", "role": "customer", "avatarUrl": "/assets/images/placeholder-avatar.svg", "address": "District 3, Ho Chi Minh City", "isActive": true, "createdAt": "2026-01-05T08:00:00.000Z", "lastLoginAt": "2026-06-09T12:30:00.000Z" },
-  { "id": "u-003", "fullName": "Pham Van C", "email": "c@example.com", "phone": "0900000003", "password": "123456", "role": "customer", "avatarUrl": "/assets/images/placeholder-avatar.svg", "address": "Ha Noi", "isActive": true, "createdAt": "2026-02-01T08:00:00.000Z", "lastLoginAt": "2026-06-08T09:15:00.000Z" },
-  { "id": "u-004", "fullName": "Admin User", "email": "admin@example.com", "phone": "0900000004", "password": "admin123", "role": "admin", "avatarUrl": "/assets/images/placeholder-avatar.svg", "address": "Ho Chi Minh City", "isActive": true, "createdAt": "2026-01-01T08:00:00.000Z", "lastLoginAt": "2026-06-11T07:45:00.000Z" }
-]
