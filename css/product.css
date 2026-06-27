@@ -10,19 +10,6 @@
   align-items: start;
 }
 
-.breadcrumb {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  color: var(--color-muted);
-  margin-bottom: 16px;
-  flex-wrap: wrap;
-}
-
-.breadcrumb a:hover { color: var(--color-primary); }
-.breadcrumb__sep { color: var(--color-border); }
-
 .product-gallery {
   position: sticky;
   top: 160px;

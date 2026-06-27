@@ -3,6 +3,34 @@
   padding: 24px 0 48px;
 }
 
+/* ---- FORM FIELDS (missing from style.css) ---- */
+.form-field {
+  display: flex; flex-direction: column; gap: 6px;
+}
+.form-field span {
+  font-size: 13px; font-weight: 600; color: var(--color-text);
+}
+.form-field input,
+.form-field textarea,
+.form-field select {
+  padding: 12px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  font-size: 14px;
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+.form-field input:focus,
+.form-field textarea:focus,
+.form-field select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(26,60,42,0.1);
+}
+.form-field textarea {
+  resize: vertical; min-height: 80px;
+}
+
 .checkout-layout {
   display: grid;
   grid-template-columns: 1fr 380px;
@@ -155,6 +183,68 @@
   font-size: 13px;
   font-weight: 700;
   white-space: nowrap;
+}
+
+.checkout-totals {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border);
+  margin-bottom: 20px;
+}
+
+.checkout-total-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.checkout-total-row--grand {
+  padding-top: 10px;
+  border-top: 2px solid var(--color-border);
+  font-weight: 900;
+  font-size: 18px;
+}
+
+.checkout-total-row--grand .checkout-total-row__value {
+  color: var(--color-primary);
+}
+
+.checkout-success {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.checkout-success__icon {
+  font-size: 60px;
+  margin-bottom: 16px;
+}
+
+.checkout-success__title {
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--color-primary);
+  margin-bottom: 8px;
+}
+
+.checkout-success__desc {
+  color: var(--color-muted);
+  margin-bottom: 8px;
+}
+
+.checkout-success__code {
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--color-accent);
+  margin-bottom: 24px;
+}
+
+@media (max-width: 768px) {
+  .checkout-layout { grid-template-columns: 1fr; }
+  .checkout-form-grid { grid-template-columns: 1fr; }
+  .checkout-summary { position: static; }
+}
 }
 
 .checkout-totals {

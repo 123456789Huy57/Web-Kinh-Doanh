@@ -6,7 +6,8 @@ const STORAGE_KEYS = {
   wishlist: "aic_wishlist",
   mealPlans: "aic_meal_plans",
   catalogFilters: "aic_catalog_filters",
-  checkoutDraft: "aic_checkout_draft"
+  checkoutDraft: "aic_checkout_draft",
+  loyalty: "aic_loyalty"
 };
 
 function readJSON(key, fallback) {
@@ -154,6 +155,99 @@ export function setActiveCart(cart) {
 
 export function clearActiveCart() {
   removeKey(getActiveCartKey());
+}
+
+/* ── Compare Products ── */
+export function getCompareProducts() {
+  const user = getCurrentUser();
+  const key = user?.id ? `aic_compare_${user.id}` : "aic_compare_guest";
+  return readJSON(key, []);
+}
+
+export function setCompareProducts(ids) {
+  const user = getCurrentUser();
+  const key = user?.id ? `aic_compare_${user.id}` : "aic_compare_guest";
+  return writeJSON(key, ids);
+}
+
+export function addToCompare(productId) {
+  const ids = getCompareProducts();
+  if (ids.includes(productId)) return ids;
+  if (ids.length >= 4) return ids; // max 4
+  ids.push(productId);
+  return setCompareProducts(ids);
+}
+
+export function removeFromCompare(productId) {
+  const ids = getCompareProducts().filter(id => id !== productId);
+  return setCompareProducts(ids);
+}
+
+export function clearCompare() {
+  const user = getCurrentUser();
+  const key = user?.id ? `aic_compare_${user.id}` : "aic_compare_guest";
+  return writeJSON(key, []);
+}
+
+/* ── Loyalty Program ── */
+const LOYALTY_DEFAULTS = { points: 0, tier: "bronze", history: [] };
+const LOYALTY_TIERS = [
+  { name: "bronze", minPoints: 0, multiplier: 1, discount: 0 },
+  { name: "silver", minPoints: 500, multiplier: 1.5, discount: 3 },
+  { name: "gold", minPoints: 2000, multiplier: 2, discount: 5 },
+  { name: "diamond", minPoints: 5000, multiplier: 3, discount: 8 }
+];
+
+function getLoyaltyKey() {
+  const user = getCurrentUser();
+  return user?.id ? `aic_loyalty_${user.id}` : null;
+}
+
+export function getLoyaltyData() {
+  const key = getLoyaltyKey();
+  if (!key) return { ...LOYALTY_DEFAULTS };
+  return readJSON(key, { ...LOYALTY_DEFAULTS });
+}
+
+export function addLoyaltyPoints(amount, description) {
+  // amount = points to add (already calculated as floor(total/1000) before calling)
+  const key = getLoyaltyKey();
+  if (!key) return null;
+  const data = getLoyaltyData();
+  data.points += amount;
+  data.tier = LOYALTY_TIERS.slice().reverse().find(t => data.points >= t.minPoints)?.name || "bronze";
+  data.history.unshift({
+    type: "earn",
+    points: amount,
+    description,
+    date: new Date().toISOString()
+  });
+  if (data.history.length > 50) data.history = data.history.slice(0, 50);
+  return writeJSON(key, data);
+}
+
+export function redeemLoyaltyPoints(pointsToRedeem, description) {
+  const key = getLoyaltyKey();
+  if (!key) return null;
+  const data = getLoyaltyData();
+  if (data.points < pointsToRedeem) return null;
+  data.points -= pointsToRedeem;
+  data.tier = LOYALTY_TIERS.slice().reverse().find(t => data.points >= t.minPoints)?.name || "bronze";
+  data.history.unshift({
+    type: "redeem",
+    points: pointsToRedeem,
+    description,
+    date: new Date().toISOString()
+  });
+  return writeJSON(key, data);
+}
+
+export function getLoyaltyTierInfo(tierName) {
+  return LOYALTY_TIERS.find(t => t.name === tierName) || LOYALTY_TIERS[0];
+}
+
+export function getAllLoyaltyTiers() {
+  return LOYALTY_TIERS;
 }
 
 export { STORAGE_KEYS };

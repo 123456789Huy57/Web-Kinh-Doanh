@@ -1,4 +1,4 @@
-import { fetchJSON, formatCurrency, escapeHTML } from "./utils.js";
+import { fetchJSON, formatCurrency, escapeHTML, renderBreadcrumb, createBreadcrumbItems } from "./utils.js";
 import { getActiveCart, setActiveCart, clearActiveCart, getCurrentUser } from "./storage.js";
 import { showToast } from "./main.js";
 
@@ -41,11 +41,12 @@ function getVoucherDiscount(cart, subtotal) {
 
 function renderCartEmpty() {
   return `
+    ${renderBreadcrumb(createBreadcrumbItems({ pageType: "cart" }))}
     <div class="cart-empty">
       <div class="cart-empty__icon">🛒</div>
       <h2 class="cart-empty__title">Giỏ hàng đang trống</h2>
       <p class="cart-empty__desc">Hãy thêm sản phẩm vào giỏ để bắt đầu mua sắm!</p>
-      <a class="btn btn--primary" href="./catalog.html">Mua sắm ngay</a>
+      <a class="btn btn--primary btn--lg" href="./catalog.html">Mua sắm ngay</a>
     </div>
   `;
 }
@@ -97,67 +98,68 @@ function renderCartPage() {
   const currentUser = getCurrentUser();
 
   return `
+    ${renderBreadcrumb(createBreadcrumbItems({ pageType: "cart" }))}
     <div class="orders-header">
       <h1 class="orders-header__title">Giỏ hàng của bạn</h1>
       <p style="color:var(--color-muted);">${currentUser ? "Xin chào " + escapeHTML(currentUser.fullName) + "! " : ""}Bạn có ${cart.items.length} sản phẩm trong giỏ.</p>
     </div>
 
-    <div class="cart-layout">
-      <div class="cart-items">
-        <div class="cart-header">
-          <div class="cart-header__select-all">
-            <input type="checkbox" checked />
-            <span>Chọn tất cả (${cart.items.length})</span>
-          </div>
-          <button class="btn btn--ghost btn--sm" id="clear-cart-btn" type="button">Xóa tất cả</button>
+    <div class="cart-items">
+      <div class="cart-header">
+        <div class="cart-header__select-all">
+          <input type="checkbox" checked />
+          <span>Chọn tất cả (${cart.items.length})</span>
         </div>
-        ${renderCartItems(cart)}
+        <button class="btn btn--ghost btn--sm" id="clear-cart-btn" type="button">Xóa tất cả</button>
+      </div>
+      ${renderCartItems(cart)}
+    </div>
+
+    <aside class="cart-summary">
+      <h2 class="cart-summary__title">Tóm tắt đơn hàng</h2>
+
+      <div class="shipping-progress">
+        <div class="shipping-progress__text">
+          ${remaining > 0
+            ? "Mua thêm <strong>" + formatCurrency(remaining) + "</strong> để được <strong>miễn phí vận chuyển</strong>"
+            : "🎉 Bạn được <strong>miễn phí vận chuyển!</strong>"}
+        </div>
+        <div class="shipping-progress__bar">
+          <div class="shipping-progress__fill" style="width:${shippingProgress}%"></div>
+        </div>
       </div>
 
-      <aside class="cart-summary">
-        <h2 class="cart-summary__title">Tóm tắt đơn hàng</h2>
+      <div class="cart-voucher">
+        <input type="text" id="voucher-input" placeholder="Nhập mã giảm giá" value="${escapeHTML(cart.voucherCode || "")}" />
+        <button class="btn btn--outline btn--sm" id="apply-voucher-btn" type="button">Áp dụng</button>
+      </div>
+      ${voucherMsg.text ? '<div class="cart-voucher__msg ' + (voucherMsg.success ? "cart-voucher__msg--success" : "cart-voucher__msg--error") + '">' + escapeHTML(voucherMsg.text) + "</div>" : ""}
 
-        <div class="shipping-progress">
-          <div class="shipping-progress__text">
-            ${remaining > 0
-              ? "Mua thêm <strong>" + formatCurrency(remaining) + "</strong> để được <strong>miễn phí vận chuyển</strong>"
-              : "🎉 Bạn được <strong>miễn phí vận chuyển!</strong>"}
-          </div>
-          <div class="shipping-progress__bar">
-            <div class="shipping-progress__fill" style="width:${shippingProgress}%"></div>
-          </div>
+      <div class="cart-summary__rows">
+        <div class="cart-summary__row">
+          <span class="cart-summary__label">Tạm tính</span>
+          <span class="cart-summary__value">${formatCurrency(subtotal)}</span>
         </div>
-
-        <div class="cart-voucher">
-          <input type="text" id="voucher-input" placeholder="Nhập mã giảm giá" value="${escapeHTML(cart.voucherCode || "")}" />
-          <button class="btn btn--outline btn--sm" id="apply-voucher-btn" type="button">Áp dụng</button>
+        <div class="cart-summary__row">
+          <span class="cart-summary__label">Phí vận chuyển</span>
+          <span class="cart-summary__value">${shipping === 0 ? '<span style="color:var(--color-success);font-weight:700;">Miễn phí</span>' : formatCurrency(shipping)}</span>
         </div>
-        ${voucherMsg.text ? '<div class="cart-voucher__msg ' + (voucherMsg.success ? "cart-voucher__msg--success" : "cart-voucher__msg--error") + '">' + escapeHTML(voucherMsg.text) + "</div>" : ""}
-
-        <div class="cart-summary__rows">
-          <div class="cart-summary__row">
-            <span>Tạm tính</span>
-            <span>${formatCurrency(subtotal)}</span>
-          </div>
-          <div class="cart-summary__row">
-            <span>Phí vận chuyển</span>
-            <span>${shipping === 0 ? '<span style="color:var(--color-success);font-weight:700;">Miễn phí</span>' : formatCurrency(shipping)}</span>
-          </div>
-          ${discount > 0 ? `
-          <div class="cart-summary__row">
-            <span>Giảm giá</span>
-            <span style="color:var(--color-sale);">-${formatCurrency(discount)}</span>
-          </div>` : ""}
-          <div class="cart-summary__row cart-summary__row--total">
-            <span>Tổng cộng</span>
-            <span class="cart-summary__value">${formatCurrency(total)}</span>
-          </div>
+        ${discount > 0 ? `
+        <div class="cart-summary__row">
+          <span class="cart-summary__label">Giảm giá</span>
+          <span class="cart-summary__value" style="color:var(--color-sale);">-${formatCurrency(discount)}</span>
+        </div>` : ""}
+        <div class="cart-summary__row cart-summary__row--total">
+          <span>Tổng cộng</span>
+          <span class="cart-summary__value">${formatCurrency(total)}</span>
         </div>
+      </div>
 
+      <div class="cart-summary__actions">
         <a class="btn btn--primary btn--block btn--lg" href="./checkout.html">Tiến hành thanh toán</a>
-        <a class="btn btn--ghost btn--block" href="./catalog.html" style="margin-top:8px;">Tiếp tục mua sắm</a>
-      </aside>
-    </div>
+        <a class="btn btn--ghost btn--block" href="./catalog.html">Tiếp tục mua sắm</a>
+      </div>
+    </aside>
   `;
 }
 
@@ -209,18 +211,17 @@ function applyVoucher(code) {
 function rerender() {
   cartState.cart = getActiveCart();
   cartState.cart.items = cartState.cart.items || [];
-  const main = document.querySelector("main");
-  if (!main) return;
-  const container = main.querySelector(".container") || main;
-  container.innerHTML = renderCartPage();
+  const root = document.getElementById("cart-root");
+  if (!root) return;
+  root.innerHTML = renderCartPage();
   bindEvents();
 }
 
 function bindEvents() {
-  const main = document.querySelector("main");
-  if (!main) return;
+  const root = document.getElementById("cart-root");
+  if (!root) return;
 
-  main.querySelectorAll("[data-action]").forEach((btn) => {
+  root.querySelectorAll("[data-action]").forEach((btn) => {
     btn.addEventListener("click", () => {
       const pid = btn.dataset.productId;
       if (btn.dataset.action === "increase") updateCartItem(pid, 1);
@@ -254,10 +255,9 @@ async function initCartPage() {
   cartState.cart = getActiveCart();
   cartState.cart.items = cartState.cart.items || [];
 
-  const main = document.querySelector("main");
-  if (!main) return;
-  const container = main.querySelector(".container") || main;
-  container.innerHTML = renderCartPage();
+  const root = document.getElementById("cart-root");
+  if (!root) return;
+  root.innerHTML = renderCartPage();
   bindEvents();
 }
 

@@ -1,6 +1,6 @@
-import { fetchJSON, formatCurrency, getQueryParam, escapeHTML } from "./utils.js";
+import { fetchJSON, formatCurrency, getQueryParam, escapeHTML, renderBreadcrumb, createBreadcrumbItems } from "./utils.js";
 import { getActiveCart, setActiveCart, toggleWishlist, isWishlisted } from "./storage.js";
-import { renderProductCard, showToast } from "./main.js";
+import { renderProductCard, showToast, PRODUCT_IMAGES } from "./main.js";
 
 const DATA_PATHS = {
   products: "./data/products.json",
@@ -63,19 +63,19 @@ function renderProductDetail(product, products, categories) {
   const savings = discount ? product.price - product.salePrice : 0;
 
   return `
-    <nav class="breadcrumb">
-      <a href="./index.html">Trang chủ</a>
-      <span class="breadcrumb__sep">›</span>
-      <a href="./catalog.html">Sản phẩm</a>
-      <span class="breadcrumb__sep">›</span>
-      ${category ? `<a href="./catalog.html?category=${category.id}">${escapeHTML(category.name)}</a><span class="breadcrumb__sep">›</span>` : ""}
-      <span>${escapeHTML(product.name)}</span>
-    </nav>
+    ${renderBreadcrumb(createBreadcrumbItems({
+      pageType: "product",
+      data: {
+        productName: product.name,
+        categoryName: category?.name,
+        categoryId: category?.id
+      }
+    }))}
 
     <div class="product-detail">
       <div class="product-gallery">
         <div class="product-gallery__main">
-          <img src="${product.imageUrl}" alt="${escapeHTML(product.name)}" />
+          <img src="${PRODUCT_IMAGES[product.id] || product.imageUrl}" alt="${escapeHTML(product.name)}" />
         </div>
         <div class="product-gallery__benefits">
           <div class="gallery-benefit">
@@ -196,11 +196,11 @@ async function initProductPage() {
   ]);
 
   const product = productsRaw.find((item) => item.slug === slug);
-  const main = document.querySelector("main");
-  if (!main) return;
+  const root = document.getElementById("product-root");
+  if (!root) return;
 
   if (!product) {
-    main.innerHTML = `
+    root.innerHTML = `
       <div class="container" style="padding:60px 0;text-align:center;">
         <h1>Không tìm thấy sản phẩm</h1>
         <p style="color:var(--color-muted);margin-bottom:24px;">Sản phẩm này không có trong dữ liệu hiện tại.</p>
@@ -212,8 +212,7 @@ async function initProductPage() {
 
   document.title = product.name + " | Bách Hóa Tươi";
 
-  const container = main.querySelector(".container") || main;
-  container.innerHTML = renderProductDetail(product, productsRaw, categoriesRaw);
+  root.innerHTML = renderProductDetail(product, productsRaw, categoriesRaw);
 
   const qtyInput = document.getElementById("product-quantity");
   document.getElementById("qty-minus")?.addEventListener("click", () => {
@@ -245,12 +244,12 @@ async function initProductPage() {
     showToast(now ? "Đã thêm vào yêu thích" : "Đã xóa khỏi yêu thích");
   });
 
-  main.querySelectorAll(".product-tabs__btn").forEach((btn) => {
+  root.querySelectorAll(".product-tabs__btn").forEach((btn) => {
     btn.addEventListener("click", () => {
-      main.querySelectorAll(".product-tabs__btn").forEach((b) => b.classList.remove("is-active"));
-      main.querySelectorAll(".product-tabs__panel").forEach((p) => p.classList.remove("is-active"));
+      root.querySelectorAll(".product-tabs__btn").forEach((b) => b.classList.remove("is-active"));
+      root.querySelectorAll(".product-tabs__panel").forEach((p) => p.classList.remove("is-active"));
       btn.classList.add("is-active");
-      main.querySelector('[data-panel="' + btn.dataset.tab + '"]')?.classList.add("is-active");
+      root.querySelector('[data-panel="' + btn.dataset.tab + '"]')?.classList.add("is-active");
     });
   });
 }

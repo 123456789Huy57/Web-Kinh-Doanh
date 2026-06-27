@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#1a3c2a" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://images.unsplash.com; font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com; connect-src 'self' https://www.google-analytics.com https://www.google.com https://analytics.google.com; base-uri 'self'; form-action 'self';" />
+    <title>Hướng dẫn mua hàng | Bách Hóa Tươi</title>
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/pages.css" />
+      <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+  
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;600&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" />
+    </head>
+  <body data-page="guide">
+    <header id="site-header"></header>
+    <main class="page-shell">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Vị trí trang">
+          <a href="./index.html">Trang chủ</a>
+          <span class="breadcrumb__sep" aria-hidden="true">›</span>
+          <span class="breadcrumb__current" aria-current="page">Hướng dẫn mua hàng</span>
+        </nav>
+        <!-- Hero -->
+        <div class="page-hero">
+          <picture><source srcset="./assets/images/hero-mealplan.webp" type="image/webp"><source srcset="./assets/images/hero-mealplan.jpg" type="image/jpeg"><img src="./assets/images/hero-mealplan.jpg" alt="Hướng dẫn mua hàng" /></picture>
+          <div class="page-hero__overlay">
+            <span class="page-hero__eyebrow">Chăm sóc khách hàng</span>
+            <h1 class="page-hero__title">Hướng dẫn mua hàng</h1>
+          </div>
+        </div>
+
+        <!-- Quy trình -->
+        <div class="content-block">
+          <div class="content-block__title">Quy trình đặt hàng</div>
+          <div class="hours-list">
+            <div class="hours-item">
+              <span class="hours-day"><span class="step-number">1</span> Duyệt sản phẩm</span>
+              <span class="hours-time">Tìm kiếm và chọn sản phẩm từ danh mục hoặc thanh tìm kiếm</span>
+            </div>
+            <div class="hours-item">
+              <span class="hours-day"><span class="step-number">2</span> Thêm vào giỏ</span>
+              <span class="hours-time">Chọn số lượng, nhấn "Thêm vào giỏ hàng"</span>
+            </div>
+            <div class="hours-item">
+              <span class="hours-day"><span class="step-number">3</span> Kiểm tra giỏ hàng</span>
+              <span class="hours-time">Xem lại sản phẩm, số lượng và tổng giá trị đơn hàng</span>
+            </div>
+            <div class="hours-item">
+              <span class="hours-day"><span class="step-number">4</span> Nhập thông tin giao hàng</span>
+              <span class="hours-time">Điền địa chỉ nhận hàng, chọn phương thức thanh toán</span>
+            </div>
+            <div class="hours-item">
+              <span class="hours-day"><span class="step-number">5</span> Xác nhận đặt hàng</span>
+              <span class="hours-time">Kiểm tra lại thông tin và nhấn "Đặt hàng"</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="content-block">
+          <div class="content-block__title">Phương thức thanh toán</div>
+          <ul class="content-block__list">
+            <li><strong>Thanh toán khi nhận hàng (COD):</strong> Trả tiền mặt cho nhân viên giao hàng khi nhận hàng</li>
+            <li><strong>Chuyển khoản ngân hàng:</strong> Chuyển khoản trực tiếp đến tài khoản Bách Hóa Tươi</li>
+            <li><strong>Ví điện tử:</strong> Hỗ trợ MoMo, ZaloPay và VNPay</li>
+          </ul>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="content-block">
+          <div class="content-block__title">Lưu ý khi mua hàng</div>
+          <ul class="content-block__list">
+            <li>Đơn hàng được xử lý trong vòng 30 phút trong giờ hành chính</li>
+            <li>Đơn đặt sau 18:00 sẽ được giao vào ngày hôm sau</li>
+            <li>Bạn có thể hủy đơn hàng trước khi nhân viên bắt đầu giao</li>
+            <li>Kiểm tra kỹ sản phẩm khi nhận hàng — khiếu nại trong vòng 24 giờ</li>
+          </ul>
+        </div>
+      </div>
+    </main>
+    <footer id="site-footer" class="site-footer"></footer>
+    <script type="module" src="./js/main.js"></script>
+  </body>
+</html>

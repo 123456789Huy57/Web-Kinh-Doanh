@@ -1,4 +1,4 @@
-import { fetchJSON, formatCurrency, formatDate, escapeHTML, getQueryParam } from "./utils.js";
+import { fetchJSON, formatCurrency, formatDate, escapeHTML, getQueryParam, renderBreadcrumb, createBreadcrumbItems } from "./utils.js";
 import { getOrders, setOrders, getCurrentUser } from "./storage.js";
 import { showToast } from "./main.js";
 
@@ -95,6 +95,7 @@ function renderOrdersPage(allOrders) {
     : userOrders.filter((o) => o.status === ordersState.activeTab);
 
   return `
+    ${renderBreadcrumb(createBreadcrumbItems({ pageType: "orders" }))}
     <div class="orders-header">
       <h1 class="orders-header__title">Đơn hàng của tôi</h1>
       <p style="color:var(--color-muted);">Theo dõi trạng thái giao hàng và lịch sử mua sắm.</p>

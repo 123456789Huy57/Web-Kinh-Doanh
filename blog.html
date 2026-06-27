@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#1a3c2a" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://images.unsplash.com; font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com; connect-src 'self' https://www.google-analytics.com https://www.google.com https://analytics.google.com; base-uri 'self'; form-action 'self';" />
+    <title>Blog ẩm thực | Bách Hóa Tươi</title>
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/pages.css" />
+      <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+  
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;600&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" />
+    </head>
+  <body data-page="blog">
+    <header id="site-header"></header>
+    <main class="page-shell">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Vị trí trang">
+          <a href="./index.html">Trang chủ</a>
+          <span class="breadcrumb__sep" aria-hidden="true">›</span>
+          <span class="breadcrumb__current" aria-current="page">Blog ẩm thực</span>
+        </nav>
+        <!-- Hero -->
+        <div class="page-hero">
+          <picture><source srcset="./assets/images/hero-fresh.webp" type="image/webp"><source srcset="./assets/images/hero-fresh.jpg" type="image/jpeg"><img src="./assets/images/hero-fresh.jpg" alt="Blog ẩm thực" /></picture>
+          <div class="page-hero__overlay">
+            <span class="page-hero__eyebrow">Chăm sóc khách hàng</span>
+            <h1 class="page-hero__title">Blog ẩm thực</h1>
+          </div>
+        </div>
+
+        <!-- Blog grid -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:28px;">
+          <article class="blog-card">
+            <div class="blog-card__image">
+              <picture><source srcset="./assets/images/cat-vegetables.webp" type="image/webp"><source srcset="./assets/images/cat-vegetables.jpg" type="image/jpeg"><img src="./assets/images/cat-vegetables.jpg" alt="Rau củ" /></picture>
+            </div>
+            <div class="blog-card__body">
+              <span class="blog-card__tag">Mẹo hay</span>
+              <h2 class="blog-card__title">10 mẹo bảo quản rau củ tươi lâu hơn mà không cần tủ lạnh</h2>
+              <p class="blog-card__excerpt">Một số loại rau củ chỉ cần bảo quản đúng cách ở nhiệt độ phòng là có thể tươi ngon đến 1 tuần. Đây là những mẹo đơn giản mà bạn có thể áp dụng ngay.</p>
+              <div class="blog-card__date">15/06/2026</div>
+            </div>
+          </article>
+
+          <article class="blog-card">
+            <div class="blog-card__image">
+              <picture><source srcset="./assets/images/cat-fruits.webp" type="image/webp"><source srcset="./assets/images/cat-fruits.jpg" type="image/jpeg"><img src="./assets/images/cat-fruits.jpg" alt="Trái cây" /></picture>
+            </div>
+            <div class="blog-card__body">
+              <span class="blog-card__tag">Mùa vụ</span>
+              <h2 class="blog-card__title">Trái cây theo mùa tháng 6: Nên ăn gì và tại sao?</h2>
+              <p class="blog-card__excerpt">Tháng 6 là mùa của sầu riêng, măng cụt và vải thiều. Biết cách chọn trái cây đúng mùa giúp bạn tiết kiệm và thưởng thức hương vị tuyệt vời nhất.</p>
+              <div class="blog-card__date">10/06/2026</div>
+            </div>
+          </article>
+
+          <article class="blog-card">
+            <div class="blog-card__image">
+              <picture><source srcset="./assets/images/cat-meat.webp" type="image/webp"><source srcset="./assets/images/cat-meat.jpg" type="image/jpeg"><img src="./assets/images/cat-meat.jpg" alt="Thịt tươi" /></picture>
+            </div>
+            <div class="blog-card__body">
+              <span class="blog-card__tag">Nấu ăn</span>
+              <h2 class="blog-card__title">Cách chọn thịt tươi ngon: 5 dấu hiệu bạn cần biết</h2>
+              <p class="blog-card__excerpt">Thịt tươi có màu sắc tự nhiên, độ đàn hồi tốt và mùi đặc trưng. Học cách nhận biết giúp bạn mua được thực phẩm chất lượng nhất cho gia đình.</p>
+              <div class="blog-card__date">05/06/2026</div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </main>
+    <footer id="site-footer" class="site-footer"></footer>
+    <script type="module" src="./js/main.js"></script>
+  </body>
+</html>

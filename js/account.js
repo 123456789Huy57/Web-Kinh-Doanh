@@ -1,4 +1,4 @@
-import { fetchJSON, formatCurrency, formatDate, generateId, escapeHTML } from "./utils.js";
+import { fetchJSON, formatCurrency, formatDate, generateId, escapeHTML, renderBreadcrumb, createBreadcrumbItems, formatNumber } from "./utils.js";
 import {
   getCurrentUser,
   setCurrentUser,
@@ -11,7 +11,10 @@ import {
   setWishlist,
   toggleWishlist,
   getActiveCart,
-  setActiveCart
+  setActiveCart,
+  getLoyaltyData,
+  getLoyaltyTierInfo,
+  getAllLoyaltyTiers
 } from "./storage.js";
 import { renderProductCard, showToast } from "./main.js";
 
@@ -104,11 +107,87 @@ function renderRegisterPage() {
   `;
 }
 
+function renderLoyaltyCard(currentUser) {
+  const loyaltyData = getLoyaltyData();
+  const allTiers = getAllLoyaltyTiers();
+  const currentTierInfo = getLoyaltyTierInfo(loyaltyData.tier);
+  const currentPoints = loyaltyData.points;
+
+  /* Find next tier */
+  const tierOrder = ["bronze", "silver", "gold", "diamond"];
+  const currentTierIdx = tierOrder.indexOf(loyaltyData.tier);
+  const nextTier = currentTierIdx < tierOrder.length - 1 ? tierOrder[currentTierIdx + 1] : null;
+  const nextTierInfo = nextTier ? getLoyaltyTierInfo(nextTier) : null;
+
+  /* Progress to next tier */
+  let progressPct = 100;
+  let progressText = "Đã đạt cấp cao nhất!";
+  if (nextTierInfo) {
+    const pointsNeeded = nextTierInfo.minPoints;
+    const progress = Math.min(currentPoints / pointsNeeded, 1);
+    progressPct = Math.round(progress * 100);
+    progressText = `${formatNumber(currentPoints)} / ${formatNumber(pointsNeeded)} điểm đến ${nextTierInfo.name}`;
+  }
+
+  /* Tier badge colors */
+  const tierColors = {
+    bronze: "#cd7f32",
+    silver: "#8c8c8c",
+    gold: "#d4a843",
+    diamond: "#4aa8c0"
+  };
+  const tierEmoji = {
+    bronze: "🥉",
+    silver: "🥈",
+    gold: "🥇",
+    diamond: "💎"
+  };
+  const badgeColor = tierColors[loyaltyData.tier] || tierColors.bronze;
+  const badgeEmoji = tierEmoji[loyaltyData.tier] || "🏅";
+
+  /* Recent history (last 5) */
+  const recentHistory = (loyaltyData.history || []).slice(0, 5);
+
+  return `
+    <div class="loyalty-card" id="loyalty-card">
+      <div class="loyalty-card__header">
+        <div class="loyalty-card__badge" style="background:${badgeColor};">
+          <span class="loyalty-card__badge-icon">${badgeEmoji}</span>
+          <span class="loyalty-card__badge-name">${currentTierInfo.name}</span>
+        </div>
+        <div class="loyalty-card__points">
+          <span class="loyalty-card__points-value">${formatNumber(currentPoints)}</span>
+          <span class="loyalty-card__points-label">điểm tích lũy</span>
+        </div>
+      </div>
+      <div class="loyalty-card__progress">
+        <div class="loyalty-card__progress-text">${progressText}</div>
+        <div class="loyalty-card__progress-bar">
+          <div class="loyalty-card__progress-fill" style="width:${progressPct}%;"></div>
+        </div>
+      </div>
+      ${currentTierInfo.discount > 0 ? `<div class="loyalty-card__discount">Giảm ${currentTierInfo.discount}% cho thành viên ${currentTierInfo.name}</div>` : ""}
+      ${recentHistory.length ? `
+        <div class="loyalty-card__history">
+          <div class="loyalty-card__history-title">Giao dịch gần đây</div>
+          ${recentHistory.map((entry) => `
+            <div class="loyalty-card__history-row">
+              <span class="loyalty-card__history-desc">${escapeHTML(entry.description)}</span>
+              <span class="loyalty-card__history-points ${entry.points > 0 ? "loyalty-card__history-points--positive" : "loyalty-card__history-points--negative"}">${entry.points > 0 ? "+" : ""}${formatNumber(entry.points)}</span>
+            </div>
+          `).join("")}
+        </div>
+      ` : ""}
+    </div>
+  `;
+}
+
 function renderAccountPage() {
   const currentUser = getCurrentUser();
 
   if (!currentUser) {
     return `
+      ${renderBreadcrumb(createBreadcrumbItems({ pageType: "account" }))}
       <div style="text-align:center;padding:60px 20px;">
         <h1>Bạn chưa đăng nhập</h1>
         <p style="color:var(--color-muted);margin-bottom:24px;">Đăng nhập để xem thông tin tài khoản.</p>
@@ -125,6 +204,7 @@ function renderAccountPage() {
   const initial = (currentUser.fullName || "U").charAt(0).toUpperCase();
 
   return `
+    ${renderBreadcrumb(createBreadcrumbItems({ pageType: "account" }))}
     <div class="account-layout">
       <div class="account-sidebar">
         <div class="account-profile">
@@ -145,11 +225,17 @@ function renderAccountPage() {
           <a class="account-nav__link" href="./meal-planner.html">
             <span class="account-nav__icon">🍽️</span> Meal Planner
           </a>
+          <a class="account-nav__link" href="#loyalty" onclick="event.preventDefault(); document.getElementById('loyalty-card')?.scrollIntoView({behavior:'smooth'});">
+            <span class="account-nav__icon">🏅</span> Chương trình thành viên
+          </a>
         </nav>
       </div>
 
       <div class="account-content">
         <h2 class="account-content__title">Thông tin cá nhân</h2>
+
+        ${renderLoyaltyCard(currentUser)}
+
         <form id="profile-form" class="account-form">
           <label class="form-field">
             <span>Họ và tên</span>
@@ -185,8 +271,8 @@ function renderWishlistPage() {
   );
 
   return `
+    ${renderBreadcrumb(createBreadcrumbItems({ pageType: "wishlist" }))}
     <div class="orders-header">
-      <h1 class="orders-header__title">Sản phẩm yêu thích</h1>
       <p style="color:var(--color-muted);">Lưu các món yêu thích để quay lại mua sau.</p>
     </div>
 

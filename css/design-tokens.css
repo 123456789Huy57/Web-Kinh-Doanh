@@ -1,0 +1,72 @@
+/* ==============================================================
+   Design Tokens — BÁCH HÓA TƯƠI Design System
+   Centralized CSS custom properties for colors, typography,
+   spacing, shadows, transitions, and border radii.
+   Import this file in style.css via @import.
+   ============================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&display=swap');
+
+:root {
+  /* ---- Colors: Surfaces ---- */
+  --color-bg: #f7f3ed;
+  --color-surface: #ffffff;
+  --color-surface-alt: #f0ece4;
+  --color-surface-strong: #e4ded4;
+  --color-secondary: #eeeae2;
+
+  /* ---- Colors: Text ---- */
+  --color-text: #1b1b19;
+  --color-text-secondary: #5c5b57;
+  --color-muted: #93918b;
+  --color-ink: #000000;
+
+  /* ---- Colors: Brand ---- */
+  --color-primary: #1a3c2a;
+  --color-primary-dark: #0f2818;
+  --color-primary-light: #e6eee6;
+  --color-accent: #c4883a;
+  --color-accent-dark: #9e6e2e;
+  --color-accent-light: #f5ecdd;
+
+  /* ---- Colors: Semantic ---- */
+  --color-sale: #b5372a;
+  --color-sale-light: #f9e6e3;
+  --color-success: #2a6238;
+  --color-danger: #b5372a;
+  --color-warning: #c4883a;
+  --color-border: #ddd7cd;
+
+  /* ---- Colors: Footer ---- */
+  --color-footer-bg: #112b1c;
+  --color-footer-dark: #0a1a10;
+
+  /* ---- Typography ---- */
+  --font-display: 'EB Garamond', Georgia, serif;
+  --font-base: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* ---- Layout ---- */
+  --container-max: 100%;
+  --container-padding: 32px;
+
+  /* ---- Border Radius ---- */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-2xl: 32px;
+  --radius-pill: 9999px;
+
+  /* ---- Shadows ---- */
+  --shadow-sm: 0 1px 3px rgba(27,27,25,0.05), 0 1px 2px rgba(27,27,25,0.03);
+  --shadow-md: 0 4px 16px rgba(27,27,25,0.07), 0 2px 4px rgba(27,27,25,0.04);
+  --shadow-lg: 0 10px 32px rgba(27,27,25,0.09), 0 4px 8px rgba(27,27,25,0.04);
+  --shadow-xl: 0 20px 48px rgba(27,27,25,0.12);
+  --shadow-inner: inset 0 1px 2px rgba(255,255,255,0.5);
+
+  /* ---- Transitions ---- */
+  --transition-fast: 180ms cubic-bezier(0.32, 0.72, 0, 1);
+  --transition-base: 380ms cubic-bezier(0.32, 0.72, 0, 1);
+  --transition-slow: 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}

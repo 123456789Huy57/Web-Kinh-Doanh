@@ -1,4 +1,4 @@
-import { fetchJSON, formatCurrency, formatNumber, escapeHTML, generateId } from "./utils.js";
+import { fetchJSON, formatCurrency, formatNumber, escapeHTML, generateId, renderBreadcrumb, createBreadcrumbItems } from "./utils.js";
 import { getMealPlans, setMealPlans, getActiveCart, setActiveCart, getCurrentUser } from "./storage.js";
 import { showToast } from "./main.js";
 
@@ -122,6 +122,7 @@ function buildPlan({ people, weeklyBudget, goal }) {
 function renderConfigSection() {
   const cfg = plannerState.config;
   return `
+    ${renderBreadcrumb(createBreadcrumbItems({ pageType: "meal-planner" }))}
     <div class="meal-header">
       <h1 class="meal-header__title">🍽️ Meal Planner</h1>
       <p class="meal-header__desc">Lập thực đơn hàng tuần dựa trên mục tiêu dinh dưỡng. Hoàn toàn chạy local trên trình duyệt.</p>

@@ -1,4 +1,4 @@
-import { fetchJSON, formatCurrency, formatDate, generateId, escapeHTML } from "./utils.js";
+import { fetchJSON, formatCurrency, formatDate, generateId, escapeHTML, formatNumber, renderBreadcrumb, createBreadcrumbItems } from "./utils.js";
 import {
   getActiveCart,
   setActiveCart,
@@ -7,7 +7,8 @@ import {
   getCurrentUser,
   getCheckoutDraft,
   setCheckoutDraft,
-  clearCheckoutDraft
+  clearCheckoutDraft,
+  addLoyaltyPoints
 } from "./storage.js";
 import { showToast } from "./main.js";
 
@@ -95,6 +96,7 @@ function renderOrderSummary(cart) {
 function renderCheckoutPage(cart, draft) {
   if (!cart.items?.length) {
     return `
+      ${renderBreadcrumb(createBreadcrumbItems({ pageType: "checkout" }))}
       <div style="text-align:center;padding:60px 20px;">
         <h1>Giỏ hàng đang trống</h1>
         <p style="color:var(--color-muted);margin-bottom:24px;">Hãy thêm sản phẩm trước khi thanh toán.</p>
@@ -106,6 +108,7 @@ function renderCheckoutPage(cart, draft) {
   const currentUser = getCurrentUser();
 
   return `
+    ${renderBreadcrumb(createBreadcrumbItems({ pageType: "checkout" }))}
     <div class="orders-header">
       <h1 class="orders-header__title">Thanh toán</h1>
       <p style="color:var(--color-muted);">Kiểm tra thông tin và xác nhận đơn hàng.</p>
@@ -231,12 +234,25 @@ async function initCheckoutPage() {
   checkoutState.products = productsRaw.filter((p) => p.isActive !== false);
   checkoutState.vouchers = vouchersRaw.filter((v) => v.isActive !== false);
 
-  const main = document.querySelector("main");
-  if (!main) return;
-  const container = main.querySelector(".container") || main;
+  const root = document.getElementById("checkout-root");
+  if (!root) return;
+
+  // Force login for checkout
+  const currentUser = getCurrentUser();
+  if (!currentUser) {
+    root.innerHTML = `
+      <div style="text-align:center;padding:60px 20px;">
+        <h1>Vui lòng đăng nhập</h1>
+        <p style="color:var(--color-muted);margin-bottom:24px;">Bạn cần đăng nhập để thanh toán.</p>
+        <a class="btn btn--primary" href="./login.html">Đăng nhập</a>
+      </div>
+    `;
+    return;
+  }
+
   const cart = getActiveCart();
   const draft = getCheckoutDraft();
-  container.innerHTML = renderCheckoutPage(cart, draft);
+  root.innerHTML = renderCheckoutPage(cart, draft);
 
   const form = document.getElementById("checkout-form");
   if (!form || !cart.items?.length) return;
@@ -279,13 +295,25 @@ async function initCheckoutPage() {
     setOrders(orders);
     clearCheckoutDraft();
     setActiveCart({ items: [], updatedAt: new Date().toISOString() });
+
+    // Add loyalty points for the purchase
+    let pointsEarned = 0;
+    if (currentUser) {
+      pointsEarned = Math.floor(order.total / 1000);
+      if (pointsEarned > 0) {
+        addLoyaltyPoints(pointsEarned, `Mua hàng ${order.orderCode} - ${formatCurrency(order.total)}`);
+      }
+    }
+
+    const pointsEarnedDisplay = pointsEarned > 0 ? `<p style="color:var(--color-accent);font-weight:700;margin-bottom:16px;">+${formatNumber(pointsEarned)} điểm tích lũy đã được cộng!</p>` : "";
     showToast("Đặt hàng thành công!");
-    container.innerHTML = `
+    root.innerHTML = `
       <div class="checkout-success">
         <div class="checkout-success__icon">✅</div>
         <h1 class="checkout-success__title">Đặt hàng thành công!</h1>
         <p class="checkout-success__desc">Cảm ơn bạn đã mua hàng tại Bách Hóa Tươi</p>
         <p class="checkout-success__code">${order.orderCode}</p>
+        ${pointsEarnedDisplay}
         <p style="color:var(--color-muted);margin-bottom:24px;">Đơn hàng đã được lưu. Bạn có thể theo dõi trạng thái trong phần Đơn hàng.</p>
         <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
           <a class="btn btn--primary btn--lg" href="./orders.html">Xem đơn hàng</a>

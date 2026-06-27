@@ -1,102 +1,163 @@
-/* ===================== ACCOUNT ===================== */
-.account-page {
-  padding: 24px 0 48px;
-}
-
-.account-layout {
-  display: grid;
-  grid-template-columns: 260px 1fr;
-  gap: 24px;
-  align-items: start;
-}
-
-.account-sidebar {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+/* ===================== LOYALTY CARD ===================== */
+.loyalty-card {
+  background: linear-gradient(135deg, var(--color-surface), var(--color-primary-light));
+  border: 2px solid var(--color-primary);
   border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 24px;
+  position: relative;
   overflow: hidden;
 }
 
-.account-profile {
-  padding: 24px 20px;
-  text-align: center;
+.loyalty-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, transparent 50%, rgba(255,255,255,0.1) 51%);
+  border-radius: 0 var(--radius-lg) 0 0;
+}
+
+.loyalty-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.loyalty-card__badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: var(--radius-pill);
+  color: white;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.loyalty-card__badge-icon {
+  font-size: 18px;
+}
+
+.loyalty-card__badge-name {
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.loyalty-card__points {
+  text-align: right;
+}
+
+.loyalty-card__points-value {
+  display: block;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--color-primary);
+  line-height: 1;
+}
+
+.loyalty-card__points-label {
+  display: block;
+  font-size: 12px;
+  color: var(--color-muted);
+  margin-top: 2px;
+}
+
+.loyalty-card__progress {
+  margin-bottom: 12px;
+}
+
+.loyalty-card__progress-text {
+  font-size: 13px;
+  color: var(--color-text);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.loyalty-card__progress-bar {
+  height: 8px;
+  background: var(--color-border);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+.loyalty-card__progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  border-radius: var(--radius-pill);
+  transition: width 0.5s ease;
+}
+
+.loyalty-card__discount {
+  display: inline-block;
+  background: var(--color-sale);
+  color: white;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.loyalty-card__history {
+  border-top: 1px solid var(--color-border);
+  padding-top: 16px;
+}
+
+.loyalty-card__history-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 12px;
+}
+
+.loyalty-card__history-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  font-size: 13px;
   border-bottom: 1px solid var(--color-border);
 }
 
-.account-avatar {
-  width: 72px;
-  height: 72px;
-  border-radius: var(--radius-pill);
-  background: var(--color-primary-light);
-  color: var(--color-primary);
-  display: grid;
-  place-items: center;
-  font-size: 28px;
-  margin: 0 auto 12px;
+.loyalty-card__history-row:last-child {
+  border-bottom: none;
 }
 
-.account-name {
-  font-size: 16px;
-  font-weight: 800;
-  margin-bottom: 4px;
-}
-
-.account-email {
-  font-size: 13px;
+.loyalty-card__history-desc {
+  flex: 1;
   color: var(--color-muted);
 }
 
-.account-nav {
-  display: flex;
-  flex-direction: column;
+.loyalty-card__history-points {
+  font-weight: 700;
+  margin-left: 8px;
 }
 
-.account-nav__link {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 20px;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--color-text);
-  border-bottom: 1px solid var(--color-border);
-  transition: background var(--transition-fast), color var(--transition-fast);
+.loyalty-card__history-points--positive {
+  color: var(--color-success, #10b981);
 }
 
-.account-nav__link:last-child { border-bottom: none; }
-
-.account-nav__link:hover,
-.account-nav__link.is-active {
-  background: var(--color-primary-light);
-  color: var(--color-primary);
+.loyalty-card__history-points--negative {
+  color: var(--color-sale);
 }
 
-.account-nav__icon { font-size: 18px; }
-
-.account-content {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-}
-
-.account-content__title {
-  font-size: 20px;
-  font-weight: 800;
-  margin-bottom: 20px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--color-border);
-}
-
-.account-form {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  max-width: 600px;
-}
-
-.account-form .form-field--full {
-  grid-column: 1 / -1;
+/* ===================== RESPONSIVE ADJUSTMENTS ===================== */
+@media (max-width: 768px) {
+  .account-layout {
+    grid-template-columns: 1fr;
+  }
+  .loyalty-card__header {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .loyalty-card__points {
+    text-align: left;
+  }
 }
 
 /* Login / Register */

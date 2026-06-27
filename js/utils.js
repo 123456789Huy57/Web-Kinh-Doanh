@@ -65,3 +65,169 @@ export async function fetchJSON(path) {
   }
   return response.json();
 }
+
+/**
+ * Breadcrumb item type
+ * @typedef {Object} BreadcrumbItem
+ * @property {string} label - Display label
+ * @property {string} [href] - Optional link (if not provided, renders as current page)
+ * @property {boolean} [isCurrent] - Whether this is the current page
+ */
+
+/**
+ * Generate breadcrumb HTML from items
+ * @param {BreadcrumbItem[]} items - Array of breadcrumb items
+ * @returns {string} HTML string for breadcrumb navigation
+ */
+export function renderBreadcrumb(items) {
+  if (!items || !items.length) return "";
+  
+  return `
+    <nav class="breadcrumb" aria-label="Vị trí trang">
+      ${items.map((item, index) => {
+        const isLast = index === items.length - 1;
+        const isCurrent = item.isCurrent || isLast;
+        const sep = isLast ? "" : `<span class="breadcrumb__sep" aria-hidden="true">›</span>`;
+        
+        if (isCurrent || !item.href) {
+          return `<span class="breadcrumb__current" aria-current="page">${escapeHTML(item.label)}</span>${sep}`;
+        }
+        return `<a href="${item.href}" class="breadcrumb__link">${escapeHTML(item.label)}</a>${sep}`;
+      }).join("")}
+    </nav>
+  `;
+}
+
+/**
+ * Create standard breadcrumb items for common page types
+ * @param {Object} options - Breadcrumb options
+ * @param {string} options.pageType - Type of page: 'home', 'catalog', 'product', 'category', 'search', 'account', 'cart', 'checkout', 'orders', 'wishlist', 'meal-planner', 'blog', 'guide', 'about', 'stores', 'team', 'partner', 'policy'
+ * @param {Object} [options.data] - Additional data for dynamic breadcrumbs
+ * @returns {BreadcrumbItem[]} Array of breadcrumb items
+ */
+export function createBreadcrumbItems(options) {
+  const { pageType, data = {} } = options;
+  const home = { label: "Trang chủ", href: "./index.html" };
+  
+  switch (pageType) {
+    case "home":
+      return [{ label: "Trang chủ", isCurrent: true }];
+      
+    case "catalog":
+      return [
+        home,
+        { label: "Sản phẩm", href: "./catalog.html", isCurrent: true }
+      ];
+      
+    case "category":
+      return [
+        home,
+        { label: "Sản phẩm", href: "./catalog.html" },
+        { label: data.categoryName || "Danh mục", isCurrent: true }
+      ];
+      
+    case "search":
+      return [
+        home,
+        { label: "Sản phẩm", href: "./catalog.html" },
+        { label: `Tìm kiếm: "${data.query || ""}"`, isCurrent: true }
+      ];
+      
+    case "product":
+      return [
+        home,
+        { label: "Sản phẩm", href: "./catalog.html" },
+        ...(data.categoryName ? [{ label: data.categoryName, href: `./catalog.html?category=${data.categoryId}` }] : []),
+        { label: data.productName || "Chi tiết sản phẩm", isCurrent: true }
+      ];
+      
+    case "account":
+      return [
+        home,
+        { label: "Tài khoản", isCurrent: true }
+      ];
+      
+    case "cart":
+      return [
+        home,
+        { label: "Giỏ hàng", isCurrent: true }
+      ];
+      
+    case "checkout":
+      return [
+        home,
+        { label: "Giỏ hàng", href: "./cart.html" },
+        { label: "Thanh toán", isCurrent: true }
+      ];
+      
+    case "orders":
+      return [
+        home,
+        { label: "Tài khoản", href: "./account.html" },
+        { label: "Đơn hàng", isCurrent: true }
+      ];
+      
+    case "wishlist":
+      return [
+        home,
+        { label: "Yêu thích", isCurrent: true }
+      ];
+
+    case "compare":
+      return [
+        home,
+        { label: "So sánh sản phẩm", isCurrent: true }
+      ];
+
+    case "meal-planner":
+      return [
+        home,
+        { label: "Meal Planner", isCurrent: true }
+      ];
+      
+    case "blog":
+      return [
+        home,
+        { label: "Blog", isCurrent: true }
+      ];
+      
+    case "guide":
+      return [
+        home,
+        { label: "Hướng dẫn", isCurrent: true }
+      ];
+      
+    case "about":
+      return [
+        home,
+        { label: "Về chúng tôi", isCurrent: true }
+      ];
+      
+    case "stores":
+      return [
+        home,
+        { label: "Hệ thống cửa hàng", isCurrent: true }
+      ];
+      
+    case "team":
+      return [
+        home,
+        { label: "Đội ngũ", isCurrent: true }
+      ];
+      
+    case "partner":
+      return [
+        home,
+        { label: "Đối tác", isCurrent: true }
+      ];
+      
+    case "policy":
+      return [
+        home,
+        { label: data.policyName || "Chính sách", isCurrent: true }
+      ];
+      
+    default:
+      return [{ label: "Trang chủ", isCurrent: true }];
+  }
+}
