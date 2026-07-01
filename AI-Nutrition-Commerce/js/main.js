@@ -784,23 +784,59 @@ function bindProductAccordions() {
 }
 
 function renderCategorySidebar(categories, activeCategory = "") {
+  const allImg = "./assets/images/placeholder-banner.svg";
   return `
-    <aside class="category-sidebar">
-      <div class="category-sidebar__header">Danh mục sản phẩm</div>
+    <aside class="category-sidebar" id="category-sidebar">
+      <div class="category-sidebar__header">
+        <span class="category-sidebar__header-img"><img src="${allImg}" alt="" loading="lazy" /></span>
+        <span class="category-sidebar__header-text">Danh mục sản phẩm</span>
+      </div>
       <div class="category-sidebar__list">
-        <a class="category-sidebar__item ${!activeCategory ? 'is-active' : ''}" href="./catalog.html">
-          <span class="category-sidebar__item-text">Tất cả sản phẩm</span>
+        <a class="category-sidebar__item ${!activeCategory ? 'is-active' : ''}" href="./catalog.html" data-cat-filter="">
+          <span class="category-sidebar__item-img"><img src="${allImg}" alt="" loading="lazy" /></span>
+          <span class="category-sidebar__item-text">
+            <span class="category-sidebar__item-name">Tất cả sản phẩm</span>
+          </span>
+          <span class="category-sidebar__item-tooltip">Tất cả sản phẩm</span>
         </a>
         ${categories.map(cat => {
           const img = CATEGORY_IMAGES[cat.id] || "./assets/images/placeholder-banner.svg";
           const isActive = activeCategory === cat.id;
+          const hasSubcategories = cat.subcategories && cat.subcategories.length > 0;
+          const arrowIcon = hasSubcategories ? '<span class="category-sidebar__arrow">▶</span>' : '';
           return `
-            <a class="category-sidebar__item ${isActive ? 'is-active' : ''}" href="./catalog.html?category=${encodeURIComponent(cat.slug || cat.id)}" data-cat-filter="${cat.id}">
-              <span class="category-sidebar__item-img"><img src="${img}" alt="" loading="lazy" /></span>
-              <span class="category-sidebar__item-text">
-                <span class="category-sidebar__item-name">${escapeHTML(cat.name)}</span>
-              </span>
-            </a>
+            <div class="category-sidebar__item-wrapper" data-category-id="${cat.id}">
+              <a class="category-sidebar__item ${isActive ? 'is-active' : ''}" href="./catalog.html?category=${encodeURIComponent(cat.slug || cat.id)}" data-cat-filter="${cat.id}">
+                <span class="category-sidebar__item-img"><img src="${img}" alt="" loading="lazy" /></span>
+                <span class="category-sidebar__item-text">
+                  <span class="category-sidebar__item-name">${escapeHTML(cat.name)}</span>
+                  ${cat.productCount ? `<span class="category-sidebar__item-count">${cat.productCount} sp</span>` : ''}
+                </span>
+                ${arrowIcon}
+              </a>
+              <span class="category-sidebar__item-tooltip">${escapeHTML(cat.name)}</span>
+              ${hasSubcategories ? `
+                <div class="category-sidebar__flyout">
+                  <div class="category-sidebar__flyout-header">
+                    <span class="category-sidebar__flyout-header-img"><img src="${img}" alt="" loading="lazy" /></span>
+                    <span class="category-sidebar__flyout-header-title">${escapeHTML(cat.name)}</span>
+                  </div>
+                  <div class="category-sidebar__flyout-content">
+                    ${cat.subcategories.map(sub => `
+                      <a class="category-sidebar__flyout-item" href="./catalog.html?category=${encodeURIComponent(sub.slug || sub.id)}" data-cat-filter="${sub.id}">
+                        <span class="category-sidebar__flyout-item-img"><img src="${img}" alt="" loading="lazy" /></span>
+                        <span class="category-sidebar__flyout-item-name">${escapeHTML(sub.name)}</span>
+                        ${sub.productCount ? `<span class="category-sidebar__flyout-item-count">${sub.productCount}</span>` : ''}
+                      </a>
+                    `).join('')}
+                  </div>
+                  <a class="category-sidebar__flyout-view-all" href="./catalog.html?category=${encodeURIComponent(cat.slug || cat.id)}" data-cat-filter="${cat.id}">
+                    <span>Xem tất cả ${escapeHTML(cat.name)}</span>
+                    <span class="category-sidebar__flyout-view-all-arrow">→</span>
+                  </a>
+                </div>
+              ` : ''}
+            </div>
           `;
         }).join("")}
       </div>
