@@ -1,0 +1,64 @@
+flowchart TD
+    A[FreshMart Admin]
+
+    A --> B[Dashboard]
+    B --> B1[Revenue Summary]
+    B --> B2[Pending Orders]
+    B --> B3[Product Count]
+    B --> B4[User Count]
+    B --> B5[Recent Orders]
+    B --> B6[Top Products]
+
+    A --> C[Product Management]
+    C --> C1[Product List]
+    C --> C2[View Product]
+    C --> C3[Add Product]
+    C --> C4[Edit Product]
+    C --> C5[Upload Product Image]
+    C --> C6[Edit Nutrition Data]
+    C --> C7[Toggle Product Status]
+
+    A --> D[Order Management]
+    D --> D1[Order List]
+    D --> D2[View Order Detail]
+    D --> D3[Change Order Status]
+    D --> D4[Payment Status Display]
+
+    A --> E[Inventory Management]
+    E --> E1[Stock List]
+    E --> E2[Low Stock Status]
+    E --> E3[Update Stock]
+    E --> E4[Sold Quantity]
+
+    A --> F[Voucher Management]
+    F --> F1[Voucher List]
+    F --> F2[Add Voucher]
+    F --> F3[Edit Voucher]
+    F --> F4[Discount Type]
+    F --> F5[Minimum Order]
+    F --> F6[Expiry Date]
+    F --> F7[Toggle Voucher Status]
+
+    A --> G[Banner Management]
+    G --> G1[Homepage Banner List]
+    G --> G2[View Banner]
+
+    A --> H[User Management]
+    H --> H1[Customer List]
+    H --> H2[View Customer]
+    H --> H3[Role Display]
+    H --> H4[Created Date]
+
+    A --> I[Support Management]
+    I --> I1[Support Ticket Table]
+    I --> I2[Empty State]
+
+    A --> J[Admin Account]
+    J --> J1[Admin Profile Display]
+    J --> J2[Open Customer Site]
+    J --> J3[Logout]
+
+    classDef node fill:#ffffff,stroke:#111111,color:#111111,stroke-width:1px;
+    classDef root fill:#f2f2f2,stroke:#111111,color:#111111,stroke-width:1.5px;
+    class A root;
+    class B,B1,B2,B3,B4,B5,B6,C,C1,C2,C3,C4,C5,C6,C7,D,D1,D2,D3,D4,E,E1,E2,E3,E4,F,F1,F2,F3,F4,F5,F6,F7,G,G1,G2,H,H1,H2,H3,H4,I,I1,I2,J,J1,J2,J3 node;

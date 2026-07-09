@@ -1,0 +1,373 @@
+[
+    {
+        "id":  "vegetables",
+        "slug":  "rau-cu",
+        "name":  "Rau - Củ",
+        "description":  "Rau - Củ chọn lọc, phù hợp cho chợ thực phẩm online và giao nhanh trong ngày.",
+        "imageUrl":  "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format\u0026fit=crop\u0026w=1200\u0026q=80",
+        "fallbackImageUrl":  "./assets/images/cat-vegetables.webp",
+        "icon":  "",
+        "sortOrder":  1,
+        "isActive":  true,
+        "productCount":  20,
+        "subcategories":  [
+                              {
+                                  "id":  "vegetables-leafy",
+                                  "name":  "Rau ăn lá",
+                                  "slug":  "rau-an-la",
+                                  "imageUrl":  "https://images.unsplash.com/photo-1553536645-f83758b55d23?ixlib=rb-4.1.0\u0026q=85\u0026fm=jpg\u0026crop=entropy\u0026cs=srgb\u0026w=1200",
+                                  "productCount":  13
+                              },
+                              {
+                                  "id":  "vegetables-other",
+                                  "name":  "Rau củ khác",
+                                  "slug":  "rau-cu-khac",
+                                  "imageUrl":  "https://pixnio.com/free-images/2020/01/23/2020-01-23-11-16-51.jpg",
+                                  "productCount":  3
+                              },
+                              {
+                                  "id":  "vegetables-fruit",
+                                  "name":  "Rau ăn quả",
+                                  "slug":  "rau-an-qua",
+                                  "imageUrl":  "https://www.pakutaso.com/shared/img/thumb/004red_02397_TP_V.jpg",
+                                  "productCount":  4
+                              }
+                          ]
+    },
+    {
+        "id":  "fruits",
+        "slug":  "trai-cay",
+        "name":  "Trái cây",
+        "description":  "Trái cây chọn lọc, phù hợp cho chợ thực phẩm online và giao nhanh trong ngày.",
+        "imageUrl":  "https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?auto=format\u0026fit=crop\u0026w=1200\u0026q=80",
+        "fallbackImageUrl":  "./assets/images/cat-fruits.webp",
+        "icon":  "",
+        "sortOrder":  2,
+        "isActive":  true,
+        "productCount":  12,
+        "subcategories":  [
+                              {
+                                  "id":  "fruits-fresh",
+                                  "name":  "Trái cây tươi",
+                                  "slug":  "trai-cay-tuoi",
+                                  "imageUrl":  "https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?auto=format\u0026fit=crop\u0026w=1200\u0026q=80",
+                                  "productCount":  12
+                              }
+                          ]
+    },
+    {
+        "id":  "meat",
+        "slug":  "thit",
+        "name":  "Thịt",
+        "description":  "Thịt chọn lọc, phù hợp cho chợ thực phẩm online và giao nhanh trong ngày.",
+        "imageUrl":  "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format\u0026fit=crop\u0026w=1200\u0026q=80",
+        "fallbackImageUrl":  "./assets/images/cat-meat.webp",
+        "icon":  "",
+        "sortOrder":  3,
+        "isActive":  true,
+        "productCount":  20,
+        "subcategories":  [
+                              {
+                                  "id":  "meat-pork",
+                                  "name":  "Thịt heo",
+                                  "slug":  "thit-heo",
+                                  "imageUrl":  "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format\u0026fit=crop\u0026w=1200\u0026q=80",
+                                  "productCount":  9
+                              },
+                              {
+                                  "id":  "meat-chicken",
+                                  "name":  "Thịt gà",
+                                  "slug":  "thit-ga",
+                                  "imageUrl":  "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format\u0026fit=crop\u0026w=1200\u0026q=80",
+                                  "productCount":  4
+                              },
+                              {
+                                  "id":  "meat-beef",
+                                  "name":  "Thịt bò",
+                                  "slug":  "thit-bo",
+                                  "imageUrl":  "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format\u0026fit=crop\u0026w=1200\u0026q=80",
+                                  "productCount":  7
+                              }
+                          ]
+    },
+    {
+        "id":  "seafood",
+        "slug":  "hai-san",
+        "name":  "Hải sản",
+        "description":  "Hải sản chọn lọc, phù hợp cho chợ thực phẩm online và giao nhanh trong ngày.",
+        "imageUrl":  "https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?auto=format\u0026fit=crop\u0026w=1200\u0026q=80",
+        "fallbackImageUrl":  "./assets/images/cat-seafood.webp",
+        "icon":  "",
+        "sortOrder":  4,
+        "isActive":  true,
+        "productCount":  12,
+        "subcategories":  [
+                              {
+                                  "id":  "seafood-fish",
+                                  "name":  "Cá",
+                                  "slug":  "ca",
+                                  "imageUrl":  "https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?auto=format\u0026fit=crop\u0026w=1200\u0026q=80",
+                                  "productCount":  11
+                              },
+                              {
+                                  "id":  "seafood-other",
+                                  "name":  "Hải sản khác",
+                                  "slug":  "hai-san-khac",
+                                  "imageUrl":  "https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?auto=format\u0026fit=crop\u0026w=1200\u0026q=80",
+                                  "productCount":  1
+                              }
+                          ]
+    },
+    {
+        "id":  "dairy-eggs",
+        "slug":  "sua-trung",
+        "name":  "Sữa - Trứng",
+        "description":  "Sữa - Trứng chọn lọc, phù hợp cho chợ thực phẩm online và giao nhanh trong ngày.",
+        "imageUrl":  "https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format\u0026fit=crop\u0026w=1200\u0026q=80",
+        "fallbackImageUrl":  "./assets/images/cat-dairy.webp",
+        "icon":  "",
+        "sortOrder":  5,
+        "isActive":  true,
+        "productCount":  16,
+        "subcategories":  [
+                              {
+                                  "id":  "dairy-eggs",
+                                  "name":  "Trứng",
+                                  "slug":  "trung",
+                                  "imageUrl":  "https://images.healthshots.com/healthshots/en/uploads/2022/12/01205715/Boiled-eggs.jpg",
+                                  "productCount":  12
+                              },
+                              {
+                                  "id":  "dairy-other",
+                                  "name":  "Sữa - bơ - phô mai",
+                                  "slug":  "sua-bo-pho-mai",
+                                  "imageUrl":  "https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format\u0026fit=crop\u0026w=1200\u0026q=80",
+                                  "productCount":  4
+                              }
+                          ]
+    },
+    {
+        "id":  "beverages",
+        "slug":  "do-uong",
+        "name":  "Đồ uống",
+        "description":  "Đồ uống chọn lọc, phù hợp cho chợ thực phẩm online và giao nhanh trong ngày.",
+        "imageUrl":  "https://hypeandhyper.com/content/images/2022/06/coldpressed5-1-1.jpg",
+        "fallbackImageUrl":  "./assets/images/cat-beverages.webp",
+        "icon":  "",
+        "sortOrder":  6,
+        "isActive":  true,
+        "productCount":  16,
+        "subcategories":  [
+                              {
+                                  "id":  "beverages-water",
+                                  "name":  "Nước khoáng",
+                                  "slug":  "nuoc-khoang",
+                                  "imageUrl":  "https://hypeandhyper.com/content/images/2022/06/coldpressed5-1-1.jpg",
+                                  "productCount":  9
+                              },
+                              {
+                                  "id":  "beverages-other",
+                                  "name":  "Đồ uống khác",
+                                  "slug":  "do-uong-khac",
+                                  "imageUrl":  "https://hypeandhyper.com/content/images/2022/06/coldpressed5-1-1.jpg",
+                                  "productCount":  7
+                              }
+                          ]
+    },
+    {
+        "id":  "bakery",
+        "slug":  "banh-mi-bakery",
+        "name":  "Bánh mì - Bakery",
+        "description":  "Bánh mì - Bakery chọn lọc, phù hợp cho chợ thực phẩm online và giao nhanh trong ngày.",
+        "imageUrl":  "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format\u0026fit=crop\u0026w=1200\u0026q=80",
+        "fallbackImageUrl":  "./assets/images/cat-pantry.webp",
+        "icon":  "",
+        "sortOrder":  7,
+        "isActive":  true,
+        "productCount":  12,
+        "subcategories":  [
+                              {
+                                  "id":  "bakery-sweet",
+                                  "name":  "Bánh ngọt",
+                                  "slug":  "banh-ngot",
+                                  "imageUrl":  "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format\u0026fit=crop\u0026w=1200\u0026q=80",
+                                  "productCount":  12
+                              }
+                          ]
+    },
+    {
+        "id":  "snacks",
+        "slug":  "banh-keo-an-vat",
+        "name":  "Bánh kẹo - Ăn vặt",
+        "description":  "Bánh kẹo - Ăn vặt chọn lọc, phù hợp cho chợ thực phẩm online và giao nhanh trong ngày.",
+        "imageUrl":  "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format\u0026fit=crop\u0026w=1200\u0026q=80",
+        "fallbackImageUrl":  "./assets/images/cat-pantry.webp",
+        "icon":  "",
+        "sortOrder":  8,
+        "isActive":  true,
+        "productCount":  16,
+        "subcategories":  [
+                              {
+                                  "id":  "snacks-biscuit",
+                                  "name":  "Bánh quy",
+                                  "slug":  "banh-quy",
+                                  "imageUrl":  "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format\u0026fit=crop\u0026w=1200\u0026q=80",
+                                  "productCount":  5
+                              },
+                              {
+                                  "id":  "snacks-other",
+                                  "name":  "Ăn vặt khác",
+                                  "slug":  "an-vat-khac",
+                                  "imageUrl":  "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format\u0026fit=crop\u0026w=1200\u0026q=80",
+                                  "productCount":  7
+                              },
+                              {
+                                  "id":  "snacks-candy",
+                                  "name":  "Kẹo",
+                                  "slug":  "keo",
+                                  "imageUrl":  "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format\u0026fit=crop\u0026w=1200\u0026q=80",
+                                  "productCount":  4
+                              }
+                          ]
+    },
+    {
+        "id":  "rice-grains",
+        "slug":  "gao-ngu-coc",
+        "name":  "Gạo - Ngũ cốc",
+        "description":  "Gạo - Ngũ cốc chọn lọc, phù hợp cho chợ thực phẩm online và giao nhanh trong ngày.",
+        "imageUrl":  "http://romamerica.com/cdn/shop/collections/rice-grains.jpg?v=1699329048",
+        "fallbackImageUrl":  "./assets/images/cat-pantry.webp",
+        "icon":  "",
+        "sortOrder":  9,
+        "isActive":  true,
+        "productCount":  16,
+        "subcategories":  [
+                              {
+                                  "id":  "rice-rice",
+                                  "name":  "Gạo",
+                                  "slug":  "gao",
+                                  "imageUrl":  "http://romamerica.com/cdn/shop/collections/rice-grains.jpg?v=1699329048",
+                                  "productCount":  12
+                              },
+                              {
+                                  "id":  "rice-other",
+                                  "name":  "Đồ khô khác",
+                                  "slug":  "do-kho-khac",
+                                  "imageUrl":  "http://romamerica.com/cdn/shop/collections/rice-grains.jpg?v=1699329048",
+                                  "productCount":  4
+                              }
+                          ]
+    },
+    {
+        "id":  "noodles",
+        "slug":  "mi-bun-pho",
+        "name":  "Mì - Bún - Phở",
+        "description":  "Mì - Bún - Phở chọn lọc, phù hợp cho chợ thực phẩm online và giao nhanh trong ngày.",
+        "imageUrl":  "https://hips.hearstapps.com/hmg-prod/images/directly-above-shot-of-uncooked-pasta-on-table-royalty-free-image-1568988326.jpg?crop=1xw:0.80015xh;center,top\u0026resize=1200:*",
+        "fallbackImageUrl":  "./assets/images/cat-pantry.webp",
+        "icon":  "",
+        "sortOrder":  10,
+        "isActive":  true,
+        "productCount":  16,
+        "subcategories":  [
+                              {
+                                  "id":  "noodles-instant",
+                                  "name":  "Mì ăn liền",
+                                  "slug":  "mi-an-lien",
+                                  "imageUrl":  "https://hips.hearstapps.com/hmg-prod/images/directly-above-shot-of-uncooked-pasta-on-table-royalty-free-image-1568988326.jpg?crop=1xw:0.80015xh;center,top\u0026resize=1200:*",
+                                  "productCount":  16
+                              }
+                          ]
+    },
+    {
+        "id":  "condiments",
+        "slug":  "gia-vi-nuoc-sot",
+        "name":  "Gia vị - Nước sốt",
+        "description":  "Gia vị - Nước sốt chọn lọc, phù hợp cho chợ thực phẩm online và giao nhanh trong ngày.",
+        "imageUrl":  "http://bodegatradingco.com/cdn/shop/files/CitrusChili.jpg?v=1763416801",
+        "fallbackImageUrl":  "./assets/images/cat-condiments.webp",
+        "icon":  "",
+        "sortOrder":  11,
+        "isActive":  true,
+        "productCount":  18,
+        "subcategories":  [
+                              {
+                                  "id":  "condiments-oil",
+                                  "name":  "Dầu ăn",
+                                  "slug":  "dau-an",
+                                  "imageUrl":  "http://bodegatradingco.com/cdn/shop/files/CitrusChili.jpg?v=1763416801",
+                                  "productCount":  12
+                              },
+                              {
+                                  "id":  "condiments-sauce",
+                                  "name":  "Nước sốt",
+                                  "slug":  "nuoc-sot",
+                                  "imageUrl":  "http://bodegatradingco.com/cdn/shop/files/CitrusChili.jpg?v=1763416801",
+                                  "productCount":  6
+                              }
+                          ]
+    },
+    {
+        "id":  "frozen",
+        "slug":  "dong-lanh",
+        "name":  "Đông lạnh",
+        "description":  "Đông lạnh chọn lọc, phù hợp cho chợ thực phẩm online và giao nhanh trong ngày.",
+        "imageUrl":  "https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format\u0026fit=crop\u0026w=1200\u0026q=80",
+        "fallbackImageUrl":  "./assets/images/cat-meat.webp",
+        "icon":  "",
+        "sortOrder":  12,
+        "isActive":  true,
+        "productCount":  14,
+        "subcategories":  [
+                              {
+                                  "id":  "frozen-meat",
+                                  "name":  "Thịt cá đông lạnh",
+                                  "slug":  "thit-ca-dong-lanh",
+                                  "imageUrl":  "https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format\u0026fit=crop\u0026w=1200\u0026q=80",
+                                  "productCount":  4
+                              },
+                              {
+                                  "id":  "frozen-other",
+                                  "name":  "Đông lạnh khác",
+                                  "slug":  "dong-lanh-khac",
+                                  "imageUrl":  "https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format\u0026fit=crop\u0026w=1200\u0026q=80",
+                                  "productCount":  9
+                              },
+                              {
+                                  "id":  "frozen-ready",
+                                  "name":  "Món chế biến sẵn",
+                                  "slug":  "mon-che-bien-san",
+                                  "imageUrl":  "https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format\u0026fit=crop\u0026w=1200\u0026q=80",
+                                  "productCount":  1
+                              }
+                          ]
+    },
+    {
+        "id":  "tea-coffee",
+        "slug":  "tra-ca-phe",
+        "name":  "Trà \u0026 cà phê",
+        "description":  "Trà \u0026 cà phê chọn lọc, phù hợp cho chợ thực phẩm online và giao nhanh trong ngày.",
+        "imageUrl":  "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format\u0026fit=crop\u0026w=1200\u0026q=80",
+        "fallbackImageUrl":  "./assets/images/cat-beverages.webp",
+        "icon":  "",
+        "sortOrder":  13,
+        "isActive":  true,
+        "productCount":  12,
+        "subcategories":  [
+                              {
+                                  "id":  "coffee",
+                                  "name":  "Cà phê",
+                                  "slug":  "ca-phe",
+                                  "imageUrl":  "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format\u0026fit=crop\u0026w=1200\u0026q=80",
+                                  "productCount":  11
+                              },
+                              {
+                                  "id":  "tea",
+                                  "name":  "Trà",
+                                  "slug":  "tra",
+                                  "imageUrl":  "https://thepracticalherbalist.com/wp-content/uploads/2021/02/tea-PT28YA4-1280x640.jpg",
+                                  "productCount":  1
+                              }
+                          ]
+    }
+]

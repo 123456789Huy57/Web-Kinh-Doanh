@@ -1,0 +1,29 @@
+User-agent: *
+Disallow: /account.html
+Disallow: /cart.html
+Disallow: /checkout.html
+Disallow: /login.html
+Disallow: /orders.html
+Disallow: /wishlist.html
+Disallow: /meal-planner.html
+Disallow: /admin/
+
+# Allow all product and catalog pages
+Allow: /catalog.html
+Allow: /product-detail.html
+Allow: /blog.html
+Allow: /guide.html
+Allow: /about.html
+Allow: /stores.html
+Allow: /team.html
+Allow: /partner.html
+Allow: /privacy-policy.html
+Allow: /return-policy.html
+Allow: /shipping-policy.html
+Allow: /terms.html
+
+# Sitemap
+Sitemap: http://localhost:3001/sitemap.xml
+
+# Crawl delay for polite bots
+Crawl-delay: 1

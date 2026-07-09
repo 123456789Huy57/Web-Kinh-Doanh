@@ -1,0 +1,161 @@
++   --container-max: 100%;
++ .price { display: inline-flex; align-items: baseline; gap: 8px; font-family: var(--font-base); }
++ .price__current { font-size: 20px; font-weight: 700; color: var(--color-primary); }
++ .price__original { font-size: 14px; font-weight: 400; color: var(--color-muted); text-decoration: line-through; }
++ .price__unit { font-size: 13px; color: var(--color-text-secondary); font-weight: 400; }
++ .price--sm .price__current { font-size: 16px; }
++ /* ---- TOP BAR ---- */
++ .top-bar { display: none; }
++ #site-header { position: sticky; top: 0; z-index: 100; background: var(--color-surface); border-bottom: 1px solid var(--color-border); }
++ .header-main { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 16px 0; }
++ .header-main > .container { display: flex; align-items: center; gap: 20px; width: 100%; }
++ .site-logo { display: flex; align-items: center; gap: 10px; flex-shrink: 0; font-family: var(--font-display); font-size: 24px; font-weight: 400; color: var(--color-primary); letter-spacing: -0.02em; line-height: 1; }
++ .site-logo img { height: 36px; width: auto; }
++ 
++ /* ---- HEADER NAV (Trang chủ, Sản phẩm, Meal Planner) ---- */
++ .header-nav { display: flex; align-items: center; gap: 4px; margin-left: 12px; flex-shrink: 0; }
++ .header-nav__link { padding: 8px 16px; font-size: 14px; font-weight: 500; color: var(--color-text-secondary); border-radius: var(--radius-pill); transition: all var(--transition-fast); white-space: nowrap; }
++ .header-nav__link:hover { color: var(--color-primary); background: var(--color-primary-light); }
++ .header-nav__link.is-active { color: #fff; background: var(--color-primary); font-weight: 600; }
++ 
++ .header-location { display: none; }
++ .header-search { flex: 1; max-width: 480px; position: relative; }
++ .header-search__input { width: 100%; padding: 12px 18px 12px 44px; border: 1px solid var(--color-border); border-radius: var(--radius-pill); background: var(--color-surface-alt); font-size: 14px; transition: all var(--transition-fast); outline: none; }
++ .header-search__input:focus { border-color: var(--color-primary); background: var(--color-surface); box-shadow: 0 0 0 3px rgba(26,60,42,0.12); }
++ .header-search__icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; fill: var(--color-muted); pointer-events: none; }
++ .header-search__dropdown {
++   top: calc(100% + 6px);
++   background: var(--color-surface);
++   border: 1px solid var(--color-border);
++   border-radius: var(--radius-lg);
++   box-shadow: var(--shadow-lg);
++   z-index: 100;
++   overflow: hidden;
++   display: none;
++ .header-search__dropdown.is-open { display: block; }
++ .header-search__dropdown-item {
++   display: flex;
++   align-items: center;
++   gap: 12px;
++   padding: 12px 16px;
++   transition: background var(--transition-fast);
++   cursor: pointer;
++   text-decoration: none;
++   color: var(--color-text);
++ }
++ .header-search__dropdown-item:hover { background: var(--color-primary-light); }
++ .header-search__dropdown-item:not(:last-child) { border-bottom: 1px solid var(--color-border); }
++ .header-search__dropdown-img {
++   width: 44px;
++   height: 44px;
++   border-radius: var(--radius-sm);
++   object-fit: cover;
++   flex-shrink: 0;
++   background: var(--color-surface-alt);
++ .header-search__dropdown-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
++ .header-search__dropdown-name { font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
++ .header-search__dropdown-price { font-size: 13px; color: var(--color-sale); font-weight: 600; }
++ .header-search__dropdown-empty {
++   padding: 20px 16px;
++   text-align: center;
++   font-size: 14px;
++ .header-search__dropdown-loading {
++   padding: 20px 16px;
++   text-align: center;
++   color: var(--color-muted);
++   font-size: 14px;
++ .header-actions { display: flex; align-items: center; gap: 6px; margin-left: auto; flex-shrink: 0; }
++ .header-action-btn { position: relative; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: var(--radius-pill); color: var(--color-text); transition: all var(--transition-fast); }
++ .header-action-btn:hover { background: var(--color-surface-alt); color: var(--color-primary); }
++ .header-action-btn svg { width: 22px; height: 22px; fill: currentColor; }
++ .header-action-btn__badge { position: absolute; top: 4px; right: 4px; min-width: 18px; height: 18px; padding: 0 5px; background: var(--color-sale); color: #fff; font-size: 9px; font-weight: 700; border-radius: var(--radius-pill); display: flex; align-items: center; justify-content: center; line-height: 1; border: 2px solid var(--color-surface); }
++ .header-lang-btn { gap: 4px; width: auto; padding: 8px 14px; font-size: 14px; font-weight: 500; color: var(--color-text-secondary); border: 1px solid var(--color-border); }
++ .header-lang-btn:hover { background: var(--color-primary-light); color: var(--color-primary); border-color: var(--color-primary-light); }
++ /* ---- CATEGORY SIDEBAR (Vertical, left side) — Premium editorial, real photos ---- */
++ .page-layout { display: flex; gap: 0; align-items: flex-start; }
++ .category-sidebar { width: 280px; flex-shrink: 0; background: var(--color-surface); border-right: 1px solid var(--color-border); position: sticky; top: 80px; max-height: calc(100vh - 80px); overflow-y: auto; align-self: flex-start; }
++ .category-sidebar__header { padding: 32px 28px 20px; font-family: var(--font-display); font-size: 22px; font-weight: 500; color: var(--color-primary); letter-spacing: -0.01em; border-bottom: 1px solid var(--color-border); }
++ .category-sidebar__list { display: flex; flex-direction: column; gap: 4px; padding: 16px; }
++   display: flex; align-items: center; gap: 16px;
++   padding: 12px 16px; border-radius: var(--radius-lg);
++   font-size: 14px; font-weight: 500; color: var(--color-text-secondary);
++   transition: all var(--transition-fast); cursor: pointer;
++ .category-sidebar__item:hover { background: var(--color-primary-light); color: var(--color-primary); border-color: rgba(26,60,42,0.08); }
++ .category-sidebar__item-img { width: 56px; height: 56px; border-radius: var(--radius-md); overflow: hidden; flex-shrink: 0; position: relative; }
++ .category-sidebar__item-img img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--transition-base); }
++ .category-sidebar__item:hover .category-sidebar__item-img img { transform: scale(1.08); }
++ .category-sidebar__item.is-active .category-sidebar__item-img img, .category-sidebar__item--active .category-sidebar__item-img img {
++   box-shadow: 0 0 0 3px rgba(255,255,255,0.4), 0 2px 8px rgba(0,0,0,0.15);
++ .category-sidebar__item-text { display: flex; flex-direction: column; gap: 2px; }
++ .category-sidebar__item-name { font-size: 15px; font-weight: 500; line-height: 1.3; }
++ .category-sidebar__item-count { font-size: 12px; color: var(--color-muted); }
++ .page-layout .full-width-section { margin-left: calc(-240px - var(--container-padding, 32px)); padding-left: calc(240px + var(--container-padding, 32px)); }
++   .header-search { display: block; max-width: 100%; }
++   .header-search__dropdown {
++     position: fixed;
++     top: 80px;
++     left: 16px;
++     right: 16px;
++     max-height: 60vh;
++     overflow-y: auto;
++   }
++ /* ---- PRODUCT CARD ---- */
++ .product-card { background: var(--color-surface); border-radius: var(--radius-lg); overflow: hidden; transition: all var(--transition-base); display: flex; flex-direction: column; box-shadow: var(--shadow-sm); }
++ .product-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); }
++ .product-card__image-wrap { position: relative; aspect-ratio: 1 / 1; overflow: hidden; background: var(--color-surface-alt); }
++ .product-card__image-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--transition-slow); }
++ .product-card:hover .product-card__image-wrap img { transform: scale(1.06); }
++ .product-card__badges { position: absolute; top: 12px; left: 12px; display: flex; flex-direction: column; gap: 6px; }
++ .product-card__body { padding: 16px 16px 0; flex: 1; display: flex; flex-direction: column; gap: 8px; }
++ .product-card__name { font-size: 15px; font-weight: 600; color: var(--color-text); line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; transition: color var(--transition-fast); }
++ .product-card:hover .product-card__name { color: var(--color-primary); }
++ .product-card__unit { font-size: 13px; color: var(--color-muted); margin-top: -4px; }
++ .product-card__rating { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--color-text-secondary); }
++ .product-card__rating-stars { color: #f5b342; letter-spacing: 1px; font-size: 13px; }
++ .product-card__footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px 16px; }
++ .product-card__add-btn { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-pill); background: var(--color-primary); color: #fff; flex-shrink: 0; transition: all var(--transition-fast); }
++ .product-card__add-btn:hover { background: var(--color-primary-dark); transform: scale(1.06); }
++ .product-card__add-btn svg { width: 18px; height: 18px; fill: currentColor; }
++ .voucher-card__action { display: flex; align-items: center; padding: 0 20px; }
++ 
++ /* ---- VOUCHER VAULT (account page) ---- */
++ .vault-voucher-card { display: flex; align-items: center; background: var(--color-surface); border-radius: var(--radius-lg); border: 1px solid var(--color-border); overflow: hidden; margin-bottom: 12px; transition: all var(--transition-fast); }
++ .vault-voucher-card:hover { border-color: var(--color-accent); box-shadow: var(--shadow-sm); }
++ .vault-voucher-discount { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px 24px; background: linear-gradient(135deg, var(--color-accent-light) 0%, var(--color-surface-alt) 100%); border-right: 2px dashed var(--color-border); min-width: 100px; text-align: center; }
++ .vault-voucher-amount { font-family: var(--font-display); font-size: 28px; font-weight: 400; color: var(--color-accent); line-height: 1; }
++ .vault-voucher-min { font-size: 11px; color: var(--color-muted); margin-top: 4px; }
++ .vault-voucher-info { flex: 1; padding: 14px 20px; display: flex; flex-direction: column; }
++ .vault-voucher-code { font-size: 14px; font-weight: 700; color: var(--color-primary); letter-spacing: 0.04em; font-family: monospace; }
++ .vault-voucher-desc { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
++ .vault-voucher-expiry { font-size: 11px; color: var(--color-muted); margin-top: 4px; }
++ .vault-voucher-action { padding: 0 16px; }
++ 
++ /* ---- VOUCHER SELECT (checkout) ---- */
++ .voucher-select-grid { display: flex; flex-direction: column; gap: 8px; }
++ .voucher-select-option { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border: 1px solid var(--color-border); border-radius: var(--radius-md); cursor: pointer; transition: all var(--transition-fast); background: var(--color-surface); }
++ .voucher-select-option:hover { border-color: var(--color-primary); background: var(--color-primary-light); }
++ .voucher-select-option.is-selected { border-color: var(--color-primary); background: var(--color-primary-light); box-shadow: 0 0 0 2px var(--color-primary); }
++ .voucher-select-option input[type="radio"] { display: none; }
++ .voucher-select-info { flex: 1; display: flex; flex-direction: column; gap: 2px; }
++ .voucher-select-code { font-size: 14px; font-weight: 700; color: var(--color-primary); font-family: monospace; letter-spacing: 0.04em; }
++ .voucher-select-desc { font-size: 12px; color: var(--color-text-secondary); }
++ .voucher-select-value { font-size: 18px; font-weight: 600; color: var(--color-sale); font-family: var(--font-display); }
++ .voucher-select-check { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--color-border); display: flex; align-items: center; justify-content: center; font-size: 12px; color: transparent; transition: all var(--transition-fast); }
++ .voucher-select-option.is-selected .voucher-select-check { background: var(--color-primary); border-color: var(--color-primary); color: #fff; }
++ 
++ .btn--success { background: var(--color-success); color: #fff; }
++ .btn--success:hover { background: var(--color-primary-dark); }
++ 
++ /* voucher responsive */
++ @media (max-width: 767px) {
++   .voucher-card__action { padding: 0 16px 16px; }
++   .voucher-card__btn { width: 100%; }
++   .vault-voucher-card { flex-direction: column; }
++   .vault-voucher-discount { border-right: none; border-bottom: 2px dashed var(--color-border); min-width: unset; width: 100%; padding: 12px; }
++   .vault-voucher-action { padding: 0 16px 16px; width: 100%; }
++   .vault-voucher-action .btn { width: 100%; }
++ }
++   .voucher-card__action { padding: 0 16px 16px; }
++   .voucher-card__btn { width: 100%; }
++   .voucher-select-option { flex-wrap: wrap; }
++   .voucher-select-value { font-size: 15px; }

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Bách Hóa Tươi - Admin Panel" />
+    <meta name="theme-color" content="#1a3c2a" />
+    <title>Admin Panel | Bách Hóa Tươi</title>
+    <link rel="stylesheet" href="./css/design-tokens.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/admin.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600;700&family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" />
+  </head>
+  <body>
+    <div class="admin-shell">
+      <aside class="admin-sidebar" id="admin-sidebar">
+        <div class="admin-sidebar__header">
+          <div class="admin-sidebar__logo">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true">
+              <path d="M12 2 4 5.5v6.1c0 5 3.4 9.6 8 10.4 4.6-.8 8-5.4 8-10.4V5.5L12 2Zm0 3.1 5.5 2.4v4.1c0 3.6-2.3 6.9-5.5 7.8-3.2-.9-5.5-4.2-5.5-7.8V7.5L12 5.1Z" />
+            </svg>
+            <span>Admin Panel</span>
+          </div>
+          <button class="admin-sidebar__toggle" id="sidebar-toggle" aria-label="Thu gọn sidebar" aria-expanded="false">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="m15.4 7.4-1.4-1.4-6 6 6 6 1.4-1.4L10.8 12l4.6-4.6Z" /></svg>
+          </button>
+        </div>
+
+        <nav class="admin-sidebar__nav" role="navigation" aria-label="Admin navigation">
+          <div class="admin-nav-section">
+            <span class="admin-nav-section__label">Tổng quan</span>
+            <a class="admin-nav__item is-active" href="#dashboard" data-tab="dashboard" role="button">
+              <span class="admin-nav__icon">◆</span>
+              <span>Dashboard</span>
+            </a>
+          </div>
+
+          <div class="admin-nav-section">
+            <span class="admin-nav-section__label">Quản lý</span>
+            <a class="admin-nav__item" href="#products" data-tab="products" role="button">
+              <span class="admin-nav__icon">▣</span>
+              <span>Sản phẩm</span>
+              <span class="admin-nav__badge" id="products-count">0</span>
+            </a>
+            <a class="admin-nav__item" href="#orders" data-tab="orders" role="button">
+              <span class="admin-nav__icon">▤</span>
+              <span>Đơn hàng</span>
+              <span class="admin-nav__badge" id="orders-count">0</span>
+            </a>
+            <a class="admin-nav__item" href="#inventory" data-tab="inventory" role="button">
+              <span class="admin-nav__icon">◈</span>
+              <span>Tồn kho</span>
+            </a>
+            <a class="admin-nav__item" href="#vouchers" data-tab="vouchers" role="button">
+              <span class="admin-nav__icon">%</span>
+              <span>Voucher</span>
+            </a>
+            <a class="admin-nav__item" href="#banners" data-tab="banners" role="button">
+              <span class="admin-nav__icon">▰</span>
+              <span>Banner</span>
+            </a>
+          </div>
+
+          <div class="admin-nav-section">
+            <span class="admin-nav-section__label">Hệ thống</span>
+            <a class="admin-nav__item" href="#users" data-tab="users" role="button">
+              <span class="admin-nav__icon">◎</span>
+              <span>Người dùng</span>
+            </a>
+            <a class="admin-nav__item" href="#support" data-tab="support" role="button">
+              <span class="admin-nav__icon">?</span>
+              <span>Hỗ trợ</span>
+            </a>
+          </div>
+        </nav>
+
+        <div class="admin-sidebar__footer">
+          <div class="admin-user">
+            <div class="admin-user__avatar" id="admin-avatar">A</div>
+            <div class="admin-user__info">
+              <div class="admin-user__name" id="admin-name">Admin</div>
+              <div class="admin-user__role">Quản trị viên</div>
+            </div>
+          </div>
+          <button class="btn btn--ghost btn--block" id="logout-btn" type="button">Đăng xuất</button>
+        </div>
+      </aside>
+
+      <div class="admin-main">
+        <header class="admin-header">
+          <button class="admin-header__menu" id="mobile-menu-btn" aria-label="Mở menu" aria-expanded="false">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M3 18h18v-2H3v2Zm0-5h18v-2H3v2Zm0-7v2h18V6H3Z" /></svg>
+          </button>
+          <div>
+            <div class="admin-header__eyebrow">Bách Hóa Tươi</div>
+            <div class="admin-header__title" id="admin-page-title">Dashboard</div>
+          </div>
+          <div class="admin-header__actions">
+            <a href="./index.html" class="btn btn--sm btn--ghost" target="_blank" rel="noopener">Xem trang</a>
+          </div>
+        </header>
+
+        <main class="admin-content" id="admin-content">
+          <section class="admin-tab is-active" id="tab-dashboard" data-tab="dashboard">
+            <div class="stats-grid">
+              <article class="stat-card">
+                <div class="stat-card__icon stat-card__icon--revenue">₫</div>
+                <div class="stat-card__body">
+                  <div class="stat-card__label">Doanh thu</div>
+                  <div class="stat-card__value" id="stat-revenue">0 ₫</div>
+                  <div class="stat-card__sub">Tổng đơn đã ghi nhận</div>
+                </div>
+              </article>
+              <article class="stat-card">
+                <div class="stat-card__icon stat-card__icon--orders">ĐH</div>
+                <div class="stat-card__body">
+                  <div class="stat-card__label">Đơn hàng</div>
+                  <div class="stat-card__value" id="stat-orders">0</div>
+                  <div class="stat-card__sub">Đang chờ xử lý</div>
+                </div>
+              </article>
+              <article class="stat-card">
+                <div class="stat-card__icon stat-card__icon--products">SP</div>
+                <div class="stat-card__body">
+                  <div class="stat-card__label">Sản phẩm</div>
+                  <div class="stat-card__value" id="stat-products">0</div>
+                  <div class="stat-card__sub">Đang bán</div>
+                </div>
+              </article>
+              <article class="stat-card">
+                <div class="stat-card__icon stat-card__icon--users">KH</div>
+                <div class="stat-card__body">
+                  <div class="stat-card__label">Người dùng</div>
+                  <div class="stat-card__value" id="stat-users">0</div>
+                  <div class="stat-card__sub">Tài khoản đã đăng ký</div>
+                </div>
+              </article>
+            </div>
+
+            <div class="admin-grid">
+              <section class="admin-table-wrapper">
+                <div class="section-header">
+                  <h2>Đơn hàng gần đây</h2>
+                  <a href="#orders" class="btn btn--sm btn--outline" data-tab="orders">Xem tất cả</a>
+                </div>
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Mã đơn</th>
+                      <th>Khách hàng</th>
+                      <th>Tổng tiền</th>
+                      <th>Trạng thái</th>
+                      <th>Ngày</th>
+                    </tr>
+                  </thead>
+                  <tbody id="dashboard-orders-body"></tbody>
+                </table>
+              </section>
+
+              <section class="admin-table-wrapper">
+                <div class="section-header">
+                  <h2>Sản phẩm bán chạy</h2>
+                </div>
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Sản phẩm</th>
+                      <th>Danh mục</th>
+                      <th>Đã bán</th>
+                      <th>Giá</th>
+                    </tr>
+                  </thead>
+                  <tbody id="top-products-body"></tbody>
+                </table>
+              </section>
+            </div>
+          </section>
+
+          <section class="admin-tab" id="tab-products" data-tab="products">
+            <div class="admin-table-wrapper">
+              <div class="section-header"><div><h2>Quản lý sản phẩm</h2><span>Hiển thị 80 sản phẩm đầu tiên</span></div><button class="btn btn--primary btn--sm" type="button" data-action="add-product">Thêm sản phẩm</button></div>
+              <table class="admin-table">
+                <thead><tr><th>Ảnh</th><th>Sản phẩm</th><th>Danh mục</th><th>Giá</th><th>Tồn kho</th><th>Trạng thái</th><th>Thao tác</th></tr></thead>
+                <tbody id="products-body"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="admin-tab" id="tab-orders" data-tab="orders">
+            <div class="admin-table-wrapper">
+              <div class="section-header"><h2>Quản lý đơn hàng</h2><span>Theo dõi xử lý và thanh toán</span></div>
+              <table class="admin-table">
+                <thead><tr><th>Mã đơn</th><th>Khách hàng</th><th>SĐT</th><th>Tổng tiền</th><th>Trạng thái</th><th>Thanh toán</th><th>Ngày</th><th>Thao tác</th></tr></thead>
+                <tbody id="orders-body"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="admin-tab" id="tab-inventory" data-tab="inventory">
+            <div class="admin-table-wrapper">
+              <div class="section-header"><h2>Tồn kho</h2><span>Cảnh báo hàng sắp hết</span></div>
+              <table class="admin-table">
+                <thead><tr><th>Sản phẩm</th><th>Danh mục</th><th>Tồn kho</th><th>Tình trạng</th><th>Đã bán</th><th>Thao tác</th></tr></thead>
+                <tbody id="inventory-body"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="admin-tab" id="tab-vouchers" data-tab="vouchers">
+            <div class="admin-table-wrapper">
+              <div class="section-header"><div><h2>Voucher</h2><span>Mã giảm giá đang cấu hình</span></div><button class="btn btn--primary btn--sm" type="button" data-action="add-voucher">Thêm voucher</button></div>
+              <table class="admin-table">
+                <thead><tr><th>Mã</th><th>Nội dung</th><th>Giảm</th><th>Đơn tối thiểu</th><th>Trạng thái</th><th>Hạn dùng</th><th>Thao tác</th></tr></thead>
+                <tbody id="vouchers-body"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="admin-tab" id="tab-banners" data-tab="banners">
+            <div class="admin-table-wrapper">
+              <div class="section-header"><h2>Banner</h2><span>Nội dung truyền thông trang chủ</span></div>
+              <table class="admin-table">
+                <thead><tr><th>Tên banner</th><th>Vị trí</th><th>Trạng thái</th><th>Ngày bắt đầu</th><th>Ngày kết thúc</th><th>Thao tác</th></tr></thead>
+                <tbody id="banners-body"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="admin-tab" id="tab-users" data-tab="users">
+            <div class="admin-table-wrapper">
+              <div class="section-header"><h2>Người dùng</h2><span>Tài khoản khách hàng</span></div>
+              <table class="admin-table">
+                <thead><tr><th>Họ tên</th><th>Email</th><th>SĐT</th><th>Vai trò</th><th>Ngày tạo</th><th>Thao tác</th></tr></thead>
+                <tbody id="users-body"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="admin-tab" id="tab-support" data-tab="support">
+            <div class="admin-table-wrapper">
+              <div class="section-header"><h2>Hỗ trợ khách hàng</h2><span>Ticket và yêu cầu xử lý</span></div>
+              <table class="admin-table">
+                <thead><tr><th>Mã ticket</th><th>Khách hàng</th><th>Chủ đề</th><th>Trạng thái</th><th>Ngày gửi</th><th>Thao tác</th></tr></thead>
+                <tbody id="support-body"></tbody>
+              </table>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <script type="module" src="./js/admin.js"></script>
+  </body>
+</html>

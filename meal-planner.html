@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Meal Planner - Gợi ý món ăn từ nguyên liệu bạn có">
+  <title>Meal Planner | FreshMart</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=EB+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/meal.css">
+</head>
+<body data-page="meal-planner">
+  <header id="site-header"></header>
+
+  <main class="page-shell meal-page">
+    <div class="container" id="meal-root">
+      <section class="recipe-hero">
+        <div class="recipe-hero__bg"></div>
+        <div class="recipe-hero__content">
+          <span class="eyebrow">Meal Planner</span>
+          <h1 class="recipe-hero__title">Chọn nguyên liệu bạn có, nhận gợi ý món ngon ngay lập tức</h1>
+          <p class="recipe-hero__subtitle">Chọn nguyên liệu sẵn có và nhận gợi ý công thức phù hợp chỉ trong vài giây.</p>
+          <div class="recipe-hero__stats">
+            <span><strong>66+</strong> công thức</span>
+            <span class="recipe-hero__divider">•</span>
+            <span><strong>8</strong> danh mục</span>
+            <span class="recipe-hero__divider">•</span>
+            <span><strong>∞</strong> tổ hợp</span>
+          </div>
+        </div>
+      </section>
+
+      <div class="meal-grid">
+        <aside class="meal-sidebar">
+          <section class="meal-panel" id="step-ingredients" aria-labelledby="step1-title">
+            <div class="meal-panel__header">
+              <div class="meal-panel__step">1</div>
+              <div>
+                <h2 id="step1-title" class="meal-panel__title">Nguyên liệu bạn đang có</h2>
+                <p class="meal-panel__desc">Chọn hoặc tìm nhanh nguồn nguyên liệu có sẵn trong nhà.</p>
+              </div>
+            </div>
+
+            <div class="meal-panel__body">
+              <div class="ingredient-search" role="search">
+                <label for="ingredient-search-input" class="visually-hidden">Tìm nguyên liệu</label>
+                <input type="search" id="ingredient-search-input" class="ingredient-search__input" placeholder="Tìm hoặc nhập nguyên liệu..." autocomplete="off" aria-describedby="search-hint">
+                <span id="search-hint" class="visually-hidden">Nhập tên nguyên liệu để lọc danh sách</span>
+                <div class="ingredient-search__clear" aria-hidden="true">✕</div>
+              </div>
+
+              <div class="ingredient-categories" role="group" aria-label="Danh mục nguyên liệu">
+                <button type="button" class="category-pill is-active" data-category="all" aria-pressed="true">Tất cả</button>
+                <button type="button" class="category-pill" data-category="vegetables" aria-pressed="false">Rau củ</button>
+                <button type="button" class="category-pill" data-category="fruits" aria-pressed="false">Trái cây</button>
+                <button type="button" class="category-pill" data-category="meat" aria-pressed="false">Thịt</button>
+                <button type="button" class="category-pill" data-category="seafood" aria-pressed="false">Hải sản</button>
+                <button type="button" class="category-pill" data-category="dairy" aria-pressed="false">Sữa</button>
+                <button type="button" class="category-pill" data-category="pantry" aria-pressed="false">Khô</button>
+                <button type="button" class="category-pill" data-category="condiments" aria-pressed="false">Gia vị</button>
+              </div>
+
+              <div class="ingredient-grid" id="ingredient-grid" role="listbox" aria-multiselectable="true" aria-label="Danh sách nguyên liệu"></div>
+
+              <div class="selected-ingredients" id="selected-ingredients" aria-live="polite" aria-label="Nguyên liệu đã chọn">
+                <div class="selected-ingredients__label">Đã chọn:</div>
+                <div class="selected-ingredients__tags" id="selected-tags"></div>
+                <button type="button" class="selected-ingredients__clear" id="clear-all-ingredients" aria-label="Xóa tất cả nguyên liệu đã chọn">Xóa tất cả</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="meal-panel" id="step-filters" aria-labelledby="step2-title">
+            <div class="meal-panel__header">
+              <div class="meal-panel__step">2</div>
+              <div>
+                <h2 id="step2-title" class="meal-panel__title">Tiêu chí món ăn</h2>
+                <p class="meal-panel__desc">Điều chỉnh phong cách, thời gian và khẩu phần phù hợp khẩu vị.</p>
+              </div>
+            </div>
+
+            <form class="meal-panel__body meal-panel__form" id="recipe-filters" novalidate>
+              <div class="form-field">
+                <label class="form-field__label">Phong cách nấu ăn</label>
+                <select class="filter-select" name="cuisine" id="cuisine-select">
+                  <option value="vietnamese" selected>Việt Nam</option>
+                  <option value="asian">Châu Á</option>
+                  <option value="western">Châu Âu</option>
+                </select>
+              </div>
+
+              <div class="form-field">
+                <label class="form-field__label">Loại món</label>
+                <select class="filter-select" name="mealType" id="meal-type-select">
+                  <option value="all" selected>Tất cả</option>
+                  <option value="breakfast">Sáng</option>
+                  <option value="lunch">Trưa</option>
+                  <option value="dinner">Tối</option>
+                </select>
+              </div>
+
+              <div class="form-field form-field--split">
+                <div>
+                  <label class="form-field__label">Độ khó</label>
+                  <select class="filter-select" name="difficulty" id="difficulty-select">
+                    <option value="all" selected>Tất cả</option>
+                    <option value="easy">Dễ</option>
+                    <option value="medium">Trung bình</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="form-field__label">Thời gian</label>
+                  <select class="filter-select" name="time" id="time-select">
+                    <option value="all" selected>Tất cả</option>
+                    <option value="quick"><15 phút</option>
+                    <option value="normal">15-30 phút</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-field form-field--split">
+                <div>
+                  <label class="form-field__label">Khẩu phần</label>
+                  <select class="filter-select" name="servings" id="servings-select">
+                    <option value="1">1 người</option>
+                    <option value="2" selected>2 người</option>
+                    <option value="4">4 người</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="form-field__label">Yêu cầu</label>
+                  <div class="dietary-checkboxes" role="group" aria-label="Yêu cầu dinh dưỡng">
+                    <label class="dietary-checkbox"><input type="checkbox" name="dietary" value="lowFat">Ít dầu mỡ</label>
+                    <label class="dietary-checkbox"><input type="checkbox" name="dietary" value="highProtein">Nhiều protein</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="filter-actions">
+                <button type="submit" class="btn btn--primary btn--lg btn--generate" id="generate-btn">
+                  <span class="btn__text">TẠO MÓN NGAY</span>
+                  <span class="btn__loading" aria-hidden="true" style="display:none;">Đang tạo</span>
+                </button>
+                <button type="button" class="btn btn--outline btn--lg" id="reset-filters-btn">Đặt lại</button>
+              </div>
+            </form>
+          </section>
+        </aside>
+
+        <section class="meal-content">
+          <section class="recipe-step recipe-step--compact" id="step-results" aria-labelledby="step3-title" style="display:none;">
+            <div class="recipe-step__header">
+              <div class="recipe-step__number" aria-hidden="true">3</div>
+              <div>
+                <h2 id="step3-title" class="recipe-step__title">Kết quả gợi ý</h2>
+                <p class="recipe-step__desc" id="results-count">Tìm thấy <strong>0</strong> món phù hợp</p>
+              </div>
+            </div>
+
+            <section class="recipe-selected" id="selected-recipe-panel" style="display:none;">
+              <div class="recipe-selected__card">
+                <div class="recipe-selected__info">
+                  <div class="recipe-selected__badge" id="selected-recipe-badge">Phù hợp với nguyên liệu bạn có</div>
+                  <h3 class="recipe-selected__title" id="selected-recipe-title"></h3>
+                  <p class="recipe-selected__subtitle" id="selected-recipe-subtitle">Đề xuất món ngon được tạo dựa trên nguyên liệu sẵn có và tiêu chí bạn chọn.</p>
+                  <div class="recipe-selected__meta" id="selected-recipe-meta"></div>
+                  <div class="recipe-selected__status" id="selected-recipe-status"></div>
+                </div>
+
+                <div class="recipe-selected__visual">
+                  <div class="recipe-selected__visual-body">
+                    <div class="recipe-selected__svg-wrap" id="selected-recipe-svg"></div>
+                    <div class="recipe-selected__plate-shadow"></div>
+                    <div class="recipe-selected__image" id="selected-recipe-image">
+                      <img src="" alt="" loading="lazy">
+                    </div>
+                    <div class="recipe-selected__callouts" id="selected-recipe-callouts"></div>
+                  </div>
+                </div>
+
+                <div class="recipe-selected__actions">
+                  <button type="button" class="btn btn--primary btn--lg" id="recipe-view-details-btn">Xem chi tiết món</button>
+                </div>
+              </div>
+            </section>
+
+            <section class="recipe-purchase" id="recipe-purchase-panel" style="display:none;">
+              <div class="recipe-purchase__header">
+                <div>
+                  <div class="recipe-purchase__label" id="recipe-purchase-label"></div>
+                  <p class="recipe-purchase__note" id="recipe-purchase-note"></p>
+                </div>
+                <button type="button" class="btn btn--primary" id="recipe-purchase-add-all">Thêm sản phẩm vào giỏ</button>
+              </div>
+              <div class="recipe-purchase__list" id="missing-ingredients-list"></div>
+              <button type="button" class="recipe-purchase__view-all" id="recipe-purchase-view-all">Xem tất cả nguyên liệu</button>
+            </section>
+
+            <section class="recipe-tabs" id="recipe-detail-tabs" style="display:none;">
+              <div class="recipe-tabs__nav" role="tablist" aria-label="Chi tiết món ăn">
+                <button type="button" class="recipe-tab-btn is-active" data-tab="steps" role="tab" aria-selected="true">Cách làm</button>
+                <button type="button" class="recipe-tab-btn" data-tab="nutrition" role="tab" aria-selected="false">Thông tin dinh dưỡng</button>
+                <button type="button" class="recipe-tab-btn" data-tab="tips" role="tab" aria-selected="false">Mẹo nấu ăn</button>
+              </div>
+              <div class="recipe-tab-panels">
+                <div class="recipe-tab-panel is-active" data-panel="steps" role="tabpanel"></div>
+                <div class="recipe-tab-panel" data-panel="nutrition" role="tabpanel"></div>
+                <div class="recipe-tab-panel" data-panel="tips" role="tabpanel"></div>
+              </div>
+            </section>
+
+            <div class="recipe-results" id="recipe-results"></div>
+
+            <div class="recipe-results__empty" id="results-empty" style="display:none;">
+              <div class="empty-state">
+                <h3 class="empty-state__title">Không tìm thấy món phù hợp</h3>
+                <p class="empty-state__desc">Thử bỏ bớt bộ lọc hoặc chọn nguyên liệu khác</p>
+                <button type="button" class="btn btn--primary" id="back-to-filters">Quay lại bộ lọc</button>
+              </div>
+            </div>
+          </section>
+        </section>
+      </div>
+
+      <div class="modal-overlay" id="recipe-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title" style="display:none;">
+        <div class="modal modal--lg recipe-modal">
+          <div class="modal__header">
+            <h2 id="modal-title" class="modal__title"></h2>
+            <button type="button" class="modal__close" id="recipe-modal-close" aria-label="Đóng chi tiết món ăn">✕</button>
+          </div>
+          <div class="modal__body" id="recipe-modal-body"></div>
+        </div>
+      </div>
+
+      <!-- Add to Cart Selection Modal -->
+      <div class="modal-overlay" id="add-cart-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="add-cart-modal-title" style="display:none;">
+        <div class="modal modal--lg">
+          <div class="modal__header">
+            <h2 id="add-cart-modal-title" class="modal__title">Chọn sản phẩm thêm vào giỏ</h2>
+            <button type="button" class="modal__close" id="add-cart-modal-close" aria-label="Đóng">✕</button>
+          </div>
+          <div class="modal__body add-cart-modal__body">
+            <div class="add-cart-modal__info">
+              <p id="add-cart-modal-desc" class="add-cart-modal__desc"></p>
+              <div class="add-cart-modal__select-actions">
+                <button type="button" class="btn btn--outline btn--sm" id="add-cart-select-all">Chọn tất cả</button>
+                <button type="button" class="btn btn--outline btn--sm" id="add-cart-deselect-all">Bỏ chọn tất cả</button>
+              </div>
+            </div>
+            <div class="add-cart-modal__list" id="add-cart-items-list"></div>
+            <div class="add-cart-modal__footer">
+              <div class="add-cart-modal__summary" id="add-cart-summary">Đã chọn <strong>0</strong> sản phẩm</div>
+              <div class="add-cart-modal__actions">
+                <button type="button" class="btn btn--outline" id="add-cart-cancel-btn">Hủy</button>
+                <button type="button" class="btn btn--primary btn--lg" id="add-cart-confirm-btn">Thêm vào giỏ hàng</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script type="module" src="js/main.js"></script>
+  <script type="module" src="js/meal-planner.js"></script>
+</body>
+</html>

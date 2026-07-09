@@ -1,0 +1,4957 @@
+[
+  {
+    "name": "Kroger",
+    "slug": "kroger",
+    "productCount": 993,
+    "categories": [
+      "Bakery",
+      "Beverages",
+      "Candy",
+      "Coffee",
+      "Cooking Oil"
+    ]
+  },
+  {
+    "name": "Signature Select",
+    "slug": "signature-select",
+    "productCount": 312,
+    "categories": [
+      "Bakery",
+      "Beverages",
+      "Candy",
+      "Coffee",
+      "Cooking Oil"
+    ]
+  },
+  {
+    "name": "Marks & Spencer",
+    "slug": "marks-&-spencer",
+    "productCount": 276,
+    "categories": [
+      "Bakery",
+      "Beverages",
+      "Candy",
+      "Frozen Foods",
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Private Selection",
+    "slug": "private-selection",
+    "productCount": 235,
+    "categories": [
+      "Bakery",
+      "Beverages",
+      "Candy",
+      "Coffee",
+      "Cooking Oil"
+    ]
+  },
+  {
+    "name": "Sainsbury's",
+    "slug": "sainsbury's",
+    "productCount": 218,
+    "categories": [
+      "Bakery",
+      "Beverages",
+      "Candy",
+      "Coffee",
+      "Cooking Oil"
+    ]
+  },
+  {
+    "name": "Simple Truth",
+    "slug": "simple-truth",
+    "productCount": 208,
+    "categories": [
+      "Bakery",
+      "Beverages",
+      "Candy",
+      "Coffee",
+      "Frozen Foods"
+    ]
+  },
+  {
+    "name": "Simple Truth Organic",
+    "slug": "simple-truth-organic",
+    "productCount": 199,
+    "categories": [
+      "Bakery",
+      "Beverages",
+      "Candy",
+      "Coffee",
+      "Cooking Oil"
+    ]
+  },
+  {
+    "name": "General Mills",
+    "slug": "general-mills",
+    "productCount": 190,
+    "categories": [
+      "Bakery",
+      "Beverages",
+      "Candy",
+      "Fruits",
+      "Meat"
+    ]
+  },
+  {
+    "name": "Pepperidge Farm",
+    "slug": "pepperidge-farm",
+    "productCount": 181,
+    "categories": [
+      "Bakery",
+      "Candy",
+      "Fruits",
+      "Meat",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Gerber",
+    "slug": "gerber",
+    "productCount": 146,
+    "categories": [
+      "Baby",
+      "Bakery",
+      "Beverages",
+      "Frozen Foods",
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Kraft",
+    "slug": "kraft",
+    "productCount": 143,
+    "categories": [
+      "Beverages",
+      "Fruits",
+      "Meat",
+      "Milk",
+      "Sauce"
+    ]
+  },
+  {
+    "name": "Trader Joe's",
+    "slug": "trader-joe's",
+    "productCount": 130,
+    "categories": [
+      "Bakery",
+      "Beverages",
+      "Candy",
+      "Frozen Foods",
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Nature Valley",
+    "slug": "nature-valley",
+    "productCount": 129,
+    "categories": [
+      "Bakery",
+      "Candy",
+      "Fruits",
+      "Milk",
+      "Rice"
+    ]
+  },
+  {
+    "name": "M&S",
+    "slug": "m&s",
+    "productCount": 119,
+    "categories": [
+      "Bakery",
+      "Beverages",
+      "Candy",
+      "Coffee",
+      "Frozen Foods"
+    ]
+  },
+  {
+    "name": "Annie's",
+    "slug": "annie's",
+    "productCount": 114,
+    "categories": [
+      "Bakery",
+      "Candy",
+      "Fruits",
+      "Instant Noodles",
+      "Meat"
+    ]
+  },
+  {
+    "name": "Kashi",
+    "slug": "kashi",
+    "productCount": 106,
+    "categories": [
+      "Candy",
+      "Frozen Foods",
+      "Fruits",
+      "Meat",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Lucerne",
+    "slug": "lucerne",
+    "productCount": 106,
+    "categories": [
+      "Frozen Foods",
+      "Fruits",
+      "Meat",
+      "Milk",
+      "Sauce"
+    ]
+  },
+  {
+    "name": "The Kroger Co.",
+    "slug": "the-kroger-co.",
+    "productCount": 103,
+    "categories": [
+      "Bakery",
+      "Beverages",
+      "Candy",
+      "Fruits",
+      "Instant Noodles"
+    ]
+  },
+  {
+    "name": "Betty Crocker",
+    "slug": "betty-crocker",
+    "productCount": 99,
+    "categories": [
+      "Bakery",
+      "Candy",
+      "Fruits",
+      "Meat",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Birds Eye",
+    "slug": "birds-eye",
+    "productCount": 93,
+    "categories": [
+      "Cooking Oil",
+      "Frozen Foods",
+      "Meat",
+      "Milk",
+      "Sauce"
+    ]
+  },
+  {
+    "name": "simple truth",
+    "slug": "simple-truth",
+    "productCount": 83,
+    "categories": [
+      "Bakery",
+      "Beverages",
+      "Candy",
+      "Frozen Foods",
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Pillsbury",
+    "slug": "pillsbury",
+    "productCount": 81,
+    "categories": [
+      "Bakery",
+      "Candy",
+      "Fruits",
+      "Meat",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Turkey Hill",
+    "slug": "turkey-hill",
+    "productCount": 75,
+    "categories": [
+      "Beverages",
+      "Candy",
+      "Coffee",
+      "Frozen Foods",
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Heinz",
+    "slug": "heinz",
+    "productCount": 63,
+    "categories": [
+      "Bakery",
+      "Cooking Oil",
+      "Fruits",
+      "Meat",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Kroger, The Kroger Co.",
+    "slug": "kroger,-the-kroger-co.",
+    "productCount": 61,
+    "categories": [
+      "Bakery",
+      "Beverages",
+      "Candy",
+      "Cooking Oil",
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Trident",
+    "slug": "trident",
+    "productCount": 61,
+    "categories": [
+      "Candy",
+      "Fruits",
+      "Seasoning",
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Wonderful",
+    "slug": "wonderful",
+    "productCount": 61,
+    "categories": [
+      "Fruits",
+      "Sauce",
+      "Seasoning",
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Lindt",
+    "slug": "lindt",
+    "productCount": 56,
+    "categories": [
+      "Candy",
+      "Milk",
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Lean Cuisine",
+    "slug": "lean-cuisine",
+    "productCount": 54,
+    "categories": [
+      "Bakery",
+      "Fruits",
+      "Meat",
+      "Milk",
+      "Sauce"
+    ]
+  },
+  {
+    "name": "Jack Link's",
+    "slug": "jack-link's",
+    "productCount": 53,
+    "categories": [
+      "Meat",
+      "Milk",
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Signature Kitchens",
+    "slug": "signature-kitchens",
+    "productCount": 50,
+    "categories": [
+      "Bakery",
+      "Beverages",
+      "Fruits",
+      "Meat",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Cheerios",
+    "slug": "cheerios",
+    "productCount": 46,
+    "categories": [
+      "Candy",
+      "Fruits",
+      "Meat",
+      "Milk",
+      "Rice"
+    ]
+  },
+  {
+    "name": "M&S Food",
+    "slug": "m&s-food",
+    "productCount": 45,
+    "categories": [
+      "Bakery",
+      "Beverages",
+      "Candy",
+      "Fruits",
+      "Instant Noodles"
+    ]
+  },
+  {
+    "name": "simple truth organic",
+    "slug": "simple-truth-organic",
+    "productCount": 45,
+    "categories": [
+      "Bakery",
+      "Fruits",
+      "Meat",
+      "Milk",
+      "Rice"
+    ]
+  },
+  {
+    "name": "Newman's Own",
+    "slug": "newman's-own",
+    "productCount": 43,
+    "categories": [
+      "Bakery",
+      "Fruits",
+      "Instant Noodles",
+      "Meat",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Mt. Olive",
+    "slug": "mt.-olive",
+    "productCount": 41,
+    "categories": [
+      "Fruits",
+      "Meat",
+      "Milk",
+      "Sauce",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Mott's",
+    "slug": "mott's",
+    "productCount": 41,
+    "categories": [
+      "Beverages",
+      "Fruits",
+      "Sauce",
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Sparkling Ice",
+    "slug": "sparkling-ice",
+    "productCount": 41,
+    "categories": [
+      "Beverages",
+      "Fruits",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Stouffer's",
+    "slug": "stouffer's",
+    "productCount": 40,
+    "categories": [
+      "Bakery",
+      "Frozen Foods",
+      "Fruits",
+      "Instant Noodles",
+      "Meat"
+    ]
+  },
+  {
+    "name": "Signature",
+    "slug": "signature",
+    "productCount": 40,
+    "categories": [
+      "Bakery",
+      "Beverages",
+      "Cooking Oil",
+      "Fruits",
+      "Meat"
+    ]
+  },
+  {
+    "name": "Mountain Dew",
+    "slug": "mountain-dew",
+    "productCount": 39,
+    "categories": [
+      "Bakery",
+      "Beverages",
+      "Fruits",
+      "Milk",
+      "Seasoning"
+    ]
+  },
+  {
+    "name": "Dave's Killer Bread",
+    "slug": "dave's-killer-bread",
+    "productCount": 38,
+    "categories": [
+      "Bakery",
+      "Candy",
+      "Fruits",
+      "Meat",
+      "Rice"
+    ]
+  },
+  {
+    "name": "Signature Farms",
+    "slug": "signature-farms",
+    "productCount": 38,
+    "categories": [
+      "Cooking Oil",
+      "Fruits",
+      "Meat",
+      "Seasoning",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Lucerne Dairy Farms",
+    "slug": "lucerne-dairy-farms",
+    "productCount": 35,
+    "categories": [
+      "Meat",
+      "Milk",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Deep",
+    "slug": "deep",
+    "productCount": 34,
+    "categories": [
+      "Bakery",
+      "Cooking Oil",
+      "Frozen Foods",
+      "Fruits",
+      "Meat"
+    ]
+  },
+  {
+    "name": "Tabasco",
+    "slug": "tabasco",
+    "productCount": 33,
+    "categories": [
+      "Sauce",
+      "Seasoning",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Marie Callender's",
+    "slug": "marie-callender's",
+    "productCount": 32,
+    "categories": [
+      "Frozen Foods",
+      "Instant Noodles",
+      "Meat",
+      "Milk",
+      "Sauce"
+    ]
+  },
+  {
+    "name": "Starbucks",
+    "slug": "starbucks",
+    "productCount": 31,
+    "categories": [
+      "Beverages",
+      "Candy",
+      "Coffee",
+      "Fruits",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Goldfish",
+    "slug": "goldfish",
+    "productCount": 31,
+    "categories": [
+      "Bakery",
+      "Fruits",
+      "Meat",
+      "Milk",
+      "Seafood"
+    ]
+  },
+  {
+    "name": "Fiber One",
+    "slug": "fiber-one",
+    "productCount": 31,
+    "categories": [
+      "Bakery",
+      "Candy",
+      "Coffee",
+      "Fruits",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Lifeway",
+    "slug": "lifeway",
+    "productCount": 31,
+    "categories": [
+      "Fruits",
+      "Milk",
+      "Tea"
+    ]
+  },
+  {
+    "name": "Pepsi",
+    "slug": "pepsi",
+    "productCount": 30,
+    "categories": [
+      "Beverages",
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Sainsburys",
+    "slug": "sainsburys",
+    "productCount": 30,
+    "categories": [
+      "Bakery",
+      "Beverages",
+      "Cooking Oil",
+      "Fruits",
+      "Instant Noodles"
+    ]
+  },
+  {
+    "name": "Lipton",
+    "slug": "lipton",
+    "productCount": 28,
+    "categories": [
+      "Beverages",
+      "Fruits",
+      "Tea"
+    ]
+  },
+  {
+    "name": "Signature Kitchens, Safeway Inc.",
+    "slug": "signature-kitchens,-safeway-inc.",
+    "productCount": 28,
+    "categories": [
+      "Bakery",
+      "Beverages",
+      "Candy",
+      "Cooking Oil",
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Herbalife",
+    "slug": "herbalife",
+    "productCount": 27,
+    "categories": [
+      "Baby",
+      "Beverages",
+      "Candy",
+      "Frozen Foods",
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Flora",
+    "slug": "flora",
+    "productCount": 27,
+    "categories": [
+      "Bakery",
+      "Candy",
+      "Cooking Oil",
+      "Fruits",
+      "Instant Noodles"
+    ]
+  },
+  {
+    "name": "Cape Cod",
+    "slug": "cape-cod",
+    "productCount": 27,
+    "categories": [
+      "Sauce",
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Florida's Natural",
+    "slug": "florida's-natural",
+    "productCount": 26,
+    "categories": [
+      "Beverages",
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Safeway Inc.",
+    "slug": "safeway-inc.",
+    "productCount": 26,
+    "categories": [
+      "Bakery",
+      "Candy",
+      "Coffee",
+      "Fruits",
+      "Meat"
+    ]
+  },
+  {
+    "name": "Great Value",
+    "slug": "great-value",
+    "productCount": 25,
+    "categories": [
+      "Beverages",
+      "Cooking Oil",
+      "Fruits",
+      "Instant Noodles",
+      "Meat"
+    ]
+  },
+  {
+    "name": "Sweet Baby Ray's",
+    "slug": "sweet-baby-ray's",
+    "productCount": 25,
+    "categories": [
+      "Meat",
+      "Sauce",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Heinen's",
+    "slug": "heinen's",
+    "productCount": 25,
+    "categories": [
+      "Cooking Oil",
+      "Fruits",
+      "Meat",
+      "Milk",
+      "Rice"
+    ]
+  },
+  {
+    "name": "Foco",
+    "slug": "foco",
+    "productCount": 23,
+    "categories": [
+      "Beverages",
+      "Fruits",
+      "Milk",
+      "Rice"
+    ]
+  },
+  {
+    "name": "Pure Leaf",
+    "slug": "pure-leaf",
+    "productCount": 23,
+    "categories": [
+      "Fruits",
+      "Tea"
+    ]
+  },
+  {
+    "name": "Big Y",
+    "slug": "big-y",
+    "productCount": 23,
+    "categories": [
+      "Bakery",
+      "Beverages",
+      "Fruits",
+      "Meat",
+      "Milk"
+    ]
+  },
+  {
+    "name": "La Croix",
+    "slug": "la-croix",
+    "productCount": 22,
+    "categories": [
+      "Beverages",
+      "Fruits",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Breakstone's",
+    "slug": "breakstone's",
+    "productCount": 22,
+    "categories": [
+      "Fruits",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Crous Languedoc Roussillon, Crous Resto'",
+    "slug": "crous-languedoc-roussillon,-crous-resto'",
+    "productCount": 21,
+    "categories": [
+      "Fruits",
+      "Meat",
+      "Milk",
+      "Sauce",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Tic Tac",
+    "slug": "tic-tac",
+    "productCount": 21,
+    "categories": [
+      "Candy",
+      "Fruits",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Aroy-D",
+    "slug": "aroy-d",
+    "productCount": 21,
+    "categories": [
+      "Beverages",
+      "Fruits",
+      "Milk",
+      "Rice",
+      "Sauce"
+    ]
+  },
+  {
+    "name": "Sainsbury’s",
+    "slug": "sainsbury’s",
+    "productCount": 20,
+    "categories": [
+      "Beverages",
+      "Coffee",
+      "Cooking Oil",
+      "Fruits",
+      "Instant Noodles"
+    ]
+  },
+  {
+    "name": "Wholesome",
+    "slug": "wholesome",
+    "productCount": 20,
+    "categories": [
+      "Bakery",
+      "Beverages",
+      "Candy",
+      "Fruits",
+      "Seafood"
+    ]
+  },
+  {
+    "name": "Velveeta",
+    "slug": "velveeta",
+    "productCount": 20,
+    "categories": [
+      "Instant Noodles",
+      "Meat",
+      "Milk",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Signature Cafe",
+    "slug": "signature-cafe",
+    "productCount": 20,
+    "categories": [
+      "Bakery",
+      "Candy",
+      "Frozen Foods",
+      "Meat",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Marks And Spencer",
+    "slug": "marks-and-spencer",
+    "productCount": 19,
+    "categories": [
+      "Bakery",
+      "Fruits",
+      "Meat",
+      "Milk",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Restaurant Item",
+    "slug": "restaurant-item",
+    "productCount": 19,
+    "categories": [
+      "Bakery",
+      "Fruits",
+      "Milk",
+      "Seafood",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Kinder",
+    "slug": "kinder",
+    "productCount": 18,
+    "categories": [
+      "Bakery",
+      "Candy",
+      "Milk",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Annie's Homegrown",
+    "slug": "annie's-homegrown",
+    "productCount": 18,
+    "categories": [
+      "Fruits",
+      "Milk",
+      "Rice",
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Signature SELECT",
+    "slug": "signature-select",
+    "productCount": 18,
+    "categories": [
+      "Beverages",
+      "Instant Noodles",
+      "Meat",
+      "Milk",
+      "Rice"
+    ]
+  },
+  {
+    "name": "More",
+    "slug": "more",
+    "productCount": 17,
+    "categories": [
+      "Bakery",
+      "Fruits",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Foodtown",
+    "slug": "foodtown",
+    "productCount": 17,
+    "categories": [
+      "Cooking Oil",
+      "Fruits",
+      "Milk",
+      "Sauce",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Charms",
+    "slug": "charms",
+    "productCount": 17,
+    "categories": [
+      "Candy",
+      "Fruits",
+      "Milk",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Bar-S",
+    "slug": "bar-s",
+    "productCount": 17,
+    "categories": [
+      "Meat"
+    ]
+  },
+  {
+    "name": "Morton & Bassett Spices",
+    "slug": "morton-&-bassett-spices",
+    "productCount": 17,
+    "categories": [
+      "Sauce",
+      "Seasoning",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Green Giant",
+    "slug": "green-giant",
+    "productCount": 17,
+    "categories": [
+      "Frozen Foods",
+      "Milk",
+      "Tea",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Walkers",
+    "slug": "walkers",
+    "productCount": 16,
+    "categories": [
+      "Meat",
+      "Milk",
+      "Sauce",
+      "Seafood",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "M&S Eat Well",
+    "slug": "m&s-eat-well",
+    "productCount": 16,
+    "categories": [
+      "Bakery",
+      "Fruits",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Mahatma",
+    "slug": "mahatma",
+    "productCount": 16,
+    "categories": [
+      "Rice"
+    ]
+  },
+  {
+    "name": "Lucerne, Safeway Inc.",
+    "slug": "lucerne,-safeway-inc.",
+    "productCount": 16,
+    "categories": [
+      "Candy",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Signature select",
+    "slug": "signature-select",
+    "productCount": 16,
+    "categories": [
+      "Bakery",
+      "Frozen Foods",
+      "Fruits",
+      "Meat",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Hacendado",
+    "slug": "hacendado",
+    "productCount": 15,
+    "categories": [
+      "Bakery",
+      "Candy",
+      "Fruits",
+      "Meat",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Simple truth",
+    "slug": "simple-truth",
+    "productCount": 15,
+    "categories": [
+      "Bakery",
+      "Coffee",
+      "Frozen Foods",
+      "Fruits",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Dynasty",
+    "slug": "dynasty",
+    "productCount": 15,
+    "categories": [
+      "Bakery",
+      "Beverages",
+      "Cooking Oil",
+      "Rice",
+      "Sauce"
+    ]
+  },
+  {
+    "name": "Cracker Barrel",
+    "slug": "cracker-barrel",
+    "productCount": 15,
+    "categories": [
+      "Milk",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Kazidomi",
+    "slug": "kazidomi",
+    "productCount": 14,
+    "categories": [
+      "Fruits",
+      "Sauce",
+      "Seasoning",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Bofrost",
+    "slug": "bofrost",
+    "productCount": 14,
+    "categories": [
+      "Beverages",
+      "Frozen Foods",
+      "Fruits",
+      "Meat",
+      "Milk"
+    ]
+  },
+  {
+    "name": "De Nigris",
+    "slug": "de-nigris",
+    "productCount": 14,
+    "categories": [
+      "Fruits",
+      "Sauce"
+    ]
+  },
+  {
+    "name": "Slimfast",
+    "slug": "slimfast",
+    "productCount": 14,
+    "categories": [
+      "Beverages",
+      "Candy",
+      "Frozen Foods",
+      "Milk",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Tetley",
+    "slug": "tetley",
+    "productCount": 14,
+    "categories": [
+      "Fruits",
+      "Tea"
+    ]
+  },
+  {
+    "name": "McIlhenny Company, Tabasco",
+    "slug": "mcilhenny-company,-tabasco",
+    "productCount": 14,
+    "categories": [
+      "Sauce",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Foco, Thai Agri Foods Co. Ltd.",
+    "slug": "foco,-thai-agri-foods-co.-ltd.",
+    "productCount": 14,
+    "categories": [
+      "Beverages",
+      "Fruits",
+      "Tea"
+    ]
+  },
+  {
+    "name": "Minute",
+    "slug": "minute",
+    "productCount": 14,
+    "categories": [
+      "Fruits",
+      "Meat",
+      "Milk",
+      "Rice",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Fiorucci",
+    "slug": "fiorucci",
+    "productCount": 14,
+    "categories": [
+      "Meat",
+      "Milk",
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Elmhurst",
+    "slug": "elmhurst",
+    "productCount": 14,
+    "categories": [
+      "Beverages",
+      "Milk",
+      "Rice"
+    ]
+  },
+  {
+    "name": "Philadelphia",
+    "slug": "philadelphia",
+    "productCount": 13,
+    "categories": [
+      "Milk",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Emerald",
+    "slug": "emerald",
+    "productCount": 13,
+    "categories": [
+      "Candy",
+      "Fruits",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Smarties",
+    "slug": "smarties",
+    "productCount": 13,
+    "categories": [
+      "Candy",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "BIRDS EYE",
+    "slug": "birds-eye",
+    "productCount": 13,
+    "categories": [
+      "Frozen Foods",
+      "Meat",
+      "Sauce",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Primo Taglio",
+    "slug": "primo-taglio",
+    "productCount": 13,
+    "categories": [
+      "Fruits",
+      "Meat",
+      "Milk",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Ferrero",
+    "slug": "ferrero",
+    "productCount": 12,
+    "categories": [
+      "Beverages",
+      "Candy",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Marks and Spencer",
+    "slug": "marks-and-spencer",
+    "productCount": 12,
+    "categories": [
+      "Bakery",
+      "Fruits",
+      "Meat",
+      "Milk",
+      "Seafood"
+    ]
+  },
+  {
+    "name": "Reese's",
+    "slug": "reese's",
+    "productCount": 12,
+    "categories": [
+      "Candy",
+      "Milk",
+      "Rice",
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "The Kroger Co., Kroger",
+    "slug": "the-kroger-co.,-kroger",
+    "productCount": 12,
+    "categories": [
+      "Bakery",
+      "Cooking Oil",
+      "Fruits",
+      "Meat",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Roundy's",
+    "slug": "roundy's",
+    "productCount": 12,
+    "categories": [
+      "Fruits",
+      "Meat",
+      "Milk",
+      "Seafood",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Jfc International Inc.",
+    "slug": "jfc-international-inc.",
+    "productCount": 12,
+    "categories": [
+      "Beverages",
+      "Candy",
+      "Fruits",
+      "Instant Noodles",
+      "Rice"
+    ]
+  },
+  {
+    "name": "Sartori",
+    "slug": "sartori",
+    "productCount": 12,
+    "categories": [
+      "Fruits",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Rice A Roni",
+    "slug": "rice-a-roni",
+    "productCount": 12,
+    "categories": [
+      "Fruits",
+      "Meat",
+      "Milk",
+      "Rice",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Chex",
+    "slug": "chex",
+    "productCount": 12,
+    "categories": [
+      "Bakery",
+      "Fruits",
+      "Milk",
+      "Rice",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Safeway Kitchens, Safeway Inc.",
+    "slug": "safeway-kitchens,-safeway-inc.",
+    "productCount": 12,
+    "categories": [
+      "Bakery",
+      "Cooking Oil",
+      "Fruits",
+      "Meat",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Trader Joe’s",
+    "slug": "trader-joe’s",
+    "productCount": 11,
+    "categories": [
+      "Bakery",
+      "Fruits",
+      "Milk",
+      "Rice",
+      "Sauce"
+    ]
+  },
+  {
+    "name": "Jean Rozé",
+    "slug": "jean-rozé",
+    "productCount": 11,
+    "categories": [
+      "Meat"
+    ]
+  },
+  {
+    "name": "Nestlé",
+    "slug": "nestlé",
+    "productCount": 11,
+    "categories": [
+      "Candy",
+      "Frozen Foods",
+      "Milk",
+      "Rice",
+      "Sauce"
+    ]
+  },
+  {
+    "name": "Ferrero Rocher",
+    "slug": "ferrero-rocher",
+    "productCount": 11,
+    "categories": [
+      "Candy",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Rummo",
+    "slug": "rummo",
+    "productCount": 11,
+    "categories": [
+      "Instant Noodles",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Private selection",
+    "slug": "private-selection",
+    "productCount": 11,
+    "categories": [
+      "Bakery",
+      "Beverages",
+      "Fruits",
+      "Meat",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Martha White",
+    "slug": "martha-white",
+    "productCount": 11,
+    "categories": [
+      "Bakery",
+      "Candy",
+      "Fruits",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Western Family",
+    "slug": "western-family",
+    "productCount": 11,
+    "categories": [
+      "Beverages",
+      "Candy",
+      "Fruits",
+      "Meat",
+      "Rice"
+    ]
+  },
+  {
+    "name": "Chex Mix",
+    "slug": "chex-mix",
+    "productCount": 11,
+    "categories": [
+      "Bakery",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Kraft, Heinz",
+    "slug": "kraft,-heinz",
+    "productCount": 11,
+    "categories": [
+      "Cooking Oil",
+      "Fruits",
+      "Milk",
+      "Sauce"
+    ]
+  },
+  {
+    "name": "Waterfront Bistro",
+    "slug": "waterfront-bistro",
+    "productCount": 11,
+    "categories": [
+      "Sauce",
+      "Seafood",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Crous Resto'",
+    "slug": "crous-resto'",
+    "productCount": 10,
+    "categories": [
+      "Bakery",
+      "Candy",
+      "Meat",
+      "Rice",
+      "Sauce"
+    ]
+  },
+  {
+    "name": "Becel",
+    "slug": "becel",
+    "productCount": 10,
+    "categories": [
+      "Cooking Oil",
+      "Milk",
+      "Seasoning"
+    ]
+  },
+  {
+    "name": "Trolli",
+    "slug": "trolli",
+    "productCount": 10,
+    "categories": [
+      "Candy",
+      "Fruits",
+      "Seafood",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "M&S FOOD",
+    "slug": "m&s-food",
+    "productCount": 10,
+    "categories": [
+      "Bakery",
+      "Fruits",
+      "Milk",
+      "Sauce",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Nuovo Pasta",
+    "slug": "nuovo-pasta",
+    "productCount": 10,
+    "categories": [
+      "Instant Noodles",
+      "Meat",
+      "Milk",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Hungry Jack",
+    "slug": "hungry-jack",
+    "productCount": 10,
+    "categories": [
+      "Bakery",
+      "Beverages",
+      "Milk",
+      "Sauce",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Bubly",
+    "slug": "bubly",
+    "productCount": 10,
+    "categories": [
+      "Beverages",
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Ore-Ida",
+    "slug": "ore-ida",
+    "productCount": 10,
+    "categories": [
+      "Frozen Foods",
+      "Meat",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Bar S",
+    "slug": "bar-s",
+    "productCount": 10,
+    "categories": [
+      "Meat"
+    ]
+  },
+  {
+    "name": "Cheerios, General Mills",
+    "slug": "cheerios,-general-mills",
+    "productCount": 10,
+    "categories": [
+      "Rice"
+    ]
+  },
+  {
+    "name": "Nature valley",
+    "slug": "nature-valley",
+    "productCount": 10,
+    "categories": [
+      "Candy",
+      "Fruits",
+      "Milk",
+      "Rice",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Kashi 🇺🇸Solana Beach California",
+    "slug": "kashi-🇺🇸solana-beach-california",
+    "productCount": 10,
+    "categories": [
+      "Candy",
+      "Fruits",
+      "Rice",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Fruit2O",
+    "slug": "fruit2o",
+    "productCount": 10,
+    "categories": [
+      "Beverages",
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Safeway Kitchens",
+    "slug": "safeway-kitchens",
+    "productCount": 10,
+    "categories": [
+      "Beverages",
+      "Fruits",
+      "Meat",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Bijou",
+    "slug": "bijou",
+    "productCount": 9,
+    "categories": [
+      "Bakery",
+      "Tea"
+    ]
+  },
+  {
+    "name": "Cofféa",
+    "slug": "cofféa",
+    "productCount": 9,
+    "categories": [
+      "Bakery",
+      "Cooking Oil",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Kroger,The Kroger Co.",
+    "slug": "kroger,the-kroger-co.",
+    "productCount": 9,
+    "categories": [
+      "Beverages",
+      "Cooking Oil",
+      "Fruits",
+      "Meat",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Smart Way",
+    "slug": "smart-way",
+    "productCount": 9,
+    "categories": [
+      "Bakery",
+      "Fruits",
+      "Meat",
+      "Milk",
+      "Sauce"
+    ]
+  },
+  {
+    "name": "Big Win",
+    "slug": "big-win",
+    "productCount": 9,
+    "categories": [
+      "Bakery",
+      "Beverages",
+      "Candy",
+      "Fruits",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Brisk",
+    "slug": "brisk",
+    "productCount": 9,
+    "categories": [
+      "Beverages",
+      "Fruits",
+      "Tea"
+    ]
+  },
+  {
+    "name": "Bare",
+    "slug": "bare",
+    "productCount": 9,
+    "categories": [
+      "Fruits",
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Pirate's Booty",
+    "slug": "pirate's-booty",
+    "productCount": 9,
+    "categories": [
+      "Milk",
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Meadow Gold",
+    "slug": "meadow-gold",
+    "productCount": 9,
+    "categories": [
+      "Beverages",
+      "Fruits",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Gardetto's",
+    "slug": "gardetto's",
+    "productCount": 9,
+    "categories": [
+      "Milk",
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Jack Links",
+    "slug": "jack-links",
+    "productCount": 9,
+    "categories": [
+      "Fruits",
+      "Meat",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Refreshe",
+    "slug": "refreshe",
+    "productCount": 9,
+    "categories": [
+      "Beverages",
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Safeway",
+    "slug": "safeway",
+    "productCount": 9,
+    "categories": [
+      "Fruits",
+      "Meat",
+      "Milk",
+      "Sauce",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Lidl",
+    "slug": "lidl",
+    "productCount": 8,
+    "categories": [
+      "Bakery",
+      "Candy",
+      "Rice",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Bama dagligvare as",
+    "slug": "bama-dagligvare-as",
+    "productCount": 8,
+    "categories": [
+      "Fruits",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "TRADER JOE'S",
+    "slug": "trader-joe's",
+    "productCount": 8,
+    "categories": [
+      "Candy",
+      "Meat",
+      "Milk",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Trader Giotto's",
+    "slug": "trader-giotto's",
+    "productCount": 8,
+    "categories": [
+      "Cooking Oil",
+      "Frozen Foods",
+      "Sauce",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Nabisco",
+    "slug": "nabisco",
+    "productCount": 8,
+    "categories": [
+      "Bakery",
+      "Milk",
+      "Rice",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "PRIVATE SELECTION",
+    "slug": "private-selection",
+    "productCount": 8,
+    "categories": [
+      "Bakery",
+      "Beverages",
+      "Fruits",
+      "Instant Noodles",
+      "Meat"
+    ]
+  },
+  {
+    "name": "Brach's",
+    "slug": "brach's",
+    "productCount": 8,
+    "categories": [
+      "Candy",
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Tim's",
+    "slug": "tim's",
+    "productCount": 8,
+    "categories": [
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Lipton, Unilever",
+    "slug": "lipton,-unilever",
+    "productCount": 8,
+    "categories": [
+      "Fruits",
+      "Tea"
+    ]
+  },
+  {
+    "name": "Diamond Crystal",
+    "slug": "diamond-crystal",
+    "productCount": 8,
+    "categories": [
+      "Seasoning"
+    ]
+  },
+  {
+    "name": "Vital Pursuit",
+    "slug": "vital-pursuit",
+    "productCount": 8,
+    "categories": [
+      "Meat",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "SPARKLING ICE",
+    "slug": "sparkling-ice",
+    "productCount": 8,
+    "categories": [
+      "Beverages",
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Clover Valley",
+    "slug": "clover-valley",
+    "productCount": 8,
+    "categories": [
+      "Candy",
+      "Fruits",
+      "Meat",
+      "Milk",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Turkey Hill Dairy Inc.",
+    "slug": "turkey-hill-dairy-inc.",
+    "productCount": 8,
+    "categories": [
+      "Beverages",
+      "Fruits",
+      "Tea"
+    ]
+  },
+  {
+    "name": "Signature Select, Safeway Inc.",
+    "slug": "signature-select,-safeway-inc.",
+    "productCount": 8,
+    "categories": [
+      "Bakery",
+      "Coffee",
+      "Milk",
+      "Sauce",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Milka",
+    "slug": "milka",
+    "productCount": 7,
+    "categories": [
+      "Fruits",
+      "Milk",
+      "Snacks",
+      "Tea"
+    ]
+  },
+  {
+    "name": "Nutella",
+    "slug": "nutella",
+    "productCount": 7,
+    "categories": [
+      "Bakery",
+      "Candy"
+    ]
+  },
+  {
+    "name": "Barilla",
+    "slug": "barilla",
+    "productCount": 7,
+    "categories": [
+      "Instant Noodles",
+      "Sauce"
+    ]
+  },
+  {
+    "name": "Sainsbury's,by sainsbury's",
+    "slug": "sainsbury's,by-sainsbury's",
+    "productCount": 7,
+    "categories": [
+      "Bakery",
+      "Fruits",
+      "Rice",
+      "Seasoning",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Purdys",
+    "slug": "purdys",
+    "productCount": 7,
+    "categories": [
+      "Candy",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Bulk",
+    "slug": "bulk",
+    "productCount": 7,
+    "categories": [
+      "Bakery",
+      "Fruits",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Cheetos",
+    "slug": "cheetos",
+    "productCount": 7,
+    "categories": [
+      "Bakery",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Carapelli",
+    "slug": "carapelli",
+    "productCount": 7,
+    "categories": [
+      "Cooking Oil"
+    ]
+  },
+  {
+    "name": "Lindt & Sprüngli",
+    "slug": "lindt-&-sprüngli",
+    "productCount": 7,
+    "categories": [
+      "Candy",
+      "Fruits",
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Jolly Rancher",
+    "slug": "jolly-rancher",
+    "productCount": 7,
+    "categories": [
+      "Candy",
+      "Fruits",
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Private Selection, The Kroger Co.",
+    "slug": "private-selection,-the-kroger-co.",
+    "productCount": 7,
+    "categories": [
+      "Fruits",
+      "Milk",
+      "Sauce",
+      "Seafood",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Hawaiian",
+    "slug": "hawaiian",
+    "productCount": 7,
+    "categories": [
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Karen's Naturals",
+    "slug": "karen's-naturals",
+    "productCount": 7,
+    "categories": [
+      "Fruits"
+    ]
+  },
+  {
+    "name": "bare",
+    "slug": "bare",
+    "productCount": 7,
+    "categories": [
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Birds Eye Voila!",
+    "slug": "birds-eye-voila!",
+    "productCount": 7,
+    "categories": [
+      "Meat",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Wolf Brand",
+    "slug": "wolf-brand",
+    "productCount": 7,
+    "categories": [
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Sacla",
+    "slug": "sacla",
+    "productCount": 7,
+    "categories": [
+      "Sauce",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Swiss Miss",
+    "slug": "swiss-miss",
+    "productCount": 7,
+    "categories": [
+      "Beverages",
+      "Candy",
+      "Milk"
+    ]
+  },
+  {
+    "name": "C&H",
+    "slug": "c&h",
+    "productCount": 7,
+    "categories": [
+      "Seasoning"
+    ]
+  },
+  {
+    "name": "Garden of Eatin'",
+    "slug": "garden-of-eatin'",
+    "productCount": 7,
+    "categories": [
+      "Fruits",
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "BAR S",
+    "slug": "bar-s",
+    "productCount": 7,
+    "categories": [
+      "Meat"
+    ]
+  },
+  {
+    "name": "Lucky Charms",
+    "slug": "lucky-charms",
+    "productCount": 7,
+    "categories": [
+      "Candy",
+      "Rice",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Thai Agri Foods Public Company Limited",
+    "slug": "thai-agri-foods-public-company-limited",
+    "productCount": 7,
+    "categories": [
+      "Frozen Foods",
+      "Fruits",
+      "Sauce"
+    ]
+  },
+  {
+    "name": "Hills Bros.",
+    "slug": "hills-bros.",
+    "productCount": 7,
+    "categories": [
+      "Beverages",
+      "Coffee"
+    ]
+  },
+  {
+    "name": "Big Y, Big Y Foods Inc.",
+    "slug": "big-y,-big-y-foods-inc.",
+    "productCount": 7,
+    "categories": [
+      "Bakery",
+      "Cooking Oil",
+      "Meat",
+      "Milk",
+      "Rice"
+    ]
+  },
+  {
+    "name": "Carrefour",
+    "slug": "carrefour",
+    "productCount": 6,
+    "categories": [
+      "Candy",
+      "Fruits",
+      "Meat",
+      "Milk",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Nestle",
+    "slug": "nestle",
+    "productCount": 6,
+    "categories": [
+      "Beverages",
+      "Milk",
+      "Rice"
+    ]
+  },
+  {
+    "name": "Aldi",
+    "slug": "aldi",
+    "productCount": 6,
+    "categories": [
+      "Beverages",
+      "Meat",
+      "Milk",
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Crous Languedoc Roussillon",
+    "slug": "crous-languedoc-roussillon",
+    "productCount": 6,
+    "categories": [
+      "Bakery",
+      "Meat",
+      "Milk",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Monoprix",
+    "slug": "monoprix",
+    "productCount": 6,
+    "categories": [
+      "Fruits",
+      "Meat",
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Bulk Powders",
+    "slug": "bulk-powders",
+    "productCount": 6,
+    "categories": [
+      "Candy",
+      "Fruits",
+      "Milk",
+      "Rice"
+    ]
+  },
+  {
+    "name": "N/A",
+    "slug": "n-a",
+    "productCount": 6,
+    "categories": [
+      "Fruits",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "M&S, Marks & Spencer",
+    "slug": "m&s,-marks-&-spencer",
+    "productCount": 6,
+    "categories": [
+      "Bakery",
+      "Fruits",
+      "Meat",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Butternut Mountain Farm",
+    "slug": "butternut-mountain-farm",
+    "productCount": 6,
+    "categories": [
+      "Beverages",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Lindt,Lindor",
+    "slug": "lindt,lindor",
+    "productCount": 6,
+    "categories": [
+      "Candy",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Lindt, Lindt & Sprungli (Schweiz) Ag",
+    "slug": "lindt,-lindt-&-sprungli-(schweiz)-ag",
+    "productCount": 6,
+    "categories": [
+      "Candy",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Celeste",
+    "slug": "celeste",
+    "productCount": 6,
+    "categories": [
+      "Bakery",
+      "Meat",
+      "Milk",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "kroger",
+    "slug": "kroger",
+    "productCount": 6,
+    "categories": [
+      "Bakery",
+      "Beverages",
+      "Meat",
+      "Milk",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Fred Meyer",
+    "slug": "fred-meyer",
+    "productCount": 6,
+    "categories": [
+      "Meat",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Wel-Pac",
+    "slug": "wel-pac",
+    "productCount": 6,
+    "categories": [
+      "Instant Noodles",
+      "Seafood",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Nishiki",
+    "slug": "nishiki",
+    "productCount": 6,
+    "categories": [
+      "Rice"
+    ]
+  },
+  {
+    "name": "J-Basket",
+    "slug": "j-basket",
+    "productCount": 6,
+    "categories": [
+      "Instant Noodles",
+      "Meat",
+      "Seafood",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Shurfine",
+    "slug": "shurfine",
+    "productCount": 6,
+    "categories": [
+      "Bakery",
+      "Fruits",
+      "Meat",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Brach's, Ferrara Candy Company",
+    "slug": "brach's,-ferrara-candy-company",
+    "productCount": 6,
+    "categories": [
+      "Candy",
+      "Fruits",
+      "Milk",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Vermont Creamery",
+    "slug": "vermont-creamery",
+    "productCount": 6,
+    "categories": [
+      "Milk"
+    ]
+  },
+  {
+    "name": "bubly",
+    "slug": "bubly",
+    "productCount": 6,
+    "categories": [
+      "Beverages",
+      "Fruits",
+      "Tea"
+    ]
+  },
+  {
+    "name": "Bonlac",
+    "slug": "bonlac",
+    "productCount": 6,
+    "categories": [
+      "Beverages",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Annie’s",
+    "slug": "annie’s",
+    "productCount": 6,
+    "categories": [
+      "Candy",
+      "Fruits",
+      "Meat",
+      "Milk",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Pepperidge Farm Farmhouse",
+    "slug": "pepperidge-farm-farmhouse",
+    "productCount": 6,
+    "categories": [
+      "Bakery",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Asian Home Gourmet",
+    "slug": "asian-home-gourmet",
+    "productCount": 6,
+    "categories": [
+      "Frozen Foods",
+      "Meat",
+      "Sauce"
+    ]
+  },
+  {
+    "name": "Rice-A-Roni",
+    "slug": "rice-a-roni",
+    "productCount": 6,
+    "categories": [
+      "Meat",
+      "Milk",
+      "Rice"
+    ]
+  },
+  {
+    "name": "Pasta Roni",
+    "slug": "pasta-roni",
+    "productCount": 6,
+    "categories": [
+      "Milk",
+      "Sauce",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Rouses Markets",
+    "slug": "rouses-markets",
+    "productCount": 6,
+    "categories": [
+      "Beverages",
+      "Milk",
+      "Seasoning",
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "NATURE VALLEY",
+    "slug": "nature-valley",
+    "productCount": 6,
+    "categories": [
+      "Candy",
+      "Fruits",
+      "Milk",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Betty crocker",
+    "slug": "betty-crocker",
+    "productCount": 6,
+    "categories": [
+      "Candy",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Sweet Earth",
+    "slug": "sweet-earth",
+    "productCount": 6,
+    "categories": [
+      "Frozen Foods",
+      "Meat",
+      "Milk",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Success",
+    "slug": "success",
+    "productCount": 6,
+    "categories": [
+      "Fruits",
+      "Rice"
+    ]
+  },
+  {
+    "name": "Carolina Rice",
+    "slug": "carolina-rice",
+    "productCount": 6,
+    "categories": [
+      "Rice"
+    ]
+  },
+  {
+    "name": "Optavia",
+    "slug": "optavia",
+    "productCount": 6,
+    "categories": [
+      "Bakery",
+      "Candy",
+      "Fruits",
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Mountain Man Nut & Fruit Co.",
+    "slug": "mountain-man-nut-&-fruit-co.",
+    "productCount": 6,
+    "categories": [
+      "Candy",
+      "Fruits",
+      "Seasoning",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Turkey Hill, Turkey Hill Dairy Inc.",
+    "slug": "turkey-hill,-turkey-hill-dairy-inc.",
+    "productCount": 6,
+    "categories": [
+      "Fruits",
+      "Tea"
+    ]
+  },
+  {
+    "name": "Chobani",
+    "slug": "chobani",
+    "productCount": 5,
+    "categories": [
+      "Fruits",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Fleury Michon",
+    "slug": "fleury-michon",
+    "productCount": 5,
+    "categories": [
+      "Meat",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "bofrost",
+    "slug": "bofrost",
+    "productCount": 5,
+    "categories": [
+      "Meat",
+      "Milk",
+      "Rice",
+      "Seafood"
+    ]
+  },
+  {
+    "name": "Isagenix",
+    "slug": "isagenix",
+    "productCount": 5,
+    "categories": [
+      "Beverages",
+      "Candy",
+      "Meat",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Morrisons",
+    "slug": "morrisons",
+    "productCount": 5,
+    "categories": [
+      "Cooking Oil",
+      "Fruits",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Oreo",
+    "slug": "oreo",
+    "productCount": 5,
+    "categories": [
+      "Bakery",
+      "Candy",
+      "Fruits",
+      "Milk"
+    ]
+  },
+  {
+    "name": "allplants",
+    "slug": "allplants",
+    "productCount": 5,
+    "categories": [
+      "Bakery",
+      "Frozen Foods",
+      "Instant Noodles",
+      "Milk",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Kellogg's",
+    "slug": "kellogg's",
+    "productCount": 5,
+    "categories": [
+      "Milk",
+      "Rice",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Simply M&S",
+    "slug": "simply-m&s",
+    "productCount": 5,
+    "categories": [
+      "Bakery",
+      "Fruits",
+      "Meat",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Marián",
+    "slug": "marián",
+    "productCount": 5,
+    "categories": [
+      "Bakery",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Kirkland",
+    "slug": "kirkland",
+    "productCount": 5,
+    "categories": [
+      "Fruits",
+      "Meat",
+      "Sauce"
+    ]
+  },
+  {
+    "name": "Tesco",
+    "slug": "tesco",
+    "productCount": 5,
+    "categories": [
+      "Fruits",
+      "Instant Noodles",
+      "Seasoning",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "SlimFast",
+    "slug": "slimfast",
+    "productCount": 5,
+    "categories": [
+      "Coffee",
+      "Cooking Oil",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Mt. Olive Pickle Company Inc.",
+    "slug": "mt.-olive-pickle-company-inc.",
+    "productCount": 5,
+    "categories": [
+      "Fruits",
+      "Meat",
+      "Milk",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Lindt, Lindt & Sprungli (Usa) Inc.",
+    "slug": "lindt,-lindt-&-sprungli-(usa)-inc.",
+    "productCount": 5,
+    "categories": [
+      "Candy",
+      "Fruits",
+      "Milk",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Ferrero, Ferrero U.S.A. Incorporated",
+    "slug": "ferrero,-ferrero-u.s.a.-incorporated",
+    "productCount": 5,
+    "categories": [
+      "Candy"
+    ]
+  },
+  {
+    "name": "King Soopers",
+    "slug": "king-soopers",
+    "productCount": 5,
+    "categories": [
+      "Coffee",
+      "Meat",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Simple truth organic",
+    "slug": "simple-truth-organic",
+    "productCount": 5,
+    "categories": [
+      "Fruits",
+      "Milk",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "The Kroger Co., Simple Truth Organic",
+    "slug": "the-kroger-co.,-simple-truth-organic",
+    "productCount": 5,
+    "categories": [
+      "Fruits",
+      "Milk",
+      "Sauce",
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Simple Truth, The Kroger Co.",
+    "slug": "simple-truth,-the-kroger-co.",
+    "productCount": 5,
+    "categories": [
+      "Beverages",
+      "Fruits",
+      "Meat",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Bakery Fresh Goodness",
+    "slug": "bakery-fresh-goodness",
+    "productCount": 5,
+    "categories": [
+      "Bakery",
+      "Candy",
+      "Fruits",
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Bakery Fresh",
+    "slug": "bakery-fresh",
+    "productCount": 5,
+    "categories": [
+      "Bakery",
+      "Candy",
+      "Fruits",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Dynasty, Jfc International Inc.",
+    "slug": "dynasty,-jfc-international-inc.",
+    "productCount": 5,
+    "categories": [
+      "Cooking Oil",
+      "Meat",
+      "Rice",
+      "Seafood",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Ajishima Foods Co. Ltd.",
+    "slug": "ajishima-foods-co.-ltd.",
+    "productCount": 5,
+    "categories": [
+      "Rice"
+    ]
+  },
+  {
+    "name": "Hapi",
+    "slug": "hapi",
+    "productCount": 5,
+    "categories": [
+      "Candy",
+      "Fruits",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Pinnacle Foods Group Llc",
+    "slug": "pinnacle-foods-group-llc",
+    "productCount": 5,
+    "categories": [
+      "Rice",
+      "Seafood",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Mrs. Paul's",
+    "slug": "mrs.-paul's",
+    "productCount": 5,
+    "categories": [
+      "Bakery",
+      "Beverages",
+      "Seafood"
+    ]
+  },
+  {
+    "name": "Yami",
+    "slug": "yami",
+    "productCount": 5,
+    "categories": [
+      "Fruits",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Zoi",
+    "slug": "zoi",
+    "productCount": 5,
+    "categories": [
+      "Fruits",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Rite Aid Corporation",
+    "slug": "rite-aid-corporation",
+    "productCount": 5,
+    "categories": [
+      "Beverages",
+      "Fruits",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Big Win, Rite Aid Corporation",
+    "slug": "big-win,-rite-aid-corporation",
+    "productCount": 5,
+    "categories": [
+      "Beverages",
+      "Fruits",
+      "Snacks",
+      "Tea"
+    ]
+  },
+  {
+    "name": "La Anita",
+    "slug": "la-anita",
+    "productCount": 5,
+    "categories": [
+      "Meat",
+      "Sauce",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Stouffers",
+    "slug": "stouffers",
+    "productCount": 5,
+    "categories": [
+      "Frozen Foods",
+      "Instant Noodles",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Bare, Bare Snacks",
+    "slug": "bare,-bare-snacks",
+    "productCount": 5,
+    "categories": [
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Mighties",
+    "slug": "mighties",
+    "productCount": 5,
+    "categories": [
+      "Fruits"
+    ]
+  },
+  {
+    "name": "MOTT'S",
+    "slug": "mott's",
+    "productCount": 5,
+    "categories": [
+      "Candy",
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Hawaiian Punch",
+    "slug": "hawaiian-punch",
+    "productCount": 5,
+    "categories": [
+      "Beverages",
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Creamette, Nwpc",
+    "slug": "creamette,-nwpc",
+    "productCount": 5,
+    "categories": [
+      "Instant Noodles",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Montebello",
+    "slug": "montebello",
+    "productCount": 5,
+    "categories": [
+      "Cooking Oil",
+      "Instant Noodles"
+    ]
+  },
+  {
+    "name": "Protein One",
+    "slug": "protein-one",
+    "productCount": 5,
+    "categories": [
+      "Candy",
+      "Fruits",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Bugles",
+    "slug": "bugles",
+    "productCount": 5,
+    "categories": [
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "AROY-D",
+    "slug": "aroy-d",
+    "productCount": 5,
+    "categories": [
+      "Fruits",
+      "Meat",
+      "Seasoning",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Schweppes",
+    "slug": "schweppes",
+    "productCount": 5,
+    "categories": [
+      "Beverages",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Lifeway, Lifeway Foods Inc.",
+    "slug": "lifeway,-lifeway-foods-inc.",
+    "productCount": 5,
+    "categories": [
+      "Fruits",
+      "Milk"
+    ]
+  },
+  {
+    "name": "JACK LINK'S",
+    "slug": "jack-link's",
+    "productCount": 5,
+    "categories": [
+      "Meat"
+    ]
+  },
+  {
+    "name": "Delimex",
+    "slug": "delimex",
+    "productCount": 5,
+    "categories": [
+      "Fruits",
+      "Meat"
+    ]
+  },
+  {
+    "name": "Blake's",
+    "slug": "blake's",
+    "productCount": 5,
+    "categories": [
+      "Frozen Foods",
+      "Meat"
+    ]
+  },
+  {
+    "name": "Red Star",
+    "slug": "red-star",
+    "productCount": 5,
+    "categories": [
+      "Bakery",
+      "Seasoning"
+    ]
+  },
+  {
+    "name": "San Luis Sourdough",
+    "slug": "san-luis-sourdough",
+    "productCount": 5,
+    "categories": [
+      "Bakery"
+    ]
+  },
+  {
+    "name": "Kashi GO",
+    "slug": "kashi-go",
+    "productCount": 5,
+    "categories": [
+      "Candy",
+      "Milk",
+      "Rice"
+    ]
+  },
+  {
+    "name": "Panera Bread",
+    "slug": "panera-bread",
+    "productCount": 5,
+    "categories": [
+      "Sauce",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Harmons",
+    "slug": "harmons",
+    "productCount": 5,
+    "categories": [
+      "Meat",
+      "Milk",
+      "Seasoning",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Taco Bell",
+    "slug": "taco-bell",
+    "productCount": 5,
+    "categories": [
+      "Meat",
+      "Sauce",
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Master Sales Company",
+    "slug": "master-sales-company",
+    "productCount": 5,
+    "categories": [
+      "Sauce",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Safeway Select, Safeway Inc.",
+    "slug": "safeway-select,-safeway-inc.",
+    "productCount": 5,
+    "categories": [
+      "Bakery",
+      "Beverages",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Signature Reserve",
+    "slug": "signature-reserve",
+    "productCount": 5,
+    "categories": [
+      "Candy",
+      "Instant Noodles",
+      "Sauce",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Signature, Safeway Inc.",
+    "slug": "signature,-safeway-inc.",
+    "productCount": 5,
+    "categories": [
+      "Beverages",
+      "Cooking Oil",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Member's Mark",
+    "slug": "member's-mark",
+    "productCount": 4,
+    "categories": [
+      "Milk",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Anthony's",
+    "slug": "anthony's",
+    "productCount": 4,
+    "categories": [
+      "Meat",
+      "Milk",
+      "Seasoning",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Intermarché",
+    "slug": "intermarché",
+    "productCount": 4,
+    "categories": [
+      "Bakery",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Pringles",
+    "slug": "pringles",
+    "productCount": 4,
+    "categories": [
+      "Milk",
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Dr. Oetker",
+    "slug": "dr.-oetker",
+    "productCount": 4,
+    "categories": [
+      "Candy",
+      "Milk",
+      "Sauce",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Ocean Mist Farms",
+    "slug": "ocean-mist-farms",
+    "productCount": 4,
+    "categories": [
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Skippy",
+    "slug": "skippy",
+    "productCount": 4,
+    "categories": [
+      "Milk",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Knorr",
+    "slug": "knorr",
+    "productCount": 4,
+    "categories": [
+      "Frozen Foods",
+      "Instant Noodles",
+      "Sauce"
+    ]
+  },
+  {
+    "name": "Pago",
+    "slug": "pago",
+    "productCount": 4,
+    "categories": [
+      "Beverages",
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Hellmann's",
+    "slug": "hellmann's",
+    "productCount": 4,
+    "categories": [
+      "Fruits",
+      "Sauce"
+    ]
+  },
+  {
+    "name": "LU",
+    "slug": "lu",
+    "productCount": 4,
+    "categories": [
+      "Bakery"
+    ]
+  },
+  {
+    "name": "Marks & Spencers",
+    "slug": "marks-&-spencers",
+    "productCount": 4,
+    "categories": [
+      "Bakery",
+      "Milk",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Cheerios,General Mills",
+    "slug": "cheerios,general-mills",
+    "productCount": 4,
+    "categories": [
+      "Fruits",
+      "Rice"
+    ]
+  },
+  {
+    "name": "M&S Collection",
+    "slug": "m&s-collection",
+    "productCount": 4,
+    "categories": [
+      "Fruits",
+      "Meat",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Auchan",
+    "slug": "auchan",
+    "productCount": 4,
+    "categories": [
+      "Personal Care",
+      "Rice",
+      "Sauce",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "M&s",
+    "slug": "m&s",
+    "productCount": 4,
+    "categories": [
+      "Fruits",
+      "Meat",
+      "Milk",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Kirkland Signature",
+    "slug": "kirkland-signature",
+    "productCount": 4,
+    "categories": [
+      "Beverages",
+      "Fruits",
+      "Milk",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "M&S Food, Marks & Spencer",
+    "slug": "m&s-food,-marks-&-spencer",
+    "productCount": 4,
+    "categories": [
+      "Candy",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Halo Top",
+    "slug": "halo-top",
+    "productCount": 4,
+    "categories": [
+      "Bakery",
+      "Candy",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Hela",
+    "slug": "hela",
+    "productCount": 4,
+    "categories": [
+      "Sauce"
+    ]
+  },
+  {
+    "name": "Lee Kum Kee",
+    "slug": "lee-kum-kee",
+    "productCount": 4,
+    "categories": [
+      "Sauce",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Acetificio Marcello Denigris, De Nigris",
+    "slug": "acetificio-marcello-denigris,-de-nigris",
+    "productCount": 4,
+    "categories": [
+      "Sauce"
+    ]
+  },
+  {
+    "name": "Slim fast",
+    "slug": "slim-fast",
+    "productCount": 4,
+    "categories": [
+      "Candy",
+      "Frozen Foods",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Wilkins Rogers Mills",
+    "slug": "wilkins-rogers-mills",
+    "productCount": 4,
+    "categories": [
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Leaf Inc.",
+    "slug": "leaf-inc.",
+    "productCount": 4,
+    "categories": [
+      "Milk",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Ling Ling",
+    "slug": "ling-ling",
+    "productCount": 4,
+    "categories": [
+      "Meat"
+    ]
+  },
+  {
+    "name": "Rummo Lenta Lavorazione",
+    "slug": "rummo-lenta-lavorazione",
+    "productCount": 4,
+    "categories": [
+      "Instant Noodles"
+    ]
+  },
+  {
+    "name": "Big K, The Kroger Co.",
+    "slug": "big-k,-the-kroger-co.",
+    "productCount": 4,
+    "categories": [
+      "Beverages",
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Simple Truth Organic, The Kroger Co.",
+    "slug": "simple-truth-organic,-the-kroger-co.",
+    "productCount": 4,
+    "categories": [
+      "Instant Noodles",
+      "Milk",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Kroger Carbmaster",
+    "slug": "kroger-carbmaster",
+    "productCount": 4,
+    "categories": [
+      "Bakery",
+      "Meat",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Kroeger",
+    "slug": "kroeger",
+    "productCount": 4,
+    "categories": [
+      "Fruits",
+      "Meat",
+      "Sauce"
+    ]
+  },
+  {
+    "name": "Unilever",
+    "slug": "unilever",
+    "productCount": 4,
+    "categories": [
+      "Cooking Oil",
+      "Fruits",
+      "Instant Noodles",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Roundys",
+    "slug": "roundys",
+    "productCount": 4,
+    "categories": [
+      "Milk"
+    ]
+  },
+  {
+    "name": "Kingston Marketing Co",
+    "slug": "kingston-marketing-co",
+    "productCount": 4,
+    "categories": [
+      "Milk"
+    ]
+  },
+  {
+    "name": "Culinary Tours",
+    "slug": "culinary-tours",
+    "productCount": 4,
+    "categories": [
+      "Meat",
+      "Sauce"
+    ]
+  },
+  {
+    "name": "JJ's Bakery",
+    "slug": "jj's-bakery",
+    "productCount": 4,
+    "categories": [
+      "Bakery",
+      "Fruits",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Aquafina",
+    "slug": "aquafina",
+    "productCount": 4,
+    "categories": [
+      "Beverages"
+    ]
+  },
+  {
+    "name": "STARBUCKS",
+    "slug": "starbucks",
+    "productCount": 4,
+    "categories": [
+      "Coffee",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Mtn Dew",
+    "slug": "mtn-dew",
+    "productCount": 4,
+    "categories": [
+      "Beverages"
+    ]
+  },
+  {
+    "name": "Conecuh",
+    "slug": "conecuh",
+    "productCount": 4,
+    "categories": [
+      "Meat",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Crown",
+    "slug": "crown",
+    "productCount": 4,
+    "categories": [
+      "Milk",
+      "Seasoning"
+    ]
+  },
+  {
+    "name": "Skinner",
+    "slug": "skinner",
+    "productCount": 4,
+    "categories": [
+      "Instant Noodles"
+    ]
+  },
+  {
+    "name": "Cream of Wheat",
+    "slug": "cream-of-wheat",
+    "productCount": 4,
+    "categories": [
+      "Milk"
+    ]
+  },
+  {
+    "name": "Stouffer’s",
+    "slug": "stouffer’s",
+    "productCount": 4,
+    "categories": [
+      "Bakery",
+      "Frozen Foods",
+      "Meat",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Pepperidge farm",
+    "slug": "pepperidge-farm",
+    "productCount": 4,
+    "categories": [
+      "Bakery",
+      "Seafood",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Pepperidge Farms",
+    "slug": "pepperidge-farms",
+    "productCount": 4,
+    "categories": [
+      "Bakery",
+      "Meat",
+      "Seafood",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Ritz",
+    "slug": "ritz",
+    "productCount": 4,
+    "categories": [
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Mott’s",
+    "slug": "mott’s",
+    "productCount": 4,
+    "categories": [
+      "Bakery",
+      "Fruits",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Hill & Valley",
+    "slug": "hill-&-valley",
+    "productCount": 4,
+    "categories": [
+      "Bakery",
+      "Fruits",
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Creamette",
+    "slug": "creamette",
+    "productCount": 4,
+    "categories": [
+      "Instant Noodles"
+    ]
+  },
+  {
+    "name": "Morey's",
+    "slug": "morey's",
+    "productCount": 4,
+    "categories": [
+      "Meat",
+      "Seafood"
+    ]
+  },
+  {
+    "name": "Leclerc",
+    "slug": "leclerc",
+    "productCount": 4,
+    "categories": [
+      "Bakery",
+      "Fruits",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Gold Medal",
+    "slug": "gold-medal",
+    "productCount": 4,
+    "categories": [
+      "Bakery",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Betty Crocker, General Mills",
+    "slug": "betty-crocker,-general-mills",
+    "productCount": 4,
+    "categories": [
+      "Bakery",
+      "Candy",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Ratio",
+    "slug": "ratio",
+    "productCount": 4,
+    "categories": [
+      "Candy"
+    ]
+  },
+  {
+    "name": "Nature Valley Protein",
+    "slug": "nature-valley-protein",
+    "productCount": 4,
+    "categories": [
+      "Candy",
+      "Fruits",
+      "Milk",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Betty Lou's",
+    "slug": "betty-lou's",
+    "productCount": 4,
+    "categories": [
+      "Fruits",
+      "Milk",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Aroy-D, Thai Agri Foods Public Company Limited",
+    "slug": "aroy-d,-thai-agri-foods-public-company-limited",
+    "productCount": 4,
+    "categories": [
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Citrus World Inc.",
+    "slug": "citrus-world-inc.",
+    "productCount": 4,
+    "categories": [
+      "Beverages",
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Sweet Earth Natural Foods",
+    "slug": "sweet-earth-natural-foods",
+    "productCount": 4,
+    "categories": [
+      "Frozen Foods",
+      "Meat",
+      "Milk"
+    ]
+  },
+  {
+    "name": "American Garden",
+    "slug": "american-garden",
+    "productCount": 4,
+    "categories": [
+      "Sauce",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Spice Islands",
+    "slug": "spice-islands",
+    "productCount": 4,
+    "categories": [
+      "Sauce",
+      "Seasoning",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Redmond",
+    "slug": "redmond",
+    "productCount": 4,
+    "categories": [
+      "Seasoning"
+    ]
+  },
+  {
+    "name": "Toft's, Toft Dairy Inc.",
+    "slug": "toft's,-toft-dairy-inc.",
+    "productCount": 4,
+    "categories": [
+      "Frozen Foods",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Clabber Girl",
+    "slug": "clabber-girl",
+    "productCount": 4,
+    "categories": [
+      "Beverages",
+      "Seasoning",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Beach Cliff",
+    "slug": "beach-cliff",
+    "productCount": 4,
+    "categories": [
+      "Seafood"
+    ]
+  },
+  {
+    "name": "Simply Potatoes",
+    "slug": "simply-potatoes",
+    "productCount": 4,
+    "categories": [
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Tofutti",
+    "slug": "tofutti",
+    "productCount": 4,
+    "categories": [
+      "Milk"
+    ]
+  },
+  {
+    "name": "Schneider's",
+    "slug": "schneider's",
+    "productCount": 4,
+    "categories": [
+      "Milk"
+    ]
+  },
+  {
+    "name": "Newman's Own, Newman's Own Inc.",
+    "slug": "newman's-own,-newman's-own-inc.",
+    "productCount": 4,
+    "categories": [
+      "Fruits",
+      "Sauce",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Miracle Whip",
+    "slug": "miracle-whip",
+    "productCount": 4,
+    "categories": [
+      "Sauce",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Kraft Heinz",
+    "slug": "kraft-heinz",
+    "productCount": 4,
+    "categories": [
+      "Milk",
+      "Sauce"
+    ]
+  },
+  {
+    "name": "Kraft Singles",
+    "slug": "kraft-singles",
+    "productCount": 4,
+    "categories": [
+      "Milk",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Lucerne,Safeway Inc.",
+    "slug": "lucerne,safeway-inc.",
+    "productCount": 4,
+    "categories": [
+      "Frozen Foods",
+      "Milk"
+    ]
+  },
+  {
+    "name": "open nature",
+    "slug": "open-nature",
+    "productCount": 4,
+    "categories": [
+      "Milk"
+    ]
+  },
+  {
+    "name": "Better Living Brands",
+    "slug": "better-living-brands",
+    "productCount": 4,
+    "categories": [
+      "Bakery",
+      "Candy",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Signature kitchens",
+    "slug": "signature-kitchens",
+    "productCount": 4,
+    "categories": [
+      "Meat",
+      "Milk",
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Refreshe, Safeway Inc.",
+    "slug": "refreshe,-safeway-inc.",
+    "productCount": 4,
+    "categories": [
+      "Beverages"
+    ]
+  },
+  {
+    "name": "Overjoyed",
+    "slug": "overjoyed",
+    "productCount": 4,
+    "categories": [
+      "Bakery",
+      "Candy",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "The Snack Artist",
+    "slug": "the-snack-artist",
+    "productCount": 4,
+    "categories": [
+      "Fruits",
+      "Milk",
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Marie Callender’s",
+    "slug": "marie-callender’s",
+    "productCount": 4,
+    "categories": [
+      "Meat",
+      "Sauce",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Liebig",
+    "slug": "liebig",
+    "productCount": 3,
+    "categories": [
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "GOMAN AS",
+    "slug": "goman-as",
+    "productCount": 3,
+    "categories": [
+      "Baby",
+      "Bakery",
+      "Sauce"
+    ]
+  },
+  {
+    "name": "Coop",
+    "slug": "coop",
+    "productCount": 3,
+    "categories": [
+      "Instant Noodles",
+      "Milk",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Crous",
+    "slug": "crous",
+    "productCount": 3,
+    "categories": [
+      "Meat",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Isla Délice",
+    "slug": "isla-délice",
+    "productCount": 3,
+    "categories": [
+      "Meat"
+    ]
+  },
+  {
+    "name": "Aroma zone",
+    "slug": "aroma-zone",
+    "productCount": 3,
+    "categories": [
+      "Tea"
+    ]
+  },
+  {
+    "name": "Newman’s Own",
+    "slug": "newman’s-own",
+    "productCount": 3,
+    "categories": [
+      "Frozen Foods",
+      "Fruits",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Candy Crush",
+    "slug": "candy-crush",
+    "productCount": 3,
+    "categories": [
+      "Seafood",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "saludviva",
+    "slug": "saludviva",
+    "productCount": 3,
+    "categories": [
+      "Fruits",
+      "Seasoning",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "WHYnature",
+    "slug": "whynature",
+    "productCount": 3,
+    "categories": [
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Jumbo",
+    "slug": "jumbo",
+    "productCount": 3,
+    "categories": [
+      "Cooking Oil"
+    ]
+  },
+  {
+    "name": "Bonduelle",
+    "slug": "bonduelle",
+    "productCount": 3,
+    "categories": [
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Pepsico",
+    "slug": "pepsico",
+    "productCount": 3,
+    "categories": [
+      "Beverages",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Marks and spencer",
+    "slug": "marks-and-spencer",
+    "productCount": 3,
+    "categories": [
+      "Meat",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "M & S",
+    "slug": "m-&-s",
+    "productCount": 3,
+    "categories": [
+      "Milk",
+      "Sauce",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Wheaties",
+    "slug": "wheaties",
+    "productCount": 3,
+    "categories": [
+      "Rice",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Bonne Maman",
+    "slug": "bonne-maman",
+    "productCount": 3,
+    "categories": [
+      "Tea"
+    ]
+  },
+  {
+    "name": "Sainsbury's taste the difference",
+    "slug": "sainsbury's-taste-the-difference",
+    "productCount": 3,
+    "categories": [
+      "Fruits",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Eatrite",
+    "slug": "eatrite",
+    "productCount": 3,
+    "categories": [
+      "Fruits",
+      "Rice",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Tropicana",
+    "slug": "tropicana",
+    "productCount": 3,
+    "categories": [
+      "Beverages",
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Conad",
+    "slug": "conad",
+    "productCount": 3,
+    "categories": [
+      "Bakery",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Marks & Spencer, Marks and Spencer",
+    "slug": "marks-&-spencer,-marks-and-spencer",
+    "productCount": 3,
+    "categories": [
+      "Bakery",
+      "Fruits",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Yoplait",
+    "slug": "yoplait",
+    "productCount": 3,
+    "categories": [
+      "Fruits",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Coffea",
+    "slug": "coffea",
+    "productCount": 3,
+    "categories": [
+      "Bakery",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Reed's",
+    "slug": "reed's",
+    "productCount": 3,
+    "categories": [
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Macarons de Pauline, Poppies, Poppies International",
+    "slug": "macarons-de-pauline,-poppies,-poppies-international",
+    "productCount": 3,
+    "categories": [
+      "Bakery"
+    ]
+  },
+  {
+    "name": "Trader Joes",
+    "slug": "trader-joes",
+    "productCount": 3,
+    "categories": [
+      "Candy",
+      "Meat"
+    ]
+  },
+  {
+    "name": "Lindt Excellence",
+    "slug": "lindt-excellence",
+    "productCount": 3,
+    "categories": [
+      "Candy"
+    ]
+  },
+  {
+    "name": "Lindt,Lindt & Sprungli (Schweiz) Ag",
+    "slug": "lindt,lindt-&-sprungli-(schweiz)-ag",
+    "productCount": 3,
+    "categories": [
+      "Candy"
+    ]
+  },
+  {
+    "name": "Lindt & Sprungli (Schweiz) Ag",
+    "slug": "lindt-&-sprungli-(schweiz)-ag",
+    "productCount": 3,
+    "categories": [
+      "Milk"
+    ]
+  },
+  {
+    "name": "Lindt, Lindt & Sprüngli",
+    "slug": "lindt,-lindt-&-sprüngli",
+    "productCount": 3,
+    "categories": [
+      "Candy"
+    ]
+  },
+  {
+    "name": "Lindt LINDOR",
+    "slug": "lindt-lindor",
+    "productCount": 3,
+    "categories": [
+      "Candy",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Yemina",
+    "slug": "yemina",
+    "productCount": 3,
+    "categories": [
+      "Instant Noodles",
+      "Sauce"
+    ]
+  },
+  {
+    "name": "The Father's Table L.L.C.",
+    "slug": "the-father's-table-l.l.c.",
+    "productCount": 3,
+    "categories": [
+      "Fruits",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Sprüngli",
+    "slug": "sprüngli",
+    "productCount": 3,
+    "categories": [
+      "Snacks"
+    ]
+  },
+  {
+    "name": "RUMMO",
+    "slug": "rummo",
+    "productCount": 3,
+    "categories": [
+      "Instant Noodles"
+    ]
+  },
+  {
+    "name": "m&m's",
+    "slug": "m&m's",
+    "productCount": 3,
+    "categories": [
+      "Candy",
+      "Fruits",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Chipmates",
+    "slug": "chipmates",
+    "productCount": 3,
+    "categories": [
+      "Candy"
+    ]
+  },
+  {
+    "name": "smart way",
+    "slug": "smart-way",
+    "productCount": 3,
+    "categories": [
+      "Instant Noodles",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Smart way",
+    "slug": "smart-way",
+    "productCount": 3,
+    "categories": [
+      "Bakery",
+      "Meat",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Violife",
+    "slug": "violife",
+    "productCount": 3,
+    "categories": [
+      "Milk"
+    ]
+  },
+  {
+    "name": "Basic American Foods",
+    "slug": "basic-american-foods",
+    "productCount": 3,
+    "categories": [
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Jfc",
+    "slug": "jfc",
+    "productCount": 3,
+    "categories": [
+      "Bakery",
+      "Instant Noodles",
+      "Rice"
+    ]
+  },
+  {
+    "name": "Botan",
+    "slug": "botan",
+    "productCount": 3,
+    "categories": [
+      "Rice"
+    ]
+  },
+  {
+    "name": "hapi",
+    "slug": "hapi",
+    "productCount": 3,
+    "categories": [
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Myojo",
+    "slug": "myojo",
+    "productCount": 3,
+    "categories": [
+      "Instant Noodles",
+      "Sauce"
+    ]
+  },
+  {
+    "name": "J Basket",
+    "slug": "j-basket",
+    "productCount": 3,
+    "categories": [
+      "Cooking Oil",
+      "Meat",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "S&W",
+    "slug": "s&w",
+    "productCount": 3,
+    "categories": [
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Morehouse",
+    "slug": "morehouse",
+    "productCount": 3,
+    "categories": [
+      "Sauce",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Valu Time",
+    "slug": "valu-time",
+    "productCount": 3,
+    "categories": [
+      "Cooking Oil",
+      "Fruits",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Wide Awake Coffee Co",
+    "slug": "wide-awake-coffee-co",
+    "productCount": 3,
+    "categories": [
+      "Milk"
+    ]
+  },
+  {
+    "name": "Cella's",
+    "slug": "cella's",
+    "productCount": 3,
+    "categories": [
+      "Milk"
+    ]
+  },
+  {
+    "name": "Old Fashioned",
+    "slug": "old-fashioned",
+    "productCount": 3,
+    "categories": [
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Jtm Foods Llc",
+    "slug": "jtm-foods-llc",
+    "productCount": 3,
+    "categories": [
+      "Candy",
+      "Fruits",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "ZOI",
+    "slug": "zoi",
+    "productCount": 3,
+    "categories": [
+      "Fruits",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Deep Indian Kitchen",
+    "slug": "deep-indian-kitchen",
+    "productCount": 3,
+    "categories": [
+      "Frozen Foods",
+      "Meat"
+    ]
+  },
+  {
+    "name": "Tandoor Chef",
+    "slug": "tandoor-chef",
+    "productCount": 3,
+    "categories": [
+      "Bakery",
+      "Frozen Foods",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Bansi",
+    "slug": "bansi",
+    "productCount": 3,
+    "categories": [
+      "Rice",
+      "Sauce",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Sina",
+    "slug": "sina",
+    "productCount": 3,
+    "categories": [
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Dreamhouse Fine Foods",
+    "slug": "dreamhouse-fine-foods",
+    "productCount": 3,
+    "categories": [
+      "Candy",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Thrifty",
+    "slug": "thrifty",
+    "productCount": 3,
+    "categories": [
+      "Milk"
+    ]
+  },
+  {
+    "name": "SARTORI",
+    "slug": "sartori",
+    "productCount": 3,
+    "categories": [
+      "Milk",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Mirinda",
+    "slug": "mirinda",
+    "productCount": 3,
+    "categories": [
+      "Beverages",
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Ocean Spray",
+    "slug": "ocean-spray",
+    "productCount": 3,
+    "categories": [
+      "Beverages",
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Dole",
+    "slug": "dole",
+    "productCount": 3,
+    "categories": [
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Starry",
+    "slug": "starry",
+    "productCount": 3,
+    "categories": [
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Old Spice",
+    "slug": "old-spice",
+    "productCount": 3,
+    "categories": [
+      "Personal Care"
+    ]
+  },
+  {
+    "name": "Bubblicious",
+    "slug": "bubblicious",
+    "productCount": 3,
+    "categories": [
+      "Fruits",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Dentyne",
+    "slug": "dentyne",
+    "productCount": 3,
+    "categories": [
+      "Fruits",
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Sainsbury's Taste The Difference, Sainsbury's",
+    "slug": "sainsbury's-taste-the-difference,-sainsbury's",
+    "productCount": 3,
+    "categories": [
+      "Fruits",
+      "Meat"
+    ]
+  },
+  {
+    "name": "Aryzta Llc",
+    "slug": "aryzta-llc",
+    "productCount": 3,
+    "categories": [
+      "Bakery",
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Comme j’aime",
+    "slug": "comme-j’aime",
+    "productCount": 3,
+    "categories": [
+      "Meat",
+      "Sauce"
+    ]
+  },
+  {
+    "name": "By Sainsbury's",
+    "slug": "by-sainsbury's",
+    "productCount": 3,
+    "categories": [
+      "Bakery",
+      "Meat"
+    ]
+  },
+  {
+    "name": "Butterfly Brand",
+    "slug": "butterfly-brand",
+    "productCount": 3,
+    "categories": [
+      "Rice",
+      "Sauce"
+    ]
+  },
+  {
+    "name": "Cidrines",
+    "slug": "cidrines",
+    "productCount": 3,
+    "categories": [
+      "Bakery"
+    ]
+  },
+  {
+    "name": "Stuffers",
+    "slug": "stuffers",
+    "productCount": 3,
+    "categories": [
+      "Meat"
+    ]
+  },
+  {
+    "name": "Life Cuisine",
+    "slug": "life-cuisine",
+    "productCount": 3,
+    "categories": [
+      "Frozen Foods",
+      "Meat"
+    ]
+  },
+  {
+    "name": "Borden",
+    "slug": "borden",
+    "productCount": 3,
+    "categories": [
+      "Milk"
+    ]
+  },
+  {
+    "name": "Famille Mary",
+    "slug": "famille-mary",
+    "productCount": 3,
+    "categories": [
+      "Bakery",
+      "Beverages",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Pepperidge farms",
+    "slug": "pepperidge-farms",
+    "productCount": 3,
+    "categories": [
+      "Candy",
+      "Milk",
+      "Seafood"
+    ]
+  },
+  {
+    "name": "PEPPERIDGE FARM",
+    "slug": "pepperidge-farm",
+    "productCount": 3,
+    "categories": [
+      "Bakery",
+      "Meat",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Paramount Farms",
+    "slug": "paramount-farms",
+    "productCount": 3,
+    "categories": [
+      "Fruits",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Colombina Candy Company Inc.",
+    "slug": "colombina-candy-company-inc.",
+    "productCount": 3,
+    "categories": [
+      "Bakery",
+      "Fruits",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Colombina",
+    "slug": "colombina",
+    "productCount": 3,
+    "categories": [
+      "Fruits",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "UFC",
+    "slug": "ufc",
+    "productCount": 3,
+    "categories": [
+      "Fruits",
+      "Instant Noodles",
+      "Sauce"
+    ]
+  },
+  {
+    "name": "Birds eye",
+    "slug": "birds-eye",
+    "productCount": 3,
+    "categories": [
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Morrison Farms",
+    "slug": "morrison-farms",
+    "productCount": 3,
+    "categories": [
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Clamato",
+    "slug": "clamato",
+    "productCount": 3,
+    "categories": [
+      "Seafood",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "RICE A RONI",
+    "slug": "rice-a-roni",
+    "productCount": 3,
+    "categories": [
+      "Milk",
+      "Rice",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Hotel Bar",
+    "slug": "hotel-bar",
+    "productCount": 3,
+    "categories": [
+      "Milk"
+    ]
+  },
+  {
+    "name": "The Hain Celestial Group Inc., Garden of Eatin'",
+    "slug": "the-hain-celestial-group-inc.,-garden-of-eatin'",
+    "productCount": 3,
+    "categories": [
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Mccormick",
+    "slug": "mccormick",
+    "productCount": 3,
+    "categories": [
+      "Meat"
+    ]
+  },
+  {
+    "name": "Betty Crocker Delights",
+    "slug": "betty-crocker-delights",
+    "productCount": 3,
+    "categories": [
+      "Candy",
+      "Fruits",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "General Mills,Cheerios",
+    "slug": "general-mills,cheerios",
+    "productCount": 3,
+    "categories": [
+      "Fruits",
+      "Rice"
+    ]
+  },
+  {
+    "name": "Golden Grahams",
+    "slug": "golden-grahams",
+    "productCount": 3,
+    "categories": [
+      "Meat"
+    ]
+  },
+  {
+    "name": ":ratio",
+    "slug": ":ratio",
+    "productCount": 3,
+    "categories": [
+      "Fruits",
+      "Rice"
+    ]
+  },
+  {
+    "name": "Nature Valley,Nature Valley Savory Nut Crunch",
+    "slug": "nature-valley,nature-valley-savory-nut-crunch",
+    "productCount": 3,
+    "categories": [
+      "Snacks"
+    ]
+  },
+  {
+    "name": "General mills",
+    "slug": "general-mills",
+    "productCount": 3,
+    "categories": [
+      "Rice",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Fiber one",
+    "slug": "fiber-one",
+    "productCount": 3,
+    "categories": [
+      "Bakery",
+      "Candy",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Dolores",
+    "slug": "dolores",
+    "productCount": 3,
+    "categories": [
+      "Seafood"
+    ]
+  },
+  {
+    "name": "Aroy d, Aroy-D",
+    "slug": "aroy-d,-aroy-d",
+    "productCount": 3,
+    "categories": [
+      "Fruits",
+      "Sauce",
+      "Seasoning"
+    ]
+  },
+  {
+    "name": "FOCO",
+    "slug": "foco",
+    "productCount": 3,
+    "categories": [
+      "Fruits",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Carvel",
+    "slug": "carvel",
+    "productCount": 3,
+    "categories": [
+      "Milk"
+    ]
+  },
+  {
+    "name": "Florida's Natural, Citrus World Inc.",
+    "slug": "florida's-natural,-citrus-world-inc.",
+    "productCount": 3,
+    "categories": [
+      "Beverages",
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Popwell",
+    "slug": "popwell",
+    "productCount": 3,
+    "categories": [
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Sweet earth",
+    "slug": "sweet-earth",
+    "productCount": 3,
+    "categories": [
+      "Frozen Foods",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Bel Brands Usa",
+    "slug": "bel-brands-usa",
+    "productCount": 3,
+    "categories": [
+      "Milk"
+    ]
+  },
+  {
+    "name": "Golden Island",
+    "slug": "golden-island",
+    "productCount": 3,
+    "categories": [
+      "Meat",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Lorissa's Kitchen",
+    "slug": "lorissa's-kitchen",
+    "productCount": 3,
+    "categories": [
+      "Meat",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "By sainsbury's",
+    "slug": "by-sainsbury's",
+    "productCount": 3,
+    "categories": [
+      "Fruits",
+      "Sauce"
+    ]
+  },
+  {
+    "name": "Carolina",
+    "slug": "carolina",
+    "productCount": 3,
+    "categories": [
+      "Rice"
+    ]
+  },
+  {
+    "name": "Medifast",
+    "slug": "medifast",
+    "productCount": 3,
+    "categories": [
+      "Beverages",
+      "Candy",
+      "Rice"
+    ]
+  },
+  {
+    "name": "OPTAVIA",
+    "slug": "optavia",
+    "productCount": 3,
+    "categories": [
+      "Beverages",
+      "Snacks",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Red star",
+    "slug": "red-star",
+    "productCount": 3,
+    "categories": [
+      "Seasoning"
+    ]
+  },
+  {
+    "name": "Dulce Caña",
+    "slug": "dulce-caña",
+    "productCount": 3,
+    "categories": [
+      "Seasoning"
+    ]
+  },
+  {
+    "name": "Seneca",
+    "slug": "seneca",
+    "productCount": 3,
+    "categories": [
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Michelob",
+    "slug": "michelob",
+    "productCount": 3,
+    "categories": [
+      "Beverages",
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Dr. Bronner's",
+    "slug": "dr.-bronner's",
+    "productCount": 3,
+    "categories": [
+      "Fruits",
+      "Milk"
+    ]
+  },
+  {
+    "name": "Re-Lyte",
+    "slug": "re-lyte",
+    "productCount": 3,
+    "categories": [
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Panera",
+    "slug": "panera",
+    "productCount": 3,
+    "categories": [
+      "Fruits",
+      "Sauce"
+    ]
+  },
+  {
+    "name": "Life Savers",
+    "slug": "life-savers",
+    "productCount": 3,
+    "categories": [
+      "Candy",
+      "Snacks"
+    ]
+  },
+  {
+    "name": "Fruit2o, Sunny Delight Beverages Company",
+    "slug": "fruit2o,-sunny-delight-beverages-company",
+    "productCount": 3,
+    "categories": [
+      "Beverages",
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Golden",
+    "slug": "golden",
+    "productCount": 3,
+    "categories": [
+      "Fruits"
+    ]
+  },
+  {
+    "name": "Van De Kamp's",
+    "slug": "van-de-kamp's",
+    "productCount": 3,
+    "categories": [
+      "Seafood"
+    ]
+  },
+  {
+    "name": "Le Sueur",
+    "slug": "le-sueur",
+    "productCount": 3,
+    "categories": [
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "Flora Fine Foods",
+    "slug": "flora-fine-foods",
+    "productCount": 3,
+    "categories": [
+      "Bakery",
+      "Cooking Oil",
+      "Vegetables"
+    ]
+  },
+  {
+    "name": "La Mexicana",
+    "slug": "la-mexicana",
+    "productCount": 3,
+    "categories": [
+      "Fruits",
+      "Sauce"
+    ]
+  },
+  {
+    "name": "Fischer & Wieser",
+    "slug": "fischer-&-wieser",
+    "productCount": 3,
+    "categories": [
+      "Fruits",
+      "Sauce"
+    ]
+  }
+]
