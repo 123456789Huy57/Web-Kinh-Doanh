@@ -110,11 +110,13 @@ export function isWishlisted(productId) {
 }
 
 export function getMealPlans() {
-  return readJSON(STORAGE_KEYS.mealPlans, []);
+  const key = userScopedKey(STORAGE_KEYS.mealPlans);
+  return key ? readJSON(key, []) : readJSON(STORAGE_KEYS.mealPlans, []);
 }
 
 export function setMealPlans(mealPlans) {
-  return writeJSON(STORAGE_KEYS.mealPlans, mealPlans);
+  const key = userScopedKey(STORAGE_KEYS.mealPlans);
+  return writeJSON(key || STORAGE_KEYS.mealPlans, mealPlans);
 }
 
 export function getCatalogFilters() {
@@ -161,7 +163,11 @@ export function getActiveCart() {
 }
 
 export function setActiveCart(cart) {
-  return writeJSON(getActiveCartKey(), cart);
+  const savedCart = writeJSON(getActiveCartKey(), cart);
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new CustomEvent("aic:cart-updated", { detail: { cart: savedCart } }));
+  }
+  return savedCart;
 }
 
 export function clearActiveCart() {

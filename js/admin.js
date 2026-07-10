@@ -1,4 +1,4 @@
-import { getOrders, setOrders, mergeAdminProducts, mergeAdminVouchers, upsertAdminProduct, upsertAdminVoucher } from "./storage.js";
+import { getCurrentUser, clearCurrentUser, getOrders, setOrders, mergeAdminProducts, mergeAdminVouchers, upsertAdminProduct, upsertAdminVoucher } from "./storage.js";
 
 const DATA_PATHS = {
   products: "./data/products.json",
@@ -19,6 +19,7 @@ const STATUS_LABELS = {
 const state = {
   products: [],
   orders: [],
+  liveOrders: [],
   vouchers: [],
   users: []
 };
@@ -62,6 +63,19 @@ function getOrderDate(order) {
   return (order.createdAt || order.created_at || "").slice(0, 10) || "Chưa có";
 }
 
+function getOrderTimestamp(order) {
+  const timestamp = new Date(order?.createdAt || order?.created_at || 0).getTime();
+  return Number.isFinite(timestamp) ? timestamp : 0;
+}
+
+function sortOrdersByDateDesc(orders = []) {
+  return [...orders].sort((a, b) => getOrderTimestamp(b) - getOrderTimestamp(a));
+}
+
+function getDashboardOrders() {
+  return state.liveOrders.length ? sortOrdersByDateDesc(state.liveOrders) : sortOrdersByDateDesc(state.orders);
+}
+
 function setText(id, value) {
   const element = document.getElementById(id);
   if (element) element.textContent = value;
@@ -69,6 +83,234 @@ function setText(id, value) {
 
 function renderEmpty(colspan, message) {
   return `<tr><td colspan="${colspan}" class="admin-empty">${escapeHTML(message)}</td></tr>`;
+}
+
+const CHART_COLORS = ["#1a3c2a", "#c4883a", "#2f7d5b", "#1565c0", "#b54848", "#7b1fa2", "#687568"];
+
+function prepareCanvas(canvas) {
+  if (!canvas) return null;
+  const rect = canvas.getBoundingClientRect();
+  const ratio = window.devicePixelRatio || 1;
+  const width = Math.max(320, Math.floor(rect.width || canvas.parentElement?.clientWidth || 320));
+  const height = Number(canvas.getAttribute("height") || 240);
+  canvas.width = Math.floor(width * ratio);
+  canvas.height = Math.floor(height * ratio);
+  canvas.style.height = `${height}px`;
+  const ctx = canvas.getContext("2d");
+  ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+  ctx.clearRect(0, 0, width, height);
+  ctx.font = "12px 'Be Vietnam Pro', Arial, sans-serif";
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+  return { ctx, width, height };
+}
+
+function drawEmptyChart(ctx, width, height, message = "Chưa có dữ liệu") {
+  ctx.fillStyle = "#f5f0e8";
+  ctx.fillRect(0, 0, width, height);
+  ctx.fillStyle = "#687568";
+  ctx.textAlign = "center";
+  ctx.font = "600 13px 'Be Vietnam Pro', Arial, sans-serif";
+  ctx.fillText(message, width / 2, height / 2);
+}
+
+function drawLineChart(canvas, labels, values) {
+  const prepared = prepareCanvas(canvas);
+  if (!prepared) return;
+  const { ctx, width, height } = prepared;
+  const max = Math.max(...values, 1);
+  const padding = { top: 18, right: 20, bottom: 34, left: 54 };
+  const chartWidth = width - padding.left - padding.right;
+  const chartHeight = height - padding.top - padding.bottom;
+  if (!values.some((value) => value > 0)) {
+    drawEmptyChart(ctx, width, height, "Chưa có doanh thu");
+    return;
+  }
+
+  ctx.strokeStyle = "#e5ddd0";
+  ctx.lineWidth = 1;
+  for (let i = 0; i <= 3; i += 1) {
+    const y = padding.top + chartHeight * (i / 3);
+    ctx.beginPath();
+    ctx.moveTo(padding.left, y);
+    ctx.lineTo(width - padding.right, y);
+    ctx.stroke();
+  }
+
+  const points = values.map((value, index) => ({
+    x: padding.left + (chartWidth * index) / Math.max(values.length - 1, 1),
+    y: padding.top + chartHeight - (value / max) * chartHeight,
+    value
+  }));
+
+  const gradient = ctx.createLinearGradient(0, padding.top, 0, height - padding.bottom);
+  gradient.addColorStop(0, "rgba(26, 60, 42, 0.24)");
+  gradient.addColorStop(1, "rgba(26, 60, 42, 0.02)");
+  ctx.beginPath();
+  points.forEach((point, index) => index ? ctx.lineTo(point.x, point.y) : ctx.moveTo(point.x, point.y));
+  ctx.lineTo(points[points.length - 1].x, height - padding.bottom);
+  ctx.lineTo(points[0].x, height - padding.bottom);
+  ctx.closePath();
+  ctx.fillStyle = gradient;
+  ctx.fill();
+
+  ctx.beginPath();
+  points.forEach((point, index) => index ? ctx.lineTo(point.x, point.y) : ctx.moveTo(point.x, point.y));
+  ctx.strokeStyle = "#1a3c2a";
+  ctx.lineWidth = 3;
+  ctx.stroke();
+
+  points.forEach((point) => {
+    ctx.fillStyle = "#ffffff";
+    ctx.beginPath();
+    ctx.arc(point.x, point.y, 5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "#1a3c2a";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  });
+
+  ctx.fillStyle = "#687568";
+  ctx.textAlign = "center";
+  labels.forEach((label, index) => ctx.fillText(label, points[index].x, height - 12));
+  ctx.textAlign = "left";
+  ctx.fillText(formatCurrency(max).replace(/\s?₫/, ""), 8, padding.top + 4);
+}
+
+function drawBarChart(canvas, labels, values) {
+  const prepared = prepareCanvas(canvas);
+  if (!prepared) return;
+  const { ctx, width, height } = prepared;
+  const max = Math.max(...values, 1);
+  const padding = { top: 18, right: 18, bottom: 38, left: 34 };
+  const chartWidth = width - padding.left - padding.right;
+  const chartHeight = height - padding.top - padding.bottom;
+  if (!values.some((value) => value > 0)) {
+    drawEmptyChart(ctx, width, height, "Chưa có dữ liệu bán");
+    return;
+  }
+
+  const gap = 12;
+  const barWidth = Math.max(24, (chartWidth - gap * (values.length - 1)) / Math.max(values.length, 1));
+  values.forEach((value, index) => {
+    const x = padding.left + index * (barWidth + gap);
+    const barHeight = (value / max) * chartHeight;
+    const y = padding.top + chartHeight - barHeight;
+    ctx.fillStyle = CHART_COLORS[index % CHART_COLORS.length];
+    ctx.beginPath();
+    ctx.roundRect(x, y, barWidth, barHeight, 8);
+    ctx.fill();
+    ctx.fillStyle = "#1f2d24";
+    ctx.textAlign = "center";
+    ctx.font = "700 12px 'Be Vietnam Pro', Arial, sans-serif";
+    ctx.fillText(String(value), x + barWidth / 2, Math.max(14, y - 7));
+    ctx.fillStyle = "#687568";
+    ctx.font = "11px 'Be Vietnam Pro', Arial, sans-serif";
+    const label = labels[index].length > 12 ? `${labels[index].slice(0, 11)}…` : labels[index];
+    ctx.fillText(label, x + barWidth / 2, height - 14);
+  });
+}
+
+function drawDonutChart(canvas, items, legendElement) {
+  const prepared = prepareCanvas(canvas);
+  if (!prepared) return;
+  const { ctx, width, height } = prepared;
+  const total = items.reduce((sum, item) => sum + item.value, 0);
+  if (!total) {
+    drawEmptyChart(ctx, width, height, "Chưa có đơn hàng");
+    if (legendElement) legendElement.innerHTML = "";
+    return;
+  }
+
+  const radius = Math.min(width, height) * 0.34;
+  const centerX = width / 2;
+  const centerY = height / 2;
+  let start = -Math.PI / 2;
+  items.forEach((item, index) => {
+    const angle = (item.value / total) * Math.PI * 2;
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, start, start + angle);
+    ctx.strokeStyle = CHART_COLORS[index % CHART_COLORS.length];
+    ctx.lineWidth = 24;
+    ctx.stroke();
+    start += angle;
+  });
+
+  ctx.fillStyle = "#1f2d24";
+  ctx.textAlign = "center";
+  ctx.font = "800 26px 'Be Vietnam Pro', Arial, sans-serif";
+  ctx.fillText(String(total), centerX, centerY + 2);
+  ctx.fillStyle = "#687568";
+  ctx.font = "12px 'Be Vietnam Pro', Arial, sans-serif";
+  ctx.fillText("đơn hàng", centerX, centerY + 24);
+
+  if (legendElement) {
+    legendElement.innerHTML = items.map((item, index) => `
+      <span class="chart-legend__item">
+        <i style="background:${CHART_COLORS[index % CHART_COLORS.length]}"></i>
+        ${escapeHTML(item.label)} <strong>${item.value}</strong>
+      </span>
+    `).join("");
+  }
+}
+
+function getLastSevenDaysRevenue(orders = getDashboardOrders(), preferToday = false) {
+  const orderDates = orders
+    .map((order) => new Date(order.createdAt || order.created_at || ""))
+    .filter((date) => !Number.isNaN(date.getTime()));
+  const latestOrderDate = orderDates.length
+    ? new Date(Math.max(...orderDates.map((date) => date.getTime())))
+    : null;
+  const today = new Date();
+  const sixDaysMs = 6 * 24 * 60 * 60 * 1000;
+  const hasRecentOrder = latestOrderDate && today.getTime() - latestOrderDate.getTime() <= sixDaysMs;
+  const now = preferToday && hasRecentOrder ? today : (latestOrderDate || today);
+  const days = Array.from({ length: 7 }, (_, index) => {
+    const date = new Date(now);
+    date.setDate(now.getDate() - (6 - index));
+    const key = date.toISOString().slice(0, 10);
+    return { key, label: `${date.getDate()}/${date.getMonth() + 1}`, value: 0 };
+  });
+  const dayMap = new Map(days.map((day) => [day.key, day]));
+  orders
+    .filter((order) => order.status !== "cancelled")
+    .forEach((order) => {
+      const key = (order.createdAt || order.created_at || "").slice(0, 10);
+      if (dayMap.has(key)) dayMap.get(key).value += Number(order.total || 0);
+    });
+  return days;
+}
+
+function getCategorySales() {
+  const categoryMap = new Map();
+  state.products.forEach((product) => {
+    const label = product.categoryName || product.category || product.categoryId || "Khác";
+    categoryMap.set(label, (categoryMap.get(label) || 0) + Number(product.sold_count || product.soldCount || 0));
+  });
+  return [...categoryMap.entries()]
+    .map(([label, value]) => ({ label, value }))
+    .sort((a, b) => b.value - a.value)
+    .slice(0, 6);
+}
+
+function renderDashboardCharts() {
+  const dashboardOrders = getDashboardOrders();
+  const revenueDays = getLastSevenDaysRevenue(dashboardOrders, state.liveOrders.length > 0);
+  const revenueTotal = revenueDays.reduce((sum, day) => sum + day.value, 0);
+  setText("chart-revenue-total", formatCurrency(revenueTotal));
+  setText("chart-revenue-period", state.liveOrders.length ? "Theo đơn khách đã đặt trong 7 ngày gần nhất" : "Chưa có đơn khách mới, đang hiển thị dữ liệu mẫu");
+  drawLineChart($("#revenue-chart"), revenueDays.map((day) => day.label), revenueDays.map((day) => day.value));
+
+  const statuses = Object.keys(STATUS_LABELS)
+    .map((status) => ({
+      label: getStatusLabel(status),
+      value: dashboardOrders.filter((order) => order.status === status).length
+    }))
+    .filter((item) => item.value > 0);
+  drawDonutChart($("#order-status-chart"), statuses, $("#order-status-legend"));
+
+  const categorySales = getCategorySales();
+  drawBarChart($("#category-sales-chart"), categorySales.map((item) => item.label), categorySales.map((item) => item.value));
 }
 
 async function fetchJSON(path, fallback = []) {
@@ -328,21 +570,25 @@ function saveVoucherFromForm(form) {
 }
 
 function renderDashboard() {
-  const pendingOrders = state.orders.filter((order) => ["pending", "processing"].includes(order.status));
-  const revenue = state.orders
+  const dashboardOrders = getDashboardOrders();
+  const pendingOrders = dashboardOrders.filter((order) => ["pending", "processing"].includes(order.status));
+  const revenue = dashboardOrders
     .filter((order) => order.status !== "cancelled")
     .reduce((sum, order) => sum + Number(order.total || 0), 0);
 
   setText("products-count", state.products.length);
-  setText("orders-count", pendingOrders.length);
+  setText("orders-count", state.liveOrders.length ? pendingOrders.length : state.orders.filter((order) => ["pending", "processing"].includes(order.status)).length);
   setText("stat-revenue", formatCurrency(revenue));
   setText("stat-orders", pendingOrders.length);
   setText("stat-products", state.products.length);
   setText("stat-users", state.users.length);
+  setText("stat-revenue-scope", state.liveOrders.length ? "Theo đơn khách đã mua" : "Dữ liệu mẫu khi chưa có đơn khách");
+  setText("recent-orders-title", state.liveOrders.length ? "Đơn khách gần đây" : "Đơn hàng mẫu gần đây");
+  renderDashboardCharts();
 
-  const dashboardOrders = $("#dashboard-orders-body");
-  if (dashboardOrders) {
-    dashboardOrders.innerHTML = state.orders.slice(0, 6).map((order) => `
+  const dashboardOrdersBody = $("#dashboard-orders-body");
+  if (dashboardOrdersBody) {
+    dashboardOrdersBody.innerHTML = getDashboardOrders().slice(0, 6).map((order) => `
       <tr>
         <td><strong>${escapeHTML(order.orderCode || order.id)}</strong></td>
         <td>${escapeHTML(order.customerName || order.shippingAddress?.fullName || "Khách hàng")}</td>
@@ -548,6 +794,8 @@ function handleAction(action, id, target) {
     order.status = target.value;
     order.updatedAt = new Date().toISOString();
     persistOrderStatus(order);
+    state.liveOrders = sortOrdersByDateDesc(getOrders());
+    state.orders = sortOrdersByDateDesc(state.orders);
     renderOrders();
     renderDashboard();
     showToast("Đã cập nhật trạng thái đơn");
@@ -650,6 +898,7 @@ function bindAdminEvents() {
   });
 
   $("#logout-btn")?.addEventListener("click", () => {
+    clearCurrentUser();
     showToast("Đã đăng xuất");
     window.setTimeout(() => { window.location.href = "./index.html"; }, 500);
   });
@@ -658,9 +907,24 @@ function bindAdminEvents() {
     const tabName = window.location.hash.replace("#", "");
     if (tabName) switchTab(tabName);
   });
+
+  let chartResizeTimer = null;
+  window.addEventListener("resize", () => {
+    window.clearTimeout(chartResizeTimer);
+    chartResizeTimer = window.setTimeout(renderDashboardCharts, 120);
+  });
 }
 
 async function initAdmin() {
+  const currentUser = getCurrentUser();
+  if (!currentUser || currentUser.role !== "admin") {
+    window.location.href = "./login.html?redirect=admin";
+    return;
+  }
+
+  setText("admin-name", currentUser.fullName || "Admin");
+  setText("admin-avatar", (currentUser.fullName || "A").charAt(0).toUpperCase());
+
   const [products, orders, vouchers, users] = await Promise.all([
     fetchJSON(DATA_PATHS.products),
     fetchJSON(DATA_PATHS.orders),
@@ -669,7 +933,8 @@ async function initAdmin() {
   ]);
 
   state.products = mergeAdminProducts(products || []).filter((product) => product.active !== false && product.isActive !== false);
-  state.orders = mergeById(getOrders(), orders || []);
+  state.liveOrders = sortOrdersByDateDesc(getOrders());
+  state.orders = sortOrdersByDateDesc(mergeById(state.liveOrders, orders || []));
   state.vouchers = mergeAdminVouchers(vouchers || []);
   state.users = users || [];
 

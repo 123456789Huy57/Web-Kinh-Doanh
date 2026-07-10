@@ -176,15 +176,26 @@
 
 /* ===================== MOBILE FILTER TOGGLE ===================== */
 .mobile-filter-toggle { display: none; margin-bottom: 16px; }
+.catalog-filter-overlay { display: none; }
 
 @media (max-width: 1023px) {
+  body.catalog-filter-open { overflow: hidden; }
   .page-layout { display: block; }
   .category-sidebar { display: none; }
   .category-sidebar.is-open {
     display: block; position: fixed; top: 0; left: 0; bottom: 0;
-    width: 280px; max-width: 85vw; z-index: 1000;
-    background: var(--color-surface); padding: 20px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    width: 320px; max-width: 88vw; z-index: 1001;
+    background: var(--color-surface); padding: 18px;
+    box-shadow: 18px 0 42px rgba(20,31,24,0.24);
+    overflow-y: auto;
+  }
+  .catalog-filter-overlay.is-open {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(20,31,24,0.42);
+    backdrop-filter: blur(2px);
   }
   .mobile-filter-toggle {
     display: inline-flex; align-items: center; gap: 8px;

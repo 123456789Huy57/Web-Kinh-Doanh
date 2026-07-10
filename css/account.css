@@ -956,3 +956,155 @@ body[data-page="register"] .site-footer {
   background: #073f27;
   color: #fff;
 }
+
+.demo-login-fill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 0 0 18px;
+  padding: 10px;
+  border: 1px dashed rgba(26, 60, 42, 0.22);
+  border-radius: 16px;
+  background: rgba(246, 250, 246, 0.86);
+}
+
+.demo-login-fill span {
+  color: var(--color-muted);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.demo-login-fill button {
+  min-height: 34px;
+  padding: 8px 13px;
+  border-radius: 999px;
+  background: #073d28;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  box-shadow: 0 8px 18px rgba(7, 61, 40, 0.12);
+}
+
+.demo-login-fill button:last-child {
+  background: #9a5d13;
+}
+
+.account-content__desc {
+  margin: -8px 0 22px;
+  color: var(--color-muted);
+}
+
+.account-empty-state {
+  padding: 34px;
+  border-radius: 22px;
+  border: 1px solid rgba(26, 60, 42, 0.10);
+  background: linear-gradient(145deg, #ffffff, #f7fbf6);
+  text-align: center;
+}
+
+.account-empty-state h3 {
+  margin-bottom: 8px;
+  color: var(--color-primary);
+}
+
+.account-empty-state p {
+  max-width: 520px;
+  margin: 0 auto 18px;
+  color: var(--color-muted);
+}
+
+.account-meal-plans {
+  display: grid;
+  gap: 16px;
+}
+
+.account-meal-card {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 18px;
+  padding: 16px;
+  border: 1px solid rgba(26, 60, 42, 0.10);
+  border-radius: 22px;
+  background: linear-gradient(145deg, #ffffff, #fbfaf5);
+  box-shadow: 0 16px 34px rgba(12, 48, 31, 0.07);
+}
+
+.account-meal-card__image {
+  width: 150px;
+  height: 128px;
+  border-radius: 18px;
+  object-fit: cover;
+}
+
+.account-meal-card__body {
+  min-width: 0;
+}
+
+.account-meal-card__top,
+.account-meal-card__meta,
+.account-meal-card__ingredients {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.account-meal-card__top {
+  justify-content: space-between;
+  color: var(--color-muted);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.account-meal-card h3 {
+  margin: 8px 0 10px;
+  color: var(--color-primary);
+  font-size: 20px;
+}
+
+.account-meal-card__meta span {
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: #eef7ef;
+  color: #073d28;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.account-meal-card__ingredients {
+  margin-top: 12px;
+}
+
+.account-meal-card__ingredients span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 9px;
+  border-radius: 999px;
+  background: #fff8ec;
+  color: #694110;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.account-meal-card__ingredients img {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+@media (max-width: 640px) {
+  .account-meal-card {
+    grid-template-columns: 1fr;
+  }
+
+  .account-meal-card__image {
+    width: 100%;
+    height: 180px;
+  }
+}

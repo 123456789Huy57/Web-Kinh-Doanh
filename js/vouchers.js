@@ -72,7 +72,7 @@ function renderVoucherCard(voucher, mode = "browse") {
         <span class="vault-card__type">${escapeHTML(getVoucherCategoryLabel(voucher.category))}</span>
         ${mode === "wallet"
           ? `<button class="btn btn--ghost btn--sm" data-action="remove-voucher" data-voucher-id="${voucher.id}" type="button">Bỏ lưu</button>`
-          : `<button class="btn ${saved ? "btn--outline" : "btn--primary"} btn--sm" data-action="save-voucher" data-voucher-id="${voucher.id}" type="button">${saved ? "Đã lưu" : "Lưu voucher"}</button>`}
+          : `<button class="btn ${saved ? "btn--outline" : "btn--primary"} btn--sm" data-action="save-voucher" data-voucher-id="${voucher.id}" type="button" ${expired ? "disabled" : ""}>${expired ? "Hết hạn" : saved ? "Đã lưu" : "Lưu voucher"}</button>`}
       </div>
     </article>
   `;
@@ -169,6 +169,7 @@ function bindEvents() {
 
     const saveButton = event.target.closest("[data-action='save-voucher']");
     if (!saveButton) return;
+    if (saveButton.disabled) return;
     const voucherId = saveButton.dataset.voucherId;
     if (!voucherId) return;
 

@@ -279,7 +279,7 @@ function attachCompareHandlers() {
       cart.items = cart.items || [];
       const existing = cart.items.find(item => item.productId === productId);
       if (existing) existing.quantity += 1;
-      else cart.items.push({ productId, quantity: 1 });
+      else cart.items.push({ productId, quantity: 1, selected: true });
       cart.updatedAt = new Date().toISOString();
       setActiveCart(cart);
       showToast("Đã thêm vào giỏ hàng");

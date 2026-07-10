@@ -1,5 +1,5 @@
 import { fetchJSON, formatCurrency, formatDate, generateId, escapeHTML, renderBreadcrumb, createBreadcrumbItems, formatNumber, getQueryParam, normalizeRedirectTarget } from "./utils.js";
-import { getCurrentUser, setCurrentUser, clearCurrentUser, getStoredUsers, setStoredUsers, upsertStoredUser, getOrders, getWishlist, setWishlist, toggleWishlist, getActiveCart, setActiveCart, getLoyaltyData, getLoyaltyTierInfo, getAllLoyaltyTiers, isWishlisted, saveVoucher, isVoucherSaved, getSavedVouchers, removeSavedVoucher, mergeAdminProducts, mergeAdminVouchers } from "./storage.js";
+import { getCurrentUser, setCurrentUser, clearCurrentUser, getStoredUsers, setStoredUsers, upsertStoredUser, getOrders, getWishlist, setWishlist, toggleWishlist, getActiveCart, setActiveCart, getLoyaltyData, getLoyaltyTierInfo, getAllLoyaltyTiers, isWishlisted, saveVoucher, isVoucherSaved, getSavedVouchers, removeSavedVoucher, mergeAdminProducts, mergeAdminVouchers, getMealPlans } from "./storage.js";
 import { renderProductCard, showToast, getProductImage, getProductSalePrice, isProductActive } from "./main.js";
 
 const DATA_PATHS = {
@@ -34,7 +34,7 @@ function mergeUsers(seedUsers, localUsers) {
   return [...map.values()];
 }
 
-function getUserByIdentity(identity, password) {
+function getUserByIdentity(identity, password) {
   const normalized = String(identity || "").trim().toLowerCase();
   return accountState.users.find((user) => {
     const matchesIdentity =
@@ -52,13 +52,13 @@ function renderLoginPage() {
       </div>
 
       <div class="social-login">
-        <button class="btn btn--outline btn--block btn--lg" type="button">
+        <button class="btn btn--outline btn--block btn--lg" type="button" disabled aria-disabled="true">
           <span class="social-login__icon">G</span>
-          Tiếp tục với Google
+          Google sắp hỗ trợ
         </button>
-        <button class="btn btn--outline btn--block btn--lg" type="button">
+        <button class="btn btn--outline btn--block btn--lg" type="button" disabled aria-disabled="true">
           <span class="social-login__icon">f</span>
-          Tiếp tục với Facebook
+          Facebook sắp hỗ trợ
         </button>
       </div>
 
@@ -87,7 +87,7 @@ function renderLoginPage() {
             <input type="checkbox" name="remember" />
             <span>Ghi nhớ đăng nhập</span>
           </label>
-          <a href="#" class="forgot-password">Quên mật khẩu?</a>
+          <a href="#forgot-password-panel" class="forgot-password">Quên mật khẩu?</a>
         </div>
 
         <button class="btn btn--primary btn--block btn--lg" type="submit" id="login-btn">
@@ -100,7 +100,7 @@ function renderLoginPage() {
 
       <div class="auth-footer">
         <p>Chưa có tài khoản? <a href="./register.html${getQueryParam("redirect") ? "?redirect=" + encodeURIComponent(getQueryParam("redirect")) : ""}" class="auth-link">Đăng ký ngay</a></p>
-        <p class="auth-footer__extra">Bằng việc đăng nhập, bạn đồng ý với <a href="#" class="auth-link">Điều khoản dịch vụ</a> và <a href="#" class="auth-link">Chính sách bảo mật</a></p>
+        <p class="auth-footer__extra">Bằng việc đăng nhập, bạn đồng ý với <a href="./guide.html" class="auth-link">Điều khoản dịch vụ</a> và <a href="./privacy-policy.html" class="auth-link">Chính sách bảo mật</a></p>
       </div>
     </div>
   `;
@@ -151,7 +151,7 @@ function renderRegisterPage() {
 
         <label class="checkbox-wrapper">
           <input type="checkbox" name="agreed" required />
-          <span>Tôi đồng ý với <a href="#" class="auth-link">Điều khoản dịch vụ</a> và <a href="#" class="auth-link">Chính sách bảo mật</a></span>
+          <span>Tôi đồng ý với <a href="./guide.html" class="auth-link">Điều khoản dịch vụ</a> và <a href="./privacy-policy.html" class="auth-link">Chính sách bảo mật</a></span>
         </label>
 
         <button class="btn btn--primary btn--block btn--lg" type="submit" id="register-btn">
@@ -183,12 +183,12 @@ function renderLoyaltyCard(currentUser) {
 
   /* Progress to next tier */
   let progressPct = 100;
-  let progressText = "???? ?????t c???p cao nh???t!";
+  let progressText = "Đã đạt cấp cao nhất!";
   if (nextTierInfo) {
     const pointsNeeded = nextTierInfo.minPoints;
     const progress = Math.min(currentPoints / pointsNeeded, 1);
     progressPct = Math.round(progress * 100);
-    progressText = `${formatNumber(currentPoints)} / ${formatNumber(pointsNeeded)} ??i???m ?????n ${nextTierInfo.name}`;
+    progressText = `${formatNumber(currentPoints)} / ${formatNumber(pointsNeeded)} điểm đến ${nextTierInfo.name}`;
   }
 
   /* Tier badge colors */
@@ -198,14 +198,14 @@ function renderLoyaltyCard(currentUser) {
     gold: "#d4a843",
     diamond: "#4aa8c0"
   };
-  const tierEmoji = {
-    bronze: "????",
-    silver: "????",
-    gold: "????",
-    diamond: "????"
-  };
+  const tierEmoji = {
+    bronze: "Đồng",
+    silver: "Bạc",
+    gold: "Vàng",
+    diamond: "Kim cương"
+  };
   const badgeColor = tierColors[loyaltyData.tier] || tierColors.bronze;
-  const badgeEmoji = tierEmoji[loyaltyData.tier] || "????";
+  const badgeEmoji = tierEmoji[loyaltyData.tier] || "Thành viên";
 
   /* Recent history (last 5) */
   const recentHistory = (loyaltyData.history || []).slice(0, 5);
@@ -219,7 +219,7 @@ function renderLoyaltyCard(currentUser) {
         </div>
         <div class="loyalty-card__points">
           <span class="loyalty-card__points-value">${formatNumber(currentPoints)}</span>
-          <span class="loyalty-card__points-label">??i???m t??ch l??y</span>
+          <span class="loyalty-card__points-label">Điểm tích lũy</span>
         </div>
       </div>
       <div class="loyalty-card__progress">
@@ -228,10 +228,10 @@ function renderLoyaltyCard(currentUser) {
           <div class="loyalty-card__progress-fill" style="width:${progressPct}%;"></div>
         </div>
       </div>
-      ${currentTierInfo.discount > 0 ? `<div class="loyalty-card__discount">Gi???m ${currentTierInfo.discount}% cho th??nh vi??n ${currentTierInfo.name}</div>` : ""}
+      ${currentTierInfo.discount > 0 ? `<div class="loyalty-card__discount">Giảm ${currentTierInfo.discount}% cho thành viên ${currentTierInfo.name}</div>` : ""}
       ${recentHistory.length ? `
         <div class="loyalty-card__history">
-          <div class="loyalty-card__history-title">Giao d???ch g???n ????y</div>
+          <div class="loyalty-card__history-title">Giao dịch gần đây</div>
           ${recentHistory.map((entry) => `
             <div class="loyalty-card__history-row">
               <span class="loyalty-card__history-desc">${escapeHTML(entry.description)}</span>
@@ -266,6 +266,7 @@ function renderAccountPage() {
   const activeTab = window.location.hash.slice(1) || "profile";
   const savedVoucherIds = getSavedVouchers().map(v => v.voucherId);
   const displayVouchers = accountState.vouchers.filter(v => savedVoucherIds.includes(v.id));
+  const mealPlans = getMealPlans();
 
   const voucherTabContent = activeTab === "vouchers" ? `
     <div id="voucher-vault">
@@ -304,6 +305,14 @@ function renderAccountPage() {
     </div>
   ` : "";
 
+  const mealPlansTabContent = activeTab === "meal-plans" ? `
+    <div id="account-meal-plans">
+      <h2 class="account-content__title">Meal da plan (${mealPlans.length})</h2>
+      <p class="account-content__desc">Cac mon vua tao trong Meal Planner se duoc luu rieng theo tai khoan dang nhap.</p>
+      ${renderSavedMealPlans(mealPlans)}
+    </div>
+  ` : "";
+
   return `
     <div class="account-layout">
       <div class="account-sidebar">
@@ -325,6 +334,9 @@ function renderAccountPage() {
           <a class="account-nav__link" href="./wishlist.html">
             <span class="account-nav__icon">❤️</span> Yêu thích
           </a>
+          <a class="account-nav__link ${activeTab === 'meal-plans' ? 'is-active' : ''}" href="./account.html#meal-plans">
+            <span class="account-nav__icon">MP</span> Meal da plan (${mealPlans.length})
+          </a>
           <a class="account-nav__link" href="./meal-planner.html">
             <span class="account-nav__icon">🍽️</span> Meal Planner
           </a>
@@ -332,7 +344,7 @@ function renderAccountPage() {
       </div>
 
       <div class="account-content">
-        ${activeTab === "vouchers" ? voucherTabContent : `
+        ${activeTab === "vouchers" ? voucherTabContent : activeTab === "meal-plans" ? mealPlansTabContent : `
         <h2 class="account-content__title">Thông tin cá nhân</h2>
         <form id="profile-form" class="account-form">
           <label class="form-field">
@@ -633,7 +645,7 @@ function attachAccountHandlers() {
 function attachWishlistHandlers() {
   document.getElementById("wishlist-clear-btn")?.addEventListener("click", () => {
     setWishlist([]);
-    showToast("???? x??a t???t c??? s???n ph???m y??u th??ch");
+    showToast("Đã xóa tất cả sản phẩm yêu thích");
     initWishlistPage();
   });
 
@@ -645,7 +657,7 @@ function attachWishlistHandlers() {
     if (button.dataset.action === "remove-wishlist") {
       const items = getWishlist().filter((item) => item.productId !== productId);
       setWishlist(items);
-      showToast("???? x??a kh???i y??u th??ch");
+      showToast("Đã xóa khỏi yêu thích");
       initWishlistPage();
     }
 
@@ -654,11 +666,11 @@ function attachWishlistHandlers() {
       cart.items = cart.items || [];
       const existing = cart.items.find((item) => item.productId === productId);
       if (existing) existing.quantity += 1;
-      else cart.items.push({ productId, quantity: 1 });
+      else cart.items.push({ productId, quantity: 1, selected: true });
       cart.updatedAt = new Date().toISOString();
       setActiveCart(cart);
       toggleWishlist(productId);
-      showToast("???? th??m v??o gi??? h??ng");
+      showToast("Đã thêm vào giỏ hàng");
       initWishlistPage();
     }
   });
@@ -703,7 +715,14 @@ async function initAccountPage() {
   const container = main.querySelector(".container") || main;
   container.innerHTML = renderAccountPage();
   attachAccountHandlers();
-}
+
+  if (!window.__accountHashBound) {
+    window.__accountHashBound = true;
+    window.addEventListener("hashchange", () => {
+      if (document.body?.dataset.page === "account") initAccountPage();
+    });
+  }
+}
 
 async function initWishlistPage() {
   const productsRaw = await fetchJSON(DATA_PATHS.products);
@@ -727,6 +746,12 @@ function renderLoginPagePolished() {
         <p class="auth-card__subtitle">Đăng nhập để theo dõi đơn hàng, lưu voucher và quản lý wishlist của bạn.</p>
       </div>
 
+      <div class="demo-login-fill" aria-label="Tai khoan demo">
+        <span>Demo nhanh</span>
+        <button type="button" data-demo-login="customer">Fill user</button>
+        <button type="button" data-demo-login="admin">Fill admin</button>
+      </div>
+
       <form id="login-form" class="auth-form">
         <label class="form-field">
           <span>Email hoặc số điện thoại</span>
@@ -748,7 +773,7 @@ function renderLoginPagePolished() {
             <input type="checkbox" name="remember" />
             <span>Ghi nhớ đăng nhập</span>
           </label>
-          <a href="#" class="forgot-password">Quên mật khẩu?</a>
+          <a href="#forgot-password-panel" class="forgot-password">Quên mật khẩu?</a>
         </div>
 
         <button class="btn btn--primary btn--block btn--lg" type="submit" id="login-btn">Đăng nhập</button>
@@ -760,6 +785,70 @@ function renderLoginPagePolished() {
         <p>Chưa có tài khoản? <a href="./register.html${redirectQuery}" class="auth-link">Đăng ký ngay</a></p>
         <p class="auth-footer__extra">Bạn cần đăng nhập để lưu voucher, wishlist và xem lịch sử đơn hàng.</p>
       </div>
+    </div>
+  `;
+}
+
+function getDemoAccount(role) {
+  const isAdmin = role === "admin";
+  return accountState.users.find((user) =>
+    isAdmin ? user.role === "admin" : user.role !== "admin" && user.isActive !== false
+  );
+}
+
+function fillDemoLogin(role) {
+  const form = document.getElementById("login-form");
+  const demoUser = getDemoAccount(role);
+  if (!form || !demoUser) return;
+  const identity = form.querySelector("input[name='identity']");
+  const password = form.querySelector("input[name='password']");
+  if (identity) identity.value = demoUser.email || demoUser.phone || "";
+  if (password) {
+    password.value = demoUser.password || "";
+    password.type = "text";
+  }
+  form.querySelector("input[name='remember']")?.setAttribute("checked", "checked");
+  showAuthMessage("success", role === "admin" ? "Da dien tai khoan admin demo." : "Da dien tai khoan user demo.");
+}
+
+function renderSavedMealPlans(mealPlans) {
+  if (!mealPlans.length) {
+    return `
+      <div class="account-empty-state">
+        <h3>Chua co meal plan nao</h3>
+        <p>Vao Meal Planner, chon nguyen lieu va xem mon goi y. Mon vua plan se tu luu vao day khi ban da dang nhap.</p>
+        <a class="btn btn--primary" href="./meal-planner.html">Tao meal plan</a>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="account-meal-plans">
+      ${mealPlans.map((plan) => `
+        <article class="account-meal-card">
+          <img class="account-meal-card__image" src="${escapeHTML(plan.imageUrl || "./assets/images/hero-fresh.jpg")}" alt="${escapeHTML(plan.recipeName || "Meal plan")}">
+          <div class="account-meal-card__body">
+            <div class="account-meal-card__top">
+              <span>${escapeHTML(plan.mealTypeLabel || plan.mealType || "Meal")}</span>
+              <time>${escapeHTML(plan.savedAt ? formatDate(plan.savedAt) : "")}</time>
+            </div>
+            <h3>${escapeHTML(plan.recipeName || "Meal plan")}</h3>
+            <div class="account-meal-card__meta">
+              <span>${Number(plan.totalTime || 0)} phut</span>
+              <span>${Number(plan.nutrition?.calories || 0)} kcal</span>
+              <span>${Number(plan.nutrition?.protein || 0)}g protein</span>
+            </div>
+            <div class="account-meal-card__ingredients">
+              ${(plan.selectedIngredients || []).slice(0, 5).map((ingredient) => `
+                <span>
+                  ${ingredient.imageUrl ? `<img src="${escapeHTML(ingredient.imageUrl)}" alt="">` : ""}
+                  ${escapeHTML(ingredient.name || "Nguyen lieu")}
+                </span>
+              `).join("")}
+            </div>
+          </div>
+        </article>
+      `).join("")}
     </div>
   `;
 }
@@ -813,7 +902,7 @@ function renderRegisterPagePolished() {
 
         <label class="checkbox-wrapper">
           <input type="checkbox" name="agreed" required />
-          <span>Tôi đồng ý với <a href="./privacy-policy.html" class="auth-link">chính sách bảo mật</a> và điều khoản dịch vụ.</span>
+          <span>Tôi đồng ý với <a href="./privacy-policy.html" class="auth-link">chính sách bảo mật</a> và <a href="./guide.html" class="auth-link">điều khoản dịch vụ</a>.</span>
         </label>
 
         <button class="btn btn--primary btn--block btn--lg" type="submit" id="register-btn">Tạo tài khoản</button>
@@ -848,16 +937,16 @@ function enhanceLoginAuthDom() {
   const message = document.getElementById("auth-message");
   if (!form) return;
 
-  if (!document.querySelector("[data-social-login]")) {
+  if (!document.querySelector(".social-login--polished")) {
     form.insertAdjacentHTML("beforebegin", `
       <div class="social-login social-login--polished">
-        <button class="btn btn--outline btn--block btn--lg" type="button" data-social-login="google">
+        <button class="btn btn--outline btn--block btn--lg" type="button" disabled aria-disabled="true">
           <span class="social-login__icon social-login__icon--google">G</span>
-          Tiếp tục với Google
+          Google sắp hỗ trợ
         </button>
-        <button class="btn btn--outline btn--block btn--lg" type="button" data-social-login="facebook">
+        <button class="btn btn--outline btn--block btn--lg" type="button" disabled aria-disabled="true">
           <span class="social-login__icon social-login__icon--facebook">f</span>
-          Tiếp tục với Facebook
+          Facebook sắp hỗ trợ
         </button>
       </div>
       <div class="divider"><span>hoặc</span></div>
@@ -981,25 +1070,7 @@ function attachForgotPasswordHandlers(identity = "") {
 
 function loginWithSocialProvider(provider) {
   const label = provider === "facebook" ? "Facebook" : "Google";
-  const user = {
-    id: `social-${provider}-${Date.now()}`,
-    fullName: provider === "facebook" ? "Khách Facebook" : "Khách Google",
-    email: provider === "facebook" ? "facebook.customer@bachhoatuoi.vn" : "google.customer@bachhoatuoi.vn",
-    phone: "",
-    password: "",
-    role: "customer",
-    avatarUrl: "",
-    address: "",
-    isActive: true,
-    provider,
-    createdAt: new Date().toISOString(),
-    lastLoginAt: new Date().toISOString()
-  };
-
-  upsertStoredUser(user);
-  setCurrentUser(user);
-  showToast(`Đăng nhập bằng ${label} thành công!`);
-  window.location.href = normalizeRedirectTarget(getQueryParam("redirect"));
+  showAuthMessage("info", `Đăng nhập bằng ${label} đang được hoàn thiện.`);
 }
 
 function attachLoginHandlersPolished() {
@@ -1016,9 +1087,9 @@ function attachLoginHandlersPolished() {
     });
   });
 
-  document.querySelectorAll("[data-social-login]").forEach((button) => {
+  document.querySelectorAll("[data-demo-login]").forEach((button) => {
     button.addEventListener("click", () => {
-      loginWithSocialProvider(button.dataset.socialLogin || "google");
+      fillDemoLogin(button.dataset.demoLogin);
     });
   });
 

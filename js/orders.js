@@ -333,7 +333,7 @@ function bindEvents() {
         if (existing) {
           existing.quantity += item.quantity;
         } else {
-          cart.items.push({ productId: item.productId, quantity: item.quantity });
+          cart.items.push({ productId: item.productId, quantity: item.quantity, selected: true });
         }
         addedCount++;
       });

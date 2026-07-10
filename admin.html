@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600;700&family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" />
   </head>
-  <body>
+  <body data-page="admin">
     <div class="admin-shell">
       <aside class="admin-sidebar" id="admin-sidebar">
         <div class="admin-sidebar__header">
@@ -110,7 +110,7 @@
                 <div class="stat-card__body">
                   <div class="stat-card__label">Doanh thu</div>
                   <div class="stat-card__value" id="stat-revenue">0 ₫</div>
-                  <div class="stat-card__sub">Tổng đơn đã ghi nhận</div>
+                  <div class="stat-card__sub" id="stat-revenue-scope">Tổng đơn đã ghi nhận</div>
                 </div>
               </article>
               <article class="stat-card">
@@ -139,10 +139,42 @@
               </article>
             </div>
 
+            <div class="chart-grid chart-grid--dashboard" aria-label="Dashboard charts">
+              <section class="chart-card chart-card--wide">
+                <div class="chart-card__header">
+                  <div>
+                    <h3>Doanh thu 7 ngày</h3>
+                    <p id="chart-revenue-period">Theo đơn không bị hủy</p>
+                  </div>
+                  <span class="chart-card__pill" id="chart-revenue-total">0 đ</span>
+                </div>
+                <canvas id="revenue-chart" height="260" aria-label="Biểu đồ doanh thu 7 ngày"></canvas>
+              </section>
+              <section class="chart-card">
+                <div class="chart-card__header">
+                  <div>
+                    <h3>Trạng thái đơn</h3>
+                    <p>Tỷ trọng xử lý hiện tại</p>
+                  </div>
+                </div>
+                <canvas id="order-status-chart" height="260" aria-label="Biểu đồ trạng thái đơn hàng"></canvas>
+                <div class="chart-legend" id="order-status-legend"></div>
+              </section>
+              <section class="chart-card chart-card--wide">
+                <div class="chart-card__header">
+                  <div>
+                    <h3>Danh mục bán chạy</h3>
+                    <p>Dựa trên số lượng đã bán</p>
+                  </div>
+                </div>
+                <canvas id="category-sales-chart" height="260" aria-label="Biểu đồ danh mục bán chạy"></canvas>
+              </section>
+            </div>
+
             <div class="admin-grid">
               <section class="admin-table-wrapper">
                 <div class="section-header">
-                  <h2>Đơn hàng gần đây</h2>
+                  <h2 id="recent-orders-title">Đơn hàng gần đây</h2>
                   <a href="#orders" class="btn btn--sm btn--outline" data-tab="orders">Xem tất cả</a>
                 </div>
                 <table class="admin-table">

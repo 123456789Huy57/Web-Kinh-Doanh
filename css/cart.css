@@ -43,6 +43,13 @@
   box-shadow: var(--shadow-sm);
 }
 .cart-item:hover { box-shadow: var(--shadow-md); border-color: var(--color-primary-light); }
+.cart-item.is-unselected {
+  opacity: 0.62;
+  background: rgba(255, 255, 255, 0.66);
+}
+.cart-item.is-unselected .cart-item__subtotal {
+  color: var(--color-muted);
+}
 
 .cart-item__checkbox input { accent-color: var(--color-primary); width: 18px; height: 18px; cursor: pointer; }
 
@@ -1751,6 +1758,14 @@
   margin-top: 0;
   position: sticky;
   top: 84px;
+}
+
+.cart-page .cart-item {
+  border-radius: 22px;
+}
+
+.cart-page .cart-summary {
+  border-radius: 24px;
 }
 
 .cart-voucher-list {

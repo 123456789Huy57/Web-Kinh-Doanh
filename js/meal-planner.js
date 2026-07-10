@@ -4,7 +4,7 @@
    ================================================================ */
 
 import { fetchJSON, formatCurrency, escapeHTML, generateId, debounce, convertToProductUnit, getDisplayUnit } from './utils.js';
-import { getActiveCart, setActiveCart, getCurrentUser, mergeAdminProducts } from './storage.js';
+import { getActiveCart, setActiveCart, getCurrentUser, getMealPlans, setMealPlans, mergeAdminProducts } from './storage.js';
 import { createFooterHTML, showToast } from './main.js';
 
 function ensureMealFooter() {
@@ -12,6 +12,23 @@ function ensureMealFooter() {
   if (footer && !footer.innerHTML.trim()) {
     footer.innerHTML = createFooterHTML();
   }
+}
+
+function updateMealHeaderCartBadge(cart) {
+  const cartLink = document.querySelector('.header-action-btn[href="./cart.html"]');
+  if (!cartLink) return;
+  const count = (cart?.items || []).reduce((sum, item) => sum + Number(item.quantity || 0), 0);
+  let badge = cartLink.querySelector(".header-action-btn__badge");
+  if (count <= 0) {
+    badge?.remove();
+    return;
+  }
+  if (!badge) {
+    badge = document.createElement("span");
+    badge.className = "header-action-btn__badge";
+    cartLink.appendChild(badge);
+  }
+  badge.textContent = count > 99 ? "99+" : String(count);
 }
 
 /* ── State ── */
@@ -193,6 +210,37 @@ function getIngredientDisplayProduct(ingredient) {
 function getIngredientDisplayImage(ingredient) {
   const product = getMappedCatalogProduct(ingredient?.id);
   return getProductImage(product || ingredient);
+}
+
+function getRecipeMatchedIngredients(recipe) {
+  const selectedIds = Array.from(state.selectedIngredients);
+  return (recipe?.ingredients || [])
+    .map(ingredientLine => {
+      const ingredientId = getIngredientId(ingredientLine);
+      const ingredient = getIngredient(ingredientId);
+      if (!ingredient || !selectedIds.includes(ingredientId)) return null;
+      return {
+        id: ingredientId,
+        name: ingredient.name,
+        imageUrl: getIngredientDisplayImage(ingredient)
+      };
+    })
+    .filter(Boolean);
+}
+
+function renderRecipeMatchedIngredientStrip(recipe) {
+  const matchedIngredients = getRecipeMatchedIngredients(recipe).slice(0, 4);
+  if (!matchedIngredients.length) return "";
+  return `
+    <div class="recipe-result-card__matched" aria-label="Nguyên liệu đã chọn có trong món">
+      ${matchedIngredients.map(ingredient => `
+        <span class="recipe-result-card__matched-item" title="${escapeHTML(ingredient.name)}">
+          <img src="${escapeHTML(ingredient.imageUrl)}" alt="${escapeHTML(ingredient.name)}" loading="lazy">
+          <span>${escapeHTML(ingredient.name)}</span>
+        </span>
+      `).join("")}
+    </div>
+  `;
 }
 
 function getRecipeScale(recipe) {
@@ -761,6 +809,7 @@ function renderResults(recipes) {
         </div>
         <div class="recipe-result-card__body">
           <h3 class="recipe-result-card__title">${escapeHTML(recipe.name)}</h3>
+          ${renderRecipeMatchedIngredientStrip(recipe)}
           <div class="recipe-result-card__meta">
             <span class="recipe-result-card__meta-item">Thời gian ${totalTime} phút</span>
             <span class="recipe-result-card__meta-item">Năng lượng ${recipe.nutrition?.calories || 0} kcal</span>
@@ -872,6 +921,40 @@ function renderNutritionCallouts(recipe) {
   `).join("");
 }
 
+function savePlannedMeal(recipe, selectedIds = []) {
+  if (!getCurrentUser() || !recipe) return;
+  const selectedIngredients = selectedIds
+    .map(id => getIngredient(id))
+    .filter(Boolean)
+    .map(ingredient => ({
+      id: ingredient.id,
+      name: ingredient.name,
+      imageUrl: getIngredientDisplayImage(ingredient)
+    }));
+  const signature = selectedIds.slice().sort().join("-");
+  const planId = `${recipe.id || "recipe"}-${signature || "default"}`;
+  const totalTime = (recipe.prepTimeMinutes || 0) + (recipe.cookTimeMinutes || 0);
+  const plan = {
+    id: planId,
+    recipeId: recipe.id,
+    recipeName: recipe.name,
+    mealType: recipe.mealType,
+    mealTypeLabel: MEAL_TYPE_LABELS[recipe.mealType] || recipe.mealType,
+    imageUrl: getRecipeImage(recipe),
+    selectedIngredients,
+    nutrition: recipe.nutrition || {},
+    totalTime,
+    servings: parseInt(state.filters.servings, 10) || recipe.servings || 2,
+    savedAt: new Date().toISOString()
+  };
+  const existingPlans = getMealPlans();
+  const nextPlans = [
+    plan,
+    ...existingPlans.filter(item => item.id !== planId)
+  ].slice(0, 24);
+  setMealPlans(nextPlans);
+}
+
 function getRecipeStepGroups(steps = []) {
   const labels = [
     { key: "prep", title: "Bước 1", subtitle: "Chuẩn bị" },
@@ -976,6 +1059,7 @@ function displaySelectedRecipe(recipeId, options = {}) {
     <span>${MEAL_TYPE_LABELS[recipe.mealType] || recipe.mealType}</span>
     <span>${recipe.servings || 2} người</span>
     <span>${recipe.nutrition?.calories || 0} kcal</span>
+    <span>${recipe.nutrition?.protein || 0}g protein</span>
   `;
   els.selectedRecipeStatus.innerHTML = `<strong>${matchText}</strong> · cần mua thêm ${missingIngredients.length} nguyên liệu.`;
   els.selectedRecipeImage.innerHTML = `<img src="${escapeHTML(imageUrl)}" alt="${escapeHTML(recipe.name)}">`;
@@ -990,7 +1074,7 @@ function displaySelectedRecipe(recipeId, options = {}) {
     return `
       <div class="recipe-selected__callout ${hasIngredient ? "is-owned" : "is-needed"}" style="left:calc(50% + ${pos.x}px); top:calc(50% + ${pos.y}px); animation-delay:${index * 70}ms;">
         <div class="recipe-selected__callout-image">
-          <img src="${escapeHTML(getProductImage(ingredient))}" alt="${escapeHTML(ingredientName)}">
+          <img src="${escapeHTML(getIngredientDisplayImage(ingredient))}" alt="${escapeHTML(ingredientName)}">
         </div>
         <div class="recipe-selected__callout-info">
           <strong>${escapeHTML(ingredientName)}</strong>
@@ -998,12 +1082,13 @@ function displaySelectedRecipe(recipeId, options = {}) {
         </div>
       </div>
     `;
-  }).join("") + renderNutritionCallouts(recipe);
+  }).join("");
 
   els.selectedRecipeSvg.innerHTML = renderConnectionSVG(positions);
   els.selectedRecipePanel.style.display = "";
   els.recipePurchasePanel.style.display = "";
   els.recipeDetailTabs.style.display = "";
+  savePlannedMeal(recipe, selectedIds);
 
   els.recipePurchaseLabel.textContent = missingIngredients.length > 0 ? "Nguyên liệu cần mua thêm" : "Bạn đã có đủ nguyên liệu";
   els.recipePurchaseNote.textContent = missingIngredients.length > 0 ? "Chọn từng món hoặc thêm sản phẩm còn thiếu vào giỏ." : "Bạn đã sẵn sàng nấu món này ngay.";
@@ -1016,7 +1101,7 @@ function displaySelectedRecipe(recipeId, options = {}) {
     if (!resolved.product) {
       return `
         <div class="recipe-purchase-item recipe-purchase-item--unavailable" data-ingredient-id="${escapeHTML(resolved.ingredientId)}">
-          <img class="recipe-purchase-item__image" src="${escapeHTML(getProductImage(resolved.ingredient))}" alt="">
+          <img class="recipe-purchase-item__image" src="${escapeHTML(getIngredientDisplayImage(resolved.ingredient))}" alt="">
           <div class="recipe-purchase-item__info">
             <div class="recipe-purchase-item__name">${escapeHTML(ingredientName)}</div>
             <div class="recipe-purchase-item__qty">Chưa có sản phẩm phù hợp trong kho</div>
@@ -1065,9 +1150,10 @@ function addProductToCart(productId, quantity) {
   cart.items = cart.items || [];
   const existing = cart.items.find(item => item.productId === productId);
   if (existing) existing.quantity += quantity;
-  else cart.items.push({ productId, quantity });
+  else cart.items.push({ productId, quantity, selected: true });
   cart.updatedAt = new Date().toISOString();
   setActiveCart(cart);
+  updateMealHeaderCartBadge(cart);
   showToast(`Đã thêm ${quantity} ${product.unit || ""} ${product.name} vào giỏ hàng!`);
 }
 
@@ -1320,13 +1406,14 @@ function confirmAddToCart() {
     if (existing) {
       existing.quantity += cartQty;
     } else {
-      cart.items.push({ productId, quantity: cartQty });
+      cart.items.push({ productId, quantity: cartQty, selected: true });
     }
     addedCount++;
   });
 
   cart.updatedAt = new Date().toISOString();
   setActiveCart(cart);
+  updateMealHeaderCartBadge(cart);
 
   if (addedCount > 0) {
     showToast(`Đã thêm ${addedCount} sản phẩm còn thiếu của "${recipe.name}" vào giỏ hàng!`);
@@ -1360,13 +1447,14 @@ function addRecipeToCart(recipeId) {
     if (existing) {
       existing.quantity += resolved.cartQty;
     } else {
-      cart.items.push({ productId: product.id, quantity: resolved.cartQty });
+      cart.items.push({ productId: product.id, quantity: resolved.cartQty, selected: true });
     }
     addedCount++;
   });
 
   cart.updatedAt = new Date().toISOString();
   setActiveCart(cart);
+  updateMealHeaderCartBadge(cart);
   if (addedCount > 0) {
     showToast(`Đã thêm ${addedCount} sản phẩm còn thiếu của "${recipe.name}" vào giỏ hàng!`);
   } else {

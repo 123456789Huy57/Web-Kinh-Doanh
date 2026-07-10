@@ -19,13 +19,38 @@ function getProduct(productId) {
   return cartState.products.find((p) => p.id === productId);
 }
 
+function getSelectedItems(cart) {
+  return (cart.items || []).filter((item) => item.selected !== false);
+}
+
+function normalizeCart(cart) {
+  return {
+    ...cart,
+    items: (cart.items || []).map((item) => ({
+      ...item,
+      selected: item.selected !== false
+    }))
+  };
+}
+
 function getPrice(product) {
   const salePrice = getProductSalePrice(product);
   return salePrice && salePrice < product.price ? salePrice : product.price;
 }
 
+function getStock(product) {
+  const stock = Number(product?.stock ?? product?.stock_quantity ?? product?.quantity ?? 0);
+  if (product?.in_stock === false) return 0;
+  return Number.isFinite(stock) ? stock : 0;
+}
+
+function getProductDetailUrl(product) {
+  const slug = String(product?.slug || "").trim();
+  return slug ? `./product-detail.html?slug=${encodeURIComponent(slug)}` : `./product-detail.html?id=${encodeURIComponent(product?.id || "")}`;
+}
+
 function calculateSubtotal(cart) {
-  return (cart.items || []).reduce((sum, item) => {
+  return getSelectedItems(cart).reduce((sum, item) => {
     const product = getProduct(item.productId);
     return sum + (product ? getPrice(product) * item.quantity : 0);
   }, 0);
@@ -144,24 +169,24 @@ function renderCartItems(cart) {
     if (!product) return "";
     const subtotal = getPrice(product) * item.quantity;
     return `
-      <div class="cart-item" data-product-id="${product.id}">
+      <div class="cart-item ${item.selected === false ? "is-unselected" : ""}" data-product-id="${product.id}">
         <div class="cart-item__checkbox">
-          <input type="checkbox" checked />
+          <input type="checkbox" data-action="toggle-select" data-product-id="${product.id}" ${item.selected !== false ? "checked" : ""} aria-label="Chọn ${escapeHTML(product.name)}" />
         </div>
         <div class="cart-item__image">
           <img src="${getProductImage(product)}" alt="${escapeHTML(product.name)}" onerror="this.onerror=null;this.src='./assets/images/placeholder-product.svg'" />
         </div>
         <div class="cart-item__info">
           <div class="cart-item__name">
-            <a href="./product-detail.html?slug=${encodeURIComponent(product.slug)}">${escapeHTML(product.name)}</a>
+            <a href="${getProductDetailUrl(product)}">${escapeHTML(product.name)}</a>
           </div>
-          <div class="cart-item__unit">${escapeHTML(product.brand)} · ${escapeHTML(product.unit)}</div>
+          <div class="cart-item__unit">${escapeHTML(product.brand)} · ${escapeHTML(product.unit)} · Còn ${getStock(product)}</div>
         </div>
         <div class="cart-item__quantity">
           <div class="quantity-control">
             <button class="quantity-control__btn" data-action="decrease" data-product-id="${product.id}" type="button">−</button>
             <input class="quantity-control__value" type="number" value="${item.quantity}" min="1" readonly />
-            <button class="quantity-control__btn" data-action="increase" data-product-id="${product.id}" type="button">+</button>
+            <button class="quantity-control__btn" data-action="increase" data-product-id="${product.id}" type="button" ${item.quantity >= getStock(product) ? "disabled" : ""}>+</button>
           </div>
         </div>
         <div class="cart-item__subtotal">${formatCurrency(subtotal)}</div>
@@ -172,9 +197,10 @@ function renderCartItems(cart) {
 }
 
 function renderCartPage() {
-  const cart = cartState.cart;
+  const cart = normalizeCart(cartState.cart);
   if (!cart.items?.length) return renderCartEmpty();
 
+  const selectedItems = getSelectedItems(cart);
   const subtotal = calculateSubtotal(cart);
   const freeShipThreshold = 300000;
   const shipping = subtotal >= freeShipThreshold ? 0 : 20000;
@@ -195,8 +221,8 @@ function renderCartPage() {
         </div>
         <div class="cart-hero__stats">
           <div class="cart-hero__stat">
-            <span>${cart.items.length}</span>
-            <small>Sản phẩm</small>
+            <span>${selectedItems.length}/${cart.items.length}</span>
+            <small>Sản phẩm đã chọn</small>
           </div>
           <div class="cart-hero__stat">
             <span>${formatCurrency(subtotal)}</span>
@@ -209,7 +235,7 @@ function renderCartPage() {
     <div class="cart-items">
       <div class="cart-header">
         <div class="cart-header__select-all">
-          <input type="checkbox" checked />
+          <input type="checkbox" id="select-all-cart" ${selectedItems.length === cart.items.length ? "checked" : ""} />
           <span>Chọn tất cả (${cart.items.length})</span>
         </div>
         <button class="btn btn--ghost btn--sm" id="clear-cart-btn" type="button">Xóa tất cả</button>
@@ -259,7 +285,7 @@ function renderCartPage() {
       </div>
 
       <div class="cart-summary__actions">
-        <a class="btn btn--primary btn--block btn--lg" href="./checkout.html">Tiến hành thanh toán</a>
+        <a class="btn btn--primary btn--block btn--lg ${selectedItems.length ? "" : "is-disabled"}" href="${selectedItems.length ? "./checkout.html" : "#"}" aria-disabled="${selectedItems.length ? "false" : "true"}">Tiến hành thanh toán</a>
         <a class="btn btn--ghost btn--block" href="./catalog.html">Tiếp tục mua sắm</a>
       </div>
     </aside>
@@ -267,10 +293,16 @@ function renderCartPage() {
 }
 
 function updateCartItem(productId, delta) {
-  const cart = getActiveCart();
+  const cart = normalizeCart(getActiveCart());
   cart.items = cart.items || [];
   const item = cart.items.find((e) => e.productId === productId);
   if (!item) return;
+  const product = getProduct(productId);
+  const stock = getStock(product);
+  if (delta > 0 && item.quantity >= stock) {
+    showToast("Số lượng trong giỏ đã đạt tồn kho hiện có", "warning");
+    return;
+  }
   item.quantity += delta;
   if (item.quantity <= 0) {
     cart.items = cart.items.filter((e) => e.productId !== productId);
@@ -280,8 +312,28 @@ function updateCartItem(productId, delta) {
   rerender();
 }
 
+function toggleCartItemSelection(productId, selected) {
+  const cart = normalizeCart(getActiveCart());
+  cart.items = cart.items || [];
+  cart.items = cart.items.map((item) => item.productId === productId ? { ...item, selected } : item);
+  cart.updatedAt = new Date().toISOString();
+  setActiveCart(cart);
+  voucherMsg = { text: "", success: false };
+  rerender();
+}
+
+function setAllCartSelection(selected) {
+  const cart = normalizeCart(getActiveCart());
+  cart.items = cart.items || [];
+  cart.items = cart.items.map((item) => ({ ...item, selected }));
+  cart.updatedAt = new Date().toISOString();
+  setActiveCart(cart);
+  voucherMsg = { text: "", success: false };
+  rerender();
+}
+
 function removeCartItem(productId) {
-  const cart = getActiveCart();
+  const cart = normalizeCart(getActiveCart());
   cart.items = (cart.items || []).filter((e) => e.productId !== productId);
   cart.updatedAt = new Date().toISOString();
   setActiveCart(cart);
@@ -290,7 +342,7 @@ function removeCartItem(productId) {
 }
 
 function applyVoucher(code) {
-  const cart = getActiveCart();
+  const cart = normalizeCart(getActiveCart());
   const voucher = cartState.vouchers.find((v) => v.code === code);
   if (!voucher) {
     voucherMsg = { text: "Mã giảm giá không hợp lệ", success: false };
@@ -298,6 +350,11 @@ function applyVoucher(code) {
     return;
   }
   const subtotal = calculateSubtotal(cart);
+  if (subtotal <= 0) {
+    voucherMsg = { text: "Vui lòng chọn ít nhất một sản phẩm trước khi áp dụng voucher.", success: false };
+    rerender();
+    return;
+  }
   if (subtotal < voucher.minOrderValue) {
     const missing = voucher.minOrderValue - subtotal;
     voucherMsg = { text: "Chưa đủ điều kiện cho mã " + voucher.code + ". Mua thêm " + formatCurrency(missing) + " để áp dụng.", success: false };
@@ -319,7 +376,7 @@ function applyVoucher(code) {
 }
 
 function rerender() {
-  cartState.cart = getActiveCart();
+  cartState.cart = normalizeCart(getActiveCart());
   cartState.cart.items = cartState.cart.items || [];
   const root = document.getElementById("cart-root");
   if (!root) return;
@@ -337,7 +394,12 @@ function bindEvents() {
       if (btn.dataset.action === "increase") updateCartItem(pid, 1);
       if (btn.dataset.action === "decrease") updateCartItem(pid, -1);
       if (btn.dataset.action === "remove") removeCartItem(pid);
+      if (btn.dataset.action === "toggle-select") toggleCartItemSelection(pid, btn.checked);
     });
+  });
+
+  document.getElementById("select-all-cart")?.addEventListener("change", (event) => {
+    setAllCartSelection(event.target.checked);
   });
 
   document.getElementById("clear-cart-btn")?.addEventListener("click", () => {
@@ -375,7 +437,7 @@ async function initCartPage() {
 
   cartState.products = mergeAdminProducts(productsRaw || []).filter((p) => p.isActive !== false && p.active !== false);
   cartState.vouchers = mergeAdminVouchers(vouchersRaw || []).filter((v) => v.isActive !== false);
-  cartState.cart = getActiveCart();
+  cartState.cart = normalizeCart(getActiveCart());
   cartState.cart.items = cartState.cart.items || [];
 
   const root = document.getElementById("cart-root");

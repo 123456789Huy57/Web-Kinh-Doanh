@@ -34,7 +34,7 @@ function addToCart(productId, quantity = 1) {
   cart.items = cart.items || [];
   const existing = cart.items.find((item) => item.productId === productId);
   if (existing) existing.quantity += quantity;
-  else cart.items.push({ productId, quantity });
+  else cart.items.push({ productId, quantity, selected: true });
   cart.updatedAt = new Date().toISOString();
   setActiveCart(cart);
 }
@@ -324,13 +324,14 @@ function bindProductGallery(root) {
 
 async function initProductPage() {
   const slug = getQueryParam("slug");
+  const id = getQueryParam("id");
   const [productsRaw, categoriesRaw] = await Promise.all([
     fetchJSON(DATA_PATHS.products),
     fetchJSON(DATA_PATHS.categories)
   ]);
 
   const activeProducts = mergeAdminProducts(productsRaw || []).filter(isProductActive);
-  const product = activeProducts.find((item) => item.slug === slug);
+  const product = activeProducts.find((item) => (slug && item.slug === slug) || (id && item.id === id));
   const root = document.getElementById("product-root");
   if (!root) return;
 
@@ -350,19 +351,31 @@ async function initProductPage() {
   bindProductGallery(root);
 
   const qtyInput = document.getElementById("product-quantity");
+  const maxStock = Math.max(0, Number(product.stock ?? product.stock_quantity ?? product.quantity ?? 0) || 0);
+  if (qtyInput && maxStock > 0) {
+    qtyInput.max = String(maxStock);
+  }
   document.getElementById("qty-minus")?.addEventListener("click", () => {
     qtyInput.value = Math.max(1, Number(qtyInput.value) - 1);
   });
   document.getElementById("qty-plus")?.addEventListener("click", () => {
-    qtyInput.value = Number(qtyInput.value) + 1;
+    const next = Number(qtyInput.value) + 1;
+    qtyInput.value = maxStock > 0 ? Math.min(maxStock, next) : next;
   });
 
   document.getElementById("add-to-cart-btn")?.addEventListener("click", () => {
     const quantity = Math.max(1, Number(qtyInput?.value || 1));
+    const cart = getActiveCart();
+    const existingQty = Number((cart.items || []).find((item) => item.productId === product.id)?.quantity || 0);
+    if (maxStock <= 0 || existingQty >= maxStock) {
+      showToast("Sản phẩm tạm hết hàng hoặc đã đạt tồn kho hiện có", "warning");
+      return;
+    }
+    const safeQuantity = Math.min(quantity, maxStock - existingQty);
     updateAddToCartButton("adding");
-    addToCart(product.id, quantity);
+    addToCart(product.id, safeQuantity);
     updateAddToCartButton("added");
-    showToast(`Đã thêm ${product.name} vào giỏ hàng`);
+    showToast(`Đã thêm ${safeQuantity} ${product.unit || "sản phẩm"} ${product.name} vào giỏ hàng`);
     const badge = document.querySelector(".header-action-btn__badge");
     if (badge) {
       const cart = getActiveCart();

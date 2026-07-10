@@ -186,6 +186,7 @@ function renderCatalog() {
     ${renderBreadcrumb(breadcrumbItems)}
 
     <button class="btn btn--outline btn--sm mobile-filter-toggle" id="mobile-filter-btn">Bộ lọc</button>
+    <div class="catalog-filter-overlay" aria-hidden="true"></div>
 
     <div class="page-layout">
       ${renderSidebar()}
@@ -259,10 +260,17 @@ function bindCheckbox(id, key) {
 }
 
 function bindEvents() {
+  const closeMobileFilters = () => {
+    document.getElementById("category-sidebar")?.classList.remove("is-open");
+    document.querySelector(".catalog-filter-overlay")?.classList.remove("is-open");
+    document.body.classList.remove("catalog-filter-open");
+  };
+
   document.querySelectorAll(".category-sidebar__item[data-cat-filter]").forEach((el) => {
     el.addEventListener("click", (event) => {
       event.preventDefault();
       updateFilter("category", el.dataset.catFilter);
+      closeMobileFilters();
     });
   });
 
@@ -300,7 +308,16 @@ function bindEvents() {
   });
 
   document.getElementById("mobile-filter-btn")?.addEventListener("click", () => {
-    document.getElementById("category-sidebar")?.classList.toggle("is-open");
+    const sidebar = document.getElementById("category-sidebar");
+    const isOpen = !sidebar?.classList.contains("is-open");
+    sidebar?.classList.toggle("is-open", isOpen);
+    document.querySelector(".catalog-filter-overlay")?.classList.toggle("is-open", isOpen);
+    document.body.classList.toggle("catalog-filter-open", isOpen);
+  });
+
+  document.querySelector(".catalog-filter-overlay")?.addEventListener("click", closeMobileFilters);
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeMobileFilters();
   });
 }
 

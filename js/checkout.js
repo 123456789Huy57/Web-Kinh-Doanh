@@ -37,23 +37,53 @@ function getProduct(productId) {
   return checkoutState.products.find((product) => product.id === productId);
 }
 
+function getSelectedItems(cart) {
+  return (cart.items || []).filter((item) => item.selected !== false);
+}
+
+function getCheckoutCart(cart) {
+  return {
+    ...cart,
+    items: getSelectedItems(cart).map((item) => ({
+      ...item,
+      selected: true
+    }))
+  };
+}
+
 function getPrice(product) {
   const salePrice = getProductSalePrice(product);
   return salePrice && salePrice < product.price ? salePrice : product.price;
 }
 
+function getStock(product) {
+  const stock = Number(product?.stock ?? product?.stock_quantity ?? product?.quantity ?? 0);
+  if (product?.in_stock === false) return 0;
+  return Number.isFinite(stock) ? stock : 0;
+}
+
+function getStockIssues(cart) {
+  return getSelectedItems(cart).filter((item) => {
+    const product = getProduct(item.productId);
+    return !product || Number(item.quantity || 0) > getStock(product);
+  });
+}
+
 function calculateSubtotal(cart) {
-  return (cart.items || []).reduce((sum, item) => {
+  return getSelectedItems(cart).reduce((sum, item) => {
     const product = getProduct(item.productId);
     return sum + (product ? getPrice(product) * item.quantity : 0);
   }, 0);
 }
 
-function getVoucherDiscount(cart, subtotal) {
+function getVoucherDiscount(cart, subtotal, shipping = 0) {
   if (!cart.voucherCode) return 0;
   const voucher = checkoutState.vouchers.find((item) => item.code === cart.voucherCode);
   const minOrder = Number(voucher?.minOrder ?? voucher?.minOrderValue ?? 0);
   if (!voucher || subtotal < minOrder) return 0;
+  if (voucher.category === "shipping") {
+    return Math.min(shipping, Number(voucher.discountValue || shipping));
+  }
   return voucher.discountType === "percent"
     ? Math.min(subtotal * (Number(voucher.discountValue || 0) / 100), voucher.maxDiscountValue || subtotal)
     : Number(voucher.discountValue || 0);
@@ -144,7 +174,7 @@ function renderCheckoutSteps(activeStep = "delivery") {
 function renderOrderSummary(cart) {
   const subtotal = calculateSubtotal(cart);
   const shipping = subtotal >= 300000 ? 0 : 20000;
-  const discount = getVoucherDiscount(cart, subtotal);
+  const discount = getVoucherDiscount(cart, subtotal, shipping);
   const total = Math.max(0, subtotal + shipping - discount);
 
   return `
@@ -192,13 +222,14 @@ function renderOrderSummary(cart) {
 }
 
 function renderCheckoutPage(cart, draft) {
-  if (!cart.items?.length) {
+  const checkoutCart = getCheckoutCart(cart);
+  if (!checkoutCart.items?.length) {
     return `
       ${renderBreadcrumb(createBreadcrumbItems({ pageType: "checkout" }))}
       <section class="checkout-success checkout-success--empty">
-        <h1 class="checkout-success__title">Giỏ hàng đang trống</h1>
-        <p class="checkout-success__desc">Hãy thêm sản phẩm trước khi thanh toán.</p>
-        <a class="btn btn--primary btn--lg" href="./catalog.html">Đi đến danh mục</a>
+        <h1 class="checkout-success__title">Chưa chọn sản phẩm</h1>
+        <p class="checkout-success__desc">Hãy chọn ít nhất một sản phẩm trong giỏ hàng trước khi thanh toán.</p>
+        <a class="btn btn--primary btn--lg" href="./cart.html">Quay lại giỏ hàng</a>
       </section>
     `;
   }
@@ -289,18 +320,19 @@ function renderCheckoutPage(cart, draft) {
         </div>
       </div>
 
-      ${renderOrderSummary(cart)}
+      ${renderOrderSummary(checkoutCart)}
     </div>
   `;
 }
 
 function createOrderFromCart(formData, cart) {
-  const subtotal = calculateSubtotal(cart);
+  const checkoutCart = getCheckoutCart(cart);
+  const subtotal = calculateSubtotal(checkoutCart);
   const shippingFee = subtotal >= 300000 ? 0 : 20000;
-  const discount = getVoucherDiscount(cart, subtotal);
+  const discount = getVoucherDiscount(checkoutCart, subtotal, shippingFee);
   const total = Math.max(0, subtotal + shippingFee - discount);
   const currentUser = getCurrentUser();
-  const orderItems = cart.items
+  const orderItems = checkoutCart.items
     .map((item) => {
       const product = getProduct(item.productId);
       if (!product) return null;
@@ -327,7 +359,7 @@ function createOrderFromCart(formData, cart) {
     subtotal,
     shippingFee,
     discount,
-    voucherCode: cart.voucherCode || String(formData.get("voucherCode") || "").trim().toUpperCase() || null,
+    voucherCode: checkoutCart.voucherCode || String(formData.get("voucherCode") || "").trim().toUpperCase() || null,
     total,
     status: "pending",
     paymentMethod: String(formData.get("paymentMethod") || "cod"),
@@ -370,7 +402,7 @@ async function initCheckoutPage() {
   root.innerHTML = renderCheckoutPage(cart, draft);
 
   const form = document.getElementById("checkout-form");
-  if (!form || !cart.items?.length) return;
+  if (!form || !getSelectedItems(cart).length) return;
 
   document.querySelectorAll(".payment-method input[type='radio']").forEach((radio) => {
     radio.addEventListener("change", () => {
@@ -429,7 +461,12 @@ async function initCheckoutPage() {
     event.preventDefault();
     const data = new FormData(form);
     const latestCart = getActiveCart();
-    if (!latestCart.items?.length) return;
+    if (!getSelectedItems(latestCart).length) return;
+    const stockIssues = getStockIssues(latestCart);
+    if (stockIssues.length) {
+      showToast("Một số sản phẩm đã vượt tồn kho. Vui lòng quay lại giỏ hàng để cập nhật.", "warning");
+      return;
+    }
 
     const voucherCode = String(data.get("voucherCode") || "").trim().toUpperCase();
     if (voucherCode && !latestCart.voucherCode) {
@@ -442,7 +479,10 @@ async function initCheckoutPage() {
     orders.unshift(order);
     setOrders(orders);
     clearCheckoutDraft();
-    setActiveCart({ items: [], updatedAt: new Date().toISOString() });
+    setActiveCart({
+      items: (latestCart.items || []).filter((item) => item.selected === false).map((item) => ({ ...item, selected: true })),
+      updatedAt: new Date().toISOString()
+    });
 
     let pointsEarned = 0;
     if (currentUser) {

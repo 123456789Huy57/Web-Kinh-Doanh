@@ -175,6 +175,8 @@ function cleanText(value) {
   return String(value || "")
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d")
+    .replace(/Đ/g, "D")
     .trim()
     .toLowerCase();
 }
@@ -210,6 +212,63 @@ function getProductImage(product) {
   return image || pickVariantImage(product, subcategoryImage);
 }
 
+function getRawProductImage(product) {
+  const image = product?.imageUrl || product?.image_url || product?.image || product?.source_image_url || "";
+  if (!image) return "";
+  return image.startsWith("/assets/") ? `.${image}` : image;
+}
+
+const SUBCATEGORY_IMAGE_KEYWORDS = {
+  "meat-chicken": ["ga", "uc ga", "dui ga", "canh ga"],
+  "meat-beef": ["bo", "thit bo", "nam bo", "dui bo", "bo vien"],
+  "meat-pork": ["heo", "ba roi", "ba chi", "suon", "chan gio", "thit dui"],
+  "beverages-water": ["nuoc khoang", "nuoc suoi", "nuoc loc", "lavie", "la vie", "vikoda", "dasani"],
+  "beverages-other": ["bia", "tra", "ca phe", "cafe", "sua", "sting", "coca", "pepsi", "nuoc ep"],
+  "dairy-eggs": ["trung"],
+  "dairy-other": ["sua", "bo", "pho mai", "yogurt", "sua chua"]
+};
+
+function scoreSubcategoryImageCandidate(sub, candidate, usedImages) {
+  const url = candidate?.url || "";
+  if (!url) return -999;
+  const haystack = cleanText(`${candidate?.name || ""} ${candidate?.id || ""} ${url}`);
+  const label = cleanText(sub?.name || "");
+  const keywords = SUBCATEGORY_IMAGE_KEYWORDS[sub?.id] || label.split(/\s+/).filter((word) => word.length > 2);
+  let score = 0;
+
+  if (/cdnv2\.tgdd\.vn|bhx/i.test(url)) score += 120;
+  if (usedImages.has(url)) score -= 160;
+  keywords.forEach((keyword) => {
+    if (keyword && haystack.includes(cleanText(keyword))) score += 45;
+  });
+  label.split(/\s+/).forEach((word) => {
+    if (word.length > 2 && haystack.includes(word)) score += 15;
+  });
+  if (/unsplash|pexels|pixnio|pakutaso|hypeandhyper/i.test(url)) score -= 35;
+  return score;
+}
+
+function resolveSubcategoryImage(sub, candidates, fallbackImage, usedImages) {
+  const uniqueCandidates = [];
+  const seen = new Set();
+
+  (candidates || []).forEach((candidate) => {
+    if (!candidate?.url || seen.has(candidate.url)) return;
+    seen.add(candidate.url);
+    uniqueCandidates.push(candidate);
+  });
+
+  if (fallbackImage && !seen.has(fallbackImage)) {
+    uniqueCandidates.push({ url: fallbackImage, name: sub?.name || "", id: sub?.id || "" });
+  }
+
+  const best = uniqueCandidates
+    .map((candidate) => ({ ...candidate, score: scoreSubcategoryImageCandidate(sub, candidate, usedImages) }))
+    .sort((a, b) => b.score - a.score)[0];
+
+  return best?.url || fallbackImage || "";
+}
+
 function getProductReviewCount(product) {
   return Number(product?.reviewCount ?? product?.review_count ?? 0) || 0;
 }
@@ -217,6 +276,7 @@ function getProductReviewCount(product) {
 function getProductCategory(product) {
   const category = cleanText(product?.categoryId || product?.category || "");
   const text = cleanText(`${product?.name || ""} ${product?.description || ""} ${(product?.tags || []).join(" ")}`);
+  if (category === "rice-grains" && /\b(xuc xich|doi sun|cha lua|lap xuong)\b/.test(text)) return "frozen";
   if (MARKET_CATEGORY_LABELS[category]) return category;
   if (category === "cleaning") return "cleaning";
   if (category === "seafood" || /\b(tom|cua|muc|ech|surimi)\b/.test(text)) return "seafood";
@@ -251,7 +311,20 @@ function isMarketProduct(product) {
 
 function getSubcategoryForProduct(product) {
   const category = getProductCategory(product);
+  const nameText = cleanText(product?.name || "");
   const text = cleanText(`${product?.name || ""} ${product?.description || ""} ${(product?.tags || []).join(" ")}`);
+
+  if (category === "meat") {
+    if (/\b(ga|uc ga|dui ga|canh ga)\b/.test(nameText)) return "Thịt gà";
+    if (/\b(bo|nam bo|dui bo|than bo|bo vien)\b/.test(nameText)) return "Thịt bò";
+    if (/\b(heo|ba roi|ba chi|suon|chan gio|xuong heo|thit dui)\b/.test(nameText)) return "Thịt heo";
+  }
+  if (category === "frozen" && /\b(xuc xich|doi sun|cha lua|vien|banh xep)\b/.test(nameText)) return "Đông lạnh khác";
+  if (category === "rice-grains") {
+    if (/\b(bun|mi|mien|pho|banh trang|yen mach|dau|bot|hat|tran chau)\b/.test(nameText)) return "Đồ khô khác";
+    if (/\b(gao|rice)\b/.test(nameText)) return "Gạo";
+  }
+
   const rules = {
     vegetables: [["ca chua|ot|dua leo|bap|dau bap", "Rau ăn quả"], ["rau|xa lach|hanh|ngo|thom", "Rau ăn lá"], ["ca rot|khoai|gung|nam|cu|dua chua", "Rau củ khác"]],
     fruits: [["xoai|chuoi|tao|thanh long|dao|cam|le|cherry|man", "Trái cây tươi"]],
@@ -376,20 +449,41 @@ function buildMarketProductCategories(products, categorySource = []) {
     const metaSubs = meta?.subcategories || [];
     const productSubId = product?.subcategory || "";
     const productSubName = product?.subcategoryName || "";
+    const inferredSubName = getSubcategoryForProduct(product);
     const matchedMetaSub = metaSubs.find((sub) =>
+      cleanText(sub.name) === cleanText(inferredSubName)
+    ) || metaSubs.find((sub) =>
       sub.id === productSubId ||
       sub.slug === productSubId ||
       cleanText(sub.name) === cleanText(productSubName)
     ) || (metaSubs.length === 1 ? metaSubs[0] : null);
-    const subName = matchedMetaSub?.name || getSubcategoryForProduct(product);
+    const subName = matchedMetaSub?.name || inferredSubName;
     const subId = matchedMetaSub?.id || `brand:${id}:${cleanText(subName).replace(/\s+/g, "-")}`;
+    const representativeImage = getProductImage(product);
+    const imageCandidate = {
+      url: getRawProductImage(product) || representativeImage,
+      name: product?.name || productSubName || subName,
+      id: product?.id || ""
+    };
     const existing = categoryMap.get(id);
 
     if (existing) {
       existing.productCount += 1;
       const sub = existing.subcategories.find((item) => item.id === subId);
-      if (sub) sub.productCount += 1;
-      else existing.subcategories.push({ id: subId, slug: subId, name: subName, productCount: 1 });
+      if (sub) {
+        sub.productCount += 1;
+        if (!sub.imageUrl && representativeImage) sub.imageUrl = representativeImage;
+        if (imageCandidate.url) sub.imageCandidates.push(imageCandidate);
+      } else {
+        existing.subcategories.push({
+          id: subId,
+          slug: subId,
+          name: subName,
+          productCount: 1,
+          imageUrl: representativeImage,
+          imageCandidates: imageCandidate.url ? [imageCandidate] : []
+        });
+      }
       return;
     }
 
@@ -398,25 +492,51 @@ function buildMarketProductCategories(products, categorySource = []) {
       slug: id,
       name: MARKET_CATEGORY_LABELS[id] || toTitleCase(product?.category || id),
       productCount: 1,
-      subcategories: [{ id: subId, slug: subId, name: subName, productCount: 1 }]
+      subcategories: [{
+        id: subId,
+        slug: subId,
+        name: subName,
+        productCount: 1,
+        imageUrl: representativeImage,
+        imageCandidates: imageCandidate.url ? [imageCandidate] : []
+      }]
     });
   });
 
   return [...categoryMap.values()]
-    .map((cat) => ({
-      ...cat,
-      slug: categoryMeta.get(cat.id)?.slug || cat.slug,
-      name: categoryMeta.get(cat.id)?.name || cat.name,
-      imageUrl: categoryMeta.get(cat.id)?.imageUrl || cat.imageUrl,
-      fallbackImageUrl: categoryMeta.get(cat.id)?.fallbackImageUrl || cat.fallbackImageUrl,
-      subcategories: cat.subcategories
+    .map((cat) => {
+      const meta = categoryMeta.get(cat.id);
+      const usedImages = new Set();
+      const subcategories = cat.subcategories
         .map((sub) => {
-          const metaSub = (categoryMeta.get(cat.id)?.subcategories || []).find((item) => item.id === sub.id || item.name === sub.name);
-          return metaSub ? { ...sub, imageUrl: metaSub.imageUrl || sub.imageUrl, fallbackImageUrl: metaSub.fallbackImageUrl || sub.fallbackImageUrl } : sub;
+          const metaSub = (meta?.subcategories || []).find((item) => item.id === sub.id || item.name === sub.name);
+          const fallbackImageUrl = metaSub?.fallbackImageUrl || sub.fallbackImageUrl || SUBCATEGORY_IMAGES[sub.id] || metaSub?.imageUrl || "";
+          const imageUrl = resolveSubcategoryImage(
+            sub,
+            sub.imageCandidates,
+            metaSub?.imageUrl || sub.imageUrl || SUBCATEGORY_IMAGES[sub.id] || fallbackImageUrl,
+            usedImages
+          );
+          if (imageUrl) usedImages.add(imageUrl);
+          return {
+            ...sub,
+            imageUrl,
+            fallbackImageUrl,
+            imageCandidates: undefined
+          };
         })
         .sort((a, b) => b.productCount - a.productCount || a.name.localeCompare(b.name, "vi"))
-        .slice(0, 10)
-    }))
+        .slice(0, 10);
+
+      return {
+        ...cat,
+        slug: meta?.slug || cat.slug,
+        name: meta?.name || cat.name,
+        imageUrl: meta?.imageUrl || cat.imageUrl,
+        fallbackImageUrl: meta?.fallbackImageUrl || cat.fallbackImageUrl,
+        subcategories
+      };
+    })
     .sort((a, b) => b.productCount - a.productCount || a.name.localeCompare(b.name, "vi"));
 }
 
@@ -424,6 +544,30 @@ function getCartCount() {
   const cart = getActiveCart();
   if (!cart || !cart.items) return 0;
   return cart.items.reduce((sum, item) => sum + (item.quantity || 0), 0);
+}
+
+function updateHeaderCartBadge(count = getCartCount()) {
+  const cartLink = document.querySelector('.header-action-btn[href="./cart.html"]');
+  if (!cartLink) return;
+  let badge = cartLink.querySelector(".header-action-btn__badge");
+  if (count <= 0) {
+    badge?.remove();
+    return;
+  }
+  if (!badge) {
+    badge = document.createElement("span");
+    badge.className = "header-action-btn__badge";
+    cartLink.appendChild(badge);
+  }
+  badge.textContent = count > 99 ? "99+" : String(count);
+}
+
+if (typeof window !== "undefined") {
+  window.addEventListener("aic:cart-updated", (event) => {
+    const cart = event.detail?.cart || getActiveCart();
+    const count = (cart.items || []).reduce((sum, item) => sum + Number(item.quantity || 0), 0);
+    updateHeaderCartBadge(count);
+  });
 }
 
 function getDiscountPercent(product) {
@@ -460,9 +604,13 @@ function showToast(message, type = "success") {
 function createHeaderHTML(activePage) {
   const cartCount = getCartCount();
   const siteName = langText("Bách Hóa Tươi", "FreshMart");
+  const currentUser = getCurrentUser();
+  const isAdmin = currentUser?.role === "admin";
   const cartBadge = cartCount > 0
     ? `<span class="header-action-btn__badge">${cartCount > 99 ? "99+" : cartCount}</span>`
     : "";
+  const adminHref = isAdmin ? "./admin.html" : "./login.html?redirect=admin";
+  const adminLabel = isAdmin ? "Admin Panel" : "Đăng nhập Admin";
 
   const categoryLinks = [
     { slug: "vegetables", img: "./assets/images/cat-vegetables.webp", name: "Rau - Củ" },
@@ -491,6 +639,7 @@ function createHeaderHTML(activePage) {
           <a class="header-nav__link${activePage === "index" || activePage === "home" ? " is-active" : ""}" href="./index.html">${langText("Trang chủ", "Home")}</a>
           <a class="header-nav__link${activePage === "catalog" ? " is-active" : ""}" href="./catalog.html">${langText("Sản phẩm", "Products")}</a>
           <a class="header-nav__link${activePage === "meal-planner" ? " is-active" : ""}" href="./meal-planner.html">Meal Planner</a>
+          <a class="header-nav__link header-nav__link--admin${activePage === "admin" ? " is-active" : ""}" href="${adminHref}">${adminLabel}</a>
         </nav>
 
         <a class="header-location" href="./stores.html" aria-label="Stores">
@@ -522,6 +671,9 @@ function createHeaderHTML(activePage) {
 
           <a class="header-action-btn" href="./account.html" aria-label="${langText("Tài khoản", "Account")}">
             <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+          </a>
+          <a class="header-action-btn header-action-btn--admin" href="${adminHref}" aria-label="${adminLabel}" title="${adminLabel}">
+            <svg viewBox="0 0 24 24"><path d="M12 2 4 5.5v6.1c0 5 3.4 9.6 8 10.4 4.6-.8 8-5.4 8-10.4V5.5L12 2Zm0 3.1 5.5 2.4v4.1c0 3.6-2.3 6.9-5.5 7.8-3.2-.9-5.5-4.2-5.5-7.8V7.5L12 5.1Z"/></svg>
           </a>
         </div>
       </div>
@@ -556,6 +708,7 @@ function createHeaderHTML(activePage) {
         <a class="mobile-menu__item" href="./wishlist.html">Yêu thích</a>
         <a class="mobile-menu__item" href="./orders.html">Đơn hàng</a>
         <a class="mobile-menu__item" href="./account.html">Tài khoản</a>
+        <a class="mobile-menu__item mobile-menu__item--admin" href="${adminHref}">Admin Panel</a>
       </nav>
     </div>
   `;
@@ -591,9 +744,9 @@ function createFooterHTML() {
         <div>
           <h3 class="footer-heading">${tr("Cộng đồng & Đối tác")}</h3>
           <div class="footer-social">
-            <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
-            <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
-            <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+            <button class="footer-social__btn" type="button" aria-label="Facebook sắp hỗ trợ" disabled><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></button>
+            <button class="footer-social__btn" type="button" aria-label="Instagram sắp hỗ trợ" disabled><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></button>
+            <button class="footer-social__btn" type="button" aria-label="YouTube sắp hỗ trợ" disabled><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></button>
           </div>
         </div>
 
@@ -620,14 +773,30 @@ function createFooterHTML() {
 }
 
 // ==================== PRODUCT CARD ====================
+function getProductDetailUrl(product) {
+  const slug = String(product?.slug || "").trim();
+  if (slug) return `./product-detail.html?slug=${encodeURIComponent(slug)}`;
+  return `./product-detail.html?id=${encodeURIComponent(product?.id || "")}`;
+}
+
+function getProductStock(product) {
+  const stock = Number(product?.stock ?? product?.stock_quantity ?? product?.quantity ?? 0);
+  if (product?.in_stock === false || product?.isAvailable === false) return 0;
+  return Number.isFinite(stock) ? stock : 0;
+}
+
 function renderProductCard(product) {
   const discount = getDiscountPercent(product);
   const salePrice = getProductSalePrice(product);
   const displayPrice = salePrice && salePrice < product.price ? salePrice : product.price;
+  const detailUrl = getProductDetailUrl(product);
+  const stock = getProductStock(product);
+  const outOfStock = stock <= 0;
 
   let badgesHTML = "";
   if (discount > 0) badgesHTML += `<span class="badge badge--sale">-${discount}%</span>`;
   if (product.isFeatured) badgesHTML += `<span class="badge badge--hot">HOT</span>`;
+  if (outOfStock) badgesHTML += `<span class="badge badge--soldout">Hết hàng</span>`;
 
   const productImage = PRODUCT_IMAGES[product.id]
     || ((getProductImage(product) && !getProductImage(product).includes("placeholder"))
@@ -638,13 +807,13 @@ function renderProductCard(product) {
     || "./assets/images/placeholder-product.svg";
 
   return `
-    <div class="product-card" data-product-id="${product.id}">
-      <a href="./product-detail.html?slug=${encodeURIComponent(product.slug)}" class="product-card__image-wrap">
+    <div class="product-card ${outOfStock ? "is-out-of-stock" : ""}" data-product-id="${product.id}">
+      <a href="${detailUrl}" class="product-card__image-wrap">
         ${badgesHTML ? `<div class="product-card__badges">${badgesHTML}</div>` : ""}
         <img src="${productImage}" alt="${escapeHTML(product.name)}" loading="lazy" onerror="this.onerror=null;this.src='${productFallbackImage}'" />
       </a>
       <div class="product-card__body">
-        <a href="./product-detail.html?slug=${encodeURIComponent(product.slug)}" class="product-card__name">
+        <a href="${detailUrl}" class="product-card__name">
           ${escapeHTML(product.name)}
         </a>
         <span class="product-card__unit">${escapeHTML(product.brand || "")} · ${escapeHTML(product.unit)}</span>
@@ -660,7 +829,7 @@ function renderProductCard(product) {
           </div>
           <div class="product-card__actions">
             ${renderWishlistButton(product.id)}
-            <button class="product-card__add-btn" data-action="add-to-cart" data-product-id="${product.id}" title="Thêm vào giỏ">Thêm vào giỏ</button>
+            <button class="product-card__add-btn" data-action="add-to-cart" data-product-id="${product.id}" data-stock="${stock}" title="${outOfStock ? "Sản phẩm tạm hết hàng" : "Thêm vào giỏ"}" ${outOfStock ? "disabled" : ""}>${outOfStock ? "Hết hàng" : "Thêm vào giỏ"}</button>
           </div>
         </div>
       </div>
@@ -737,7 +906,7 @@ function renderVoucherSection(vouchers) {
             <span class="eyebrow">Khuyến mãi</span>
             <h2 class="section-header__title">Voucher giảm giá hôm nay</h2>
           </div>
-          <a class="btn btn--outline btn--sm" href="./catalog.html">Xem tất cả</a>
+          <a class="btn btn--outline btn--sm" href="./vouchers.html">Xem tất cả</a>
         </div>
         <div class="voucher-grid">
           ${sorted.slice(0, 6).map((v) => {
@@ -1481,27 +1650,35 @@ function bindAddToCart() {
 
     const productId = btn.dataset.productId;
     if (!productId) return;
+    const stock = Number(btn.dataset.stock || 0);
+    if (btn.disabled || stock <= 0) {
+      showToast("Sản phẩm tạm hết hàng", "warning");
+      return;
+    }
 
     const cart = getActiveCart();
     if (!cart.items) cart.items = [];
     const existing = cart.items.find(item => item.productId === productId);
+    const currentQty = Number(existing?.quantity || 0);
+    if (currentQty >= stock) {
+      showToast("Số lượng trong giỏ đã đạt tồn kho hiện có", "warning");
+      return;
+    }
     if (existing) {
       existing.quantity += 1;
     } else {
-      cart.items.push({ productId, quantity: 1 });
+      cart.items.push({ productId, quantity: 1, selected: true });
     }
     cart.updatedAt = new Date().toISOString();
     setActiveCart(cart);
 
-    btn.textContent = "✓";
-    setTimeout(() => { btn.textContent = "+"; }, 1000);
+    const originalText = btn.textContent;
+    btn.textContent = "Đã thêm";
+    setTimeout(() => { btn.textContent = originalText || "Thêm vào giỏ"; }, 1000);
     showToast("Đã thêm vào giỏ hàng!");
 
-    const badge = document.querySelector(".header-action-btn__badge");
     const newCount = cart.items.reduce((s, i) => s + i.quantity, 0);
-    if (badge) {
-      badge.textContent = newCount > 99 ? "99+" : newCount;
-    }
+    updateHeaderCartBadge(newCount);
   });
 }
 
@@ -1601,7 +1778,7 @@ function bindSearchAutocomplete() {
       const displayPrice = salePrice && salePrice < p.price ? salePrice : p.price;
       const img = PRODUCT_IMAGES[p.id] || getProductImage(p) || "";
       return `
-        <a class="search-autocomplete__item" href="./product-detail.html?slug=${encodeURIComponent(p.slug)}" style="display:flex;align-items:center;gap:12px;padding:10px 16px;text-decoration:none;color:var(--color-text);transition:background 0.15s;border-bottom:1px solid var(--color-border);">
+        <a class="search-autocomplete__item" href="${getProductDetailUrl(p)}" style="display:flex;align-items:center;gap:12px;padding:10px 16px;text-decoration:none;color:var(--color-text);transition:background 0.15s;border-bottom:1px solid var(--color-border);">
           <img src="${img || "./assets/images/placeholder-product.svg"}" alt="" style="width:40px;height:40px;border-radius:var(--radius-sm);object-fit:cover;flex-shrink:0;" onerror="this.src='./assets/images/placeholder-product.svg'" />
           <div style="flex:1;min-width:0;">
             <div style="font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escapeHTML(p.name)}</div>

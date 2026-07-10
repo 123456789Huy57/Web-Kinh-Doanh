@@ -61,7 +61,7 @@ export function normalizeRedirectTarget(value, fallback = "./account.html") {
 
   const clean = raw.replace(/^\.?\//, "");
   const knownPages = new Set([
-    "account", "cart", "catalog", "checkout", "compare", "index", "login",
+    "account", "admin", "cart", "catalog", "checkout", "compare", "index", "login",
     "meal-planner", "orders", "product-detail", "register", "vouchers", "wishlist"
   ]);
 
