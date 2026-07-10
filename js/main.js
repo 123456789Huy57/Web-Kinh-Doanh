@@ -1,6 +1,7 @@
-import { fetchJSON, formatCurrency, formatDate, escapeHTML, getQueryParam, formatNumber } from "./utils.js";
-import { getActiveCart, toggleWishlist, isWishlisted, addToCompare } from "./storage.js";
-import { CATEGORY_IMAGES, PRODUCT_IMAGES, HERO_SLIDES, FEATURES, BENEFITS, PROMO_BANNERS, TESTIMONIALS, TRUST_STATS, MEAL_STEPS } from "./constants.js";
+﻿import { fetchJSON, formatCurrency, formatDate, escapeHTML, getQueryParam, formatNumber } from "./utils.js";
+import { getActiveCart, setActiveCart, toggleWishlist, isWishlisted, addToCompare, getCompareProducts, getCurrentUser, saveVoucher, isVoucherSaved, mergeAdminProducts, mergeAdminVouchers } from "./storage.js";
+import { CATEGORY_IMAGES, SUBCATEGORY_IMAGES, PRODUCT_IMAGES, HERO_SLIDES, FEATURES, BENEFITS, PROMO_BANNERS, TESTIMONIALS, TRUST_STATS, MEAL_STEPS } from "./constants.js";
+import { initLanguage, isEnglish, toggleLanguage, getLanguageButtonLabel } from "./i18n.js";
 
 const DATA_PATHS = {
   products: "./data/products.json",
@@ -8,15 +9,571 @@ const DATA_PATHS = {
   vouchers: "./data/vouchers.json"
 };
 
+function langText(vi, en) {
+  return isEnglish() ? en : vi;
+}
+
+const DIRECT_EN = new Map([
+  ["Tươi mới ngày - giao tận nhà", "Fresh daily - delivered home"],
+  ["Thực phẩm tươi cho bữa cơm gia đình Việt", "Fresh groceries for every family meal"],
+  ["Rau củ sạch, trái cây chín mọng, thịt cá tươi ngon được chọn lọc mỗi sáng. Giao nhanh trong 2 giờ tại khu vực nội thành.", "Clean vegetables, ripe fruits, and fresh meat selected every morning. Fast 2-hour delivery in the city."],
+  ["Mua sắm ngay", "Shop now"],
+  ["Flash sale - giảm đến 30%", "Flash sale - up to 30% off"],
+  ["Ưu đãi hôm nay cho căn bếp luôn đầy", "Today deals for a well-stocked kitchen"],
+  ["Xem khuyến mãi", "View deals"],
+  ["Meal planner miễn phí", "Free meal planner"],
+  ["Chọn món nhanh hơn cho cả tuần", "Plan meals faster for the week"],
+  ["Khám phá Meal Planner", "Explore Meal Planner"],
+  ["Giao nhanh 2h", "2-hour delivery"],
+  ["Nội thành TP.HCM", "Inner HCMC"],
+  ["Tươi mới ngày", "Fresh daily"],
+  ["Nhập hàng mới sáng", "Restocked every morning"],
+  ["Deal mỗi ngày", "Daily deals"],
+  ["Ưu đãi đến 30%", "Up to 30% off"],
+  ["Đổi trả 24h", "24-hour returns"],
+  ["Hoàn tiền nếu không tươi", "Refund if not fresh"],
+  ["Khuyến mãi", "Deals"],
+  ["Voucher giảm giá hôm nay", "Today vouchers"],
+  ["Rau củ tươi", "Fresh vegetables"],
+  ["Giảm 15% cho nhóm rau củ", "15% off vegetables"],
+  ["Combo tiết kiệm", "Value combo"],
+  ["Mua đủ bữa với thịt cá tươi", "Complete meals with fresh meat and fish"],
+  ["Đồ uống mùa hè", "Summer drinks"],
+  ["Nước ép, sữa và trà cà phê", "Juice, milk, tea and coffee"],
+  ["Gian bếp gọn", "Easy pantry"],
+  ["Gia vị và hàng khô cho bữa ăn nhanh", "Seasonings and dry goods for quick meals"],
+  ["Trái cây mỗi ngày", "Daily fruits"],
+  ["Chọn trọn vị ngọt tươi cho cả nhà", "Fresh sweetness for the whole family"],
+  ["Xem ngay →", "Shop now →"],
+  ["Categories", "Categories"],
+  ["Mua sắm theo nhóm hàng", "Shop by category"],
+  ["Siêu thị trực tuyến cho gia đình Việt", "Online supermarket for modern families"],
+  ["200 sản phẩm chọn lọc, 12 cửa hàng tại TP.HCM, giao nhanh trong 2 giờ nội thành.", "200 curated products, 12 HCMC stores, 2-hour inner-city delivery."],
+  ["Sản phẩm chọn lọc", "Curated products"],
+  ["Cửa hàng TP.HCM", "HCMC stores"],
+  ["Giao nhanh nội thành", "Fast city delivery"],
+  ["Đơn hàng hài lòng", "Happy orders"],
+  ["Tại sao chọn chúng tôi", "Why choose us"],
+  ["Cam kết với gia đình bạn", "Our promise to your family"],
+  ["Tươi sạch mỗi ngày", "Fresh every day"],
+  ["Hàng tươi được chọn lọc kỹ, nhập về mỗi sáng để giữ đúng chất lượng.", "Fresh items are carefully selected and restocked every morning."],
+  ["Giao hàng đúng hẹn", "On-time delivery"],
+  ["Đóng gói riêng từng nhóm hàng, giao nhanh trong 2 giờ tại nội thành.", "Packed by product group and delivered within 2 hours in the city."],
+  ["Giá tốt, voucher rõ", "Clear prices and vouchers"],
+  ["Giá niêm yết minh bạch, voucher tách riêng để dễ dùng khi thanh toán.", "Transparent listed prices and easy checkout vouchers."],
+  ["Nguồn gốc rõ ràng", "Clear origin"],
+  ["Thông tin sản phẩm, xuất xứ và dinh dưỡng được trình bày để dễ kiểm tra.", "Product origin and nutrition details are easy to review."],
+  ["Khách hàng nói gì", "Customer stories"],
+  ["Gửi gắm niềm tin từ những bữa cơm", "Trusted for everyday meals"],
+  ["Chị Ngọc Hân", "Ngoc Han"],
+  ["Khách hàng Quận 7", "Customer in District 7"],
+  ["Anh Quốc Bảo", "Quoc Bao"],
+  ["Dân văn phòng", "Office customer"],
+  ["Chị Minh Tâm", "Minh Tam"],
+  ["Khách hàng Thủ Đức", "Customer in Thu Duc"],
+  ["Rau củ tươi, đóng gói sạch và giao đúng giờ. Tôi hay đặt trước giờ tan làm để tối về nấu ngay.", "Fresh vegetables, clean packaging, and on-time delivery. I often order before leaving work so dinner is ready to cook."],
+  ["Web dễ chọn hàng, phần gợi ý bán chạy khá hữu ích. Giá và voucher hiển thị rõ nên đặt hàng nhanh hơn.", "The site is easy to shop, and best-seller suggestions are useful. Prices and vouchers are clear, so checkout is faster."],
+  ["Tôi thích phần thịt cá và trái cây. Sản phẩm về tới nhà vẫn lạnh và nhìn rất tươi.", "I like the meat, fish, and fruit sections. Products arrive chilled and look very fresh."],
+  ["Tính năng đặc biệt", "Special feature"],
+  ["Không biết hôm nay ăn gì?", "Not sure what to eat today?"],
+  ["Tạo thực đơn hằng tuần và danh sách mua sắm tự động chỉ trong vài bước.\n              Hoàn toàn miễn phí, chạy ngay trên trình duyệt.", "Create a weekly menu and shopping list in a few steps. Free and runs in your browser."],
+  ["Chọn số người và ngân sách", "Choose people and budget"],
+  ["Chọn mục tiêu sức khỏe", "Choose health goals"],
+  ["Nhận thực đơn tuần và danh sách mua sắm", "Get a weekly menu and shopping list"],
+  ["Đăng ký nhận ưu đãi", "Subscribe for deals"],
+  ["Thông tin độc quyền, gửi thẳng hòm thư", "Exclusive updates in your inbox"],
+  ["Đăng ký", "Subscribe"],
+  ["Không spam. Hủy đăng ký bất cứ lúc nào.", "No spam. Unsubscribe anytime."],
+  ["Về chúng tôi", "About us"],
+  ["Chăm sóc khách hàng", "Customer care"],
+  ["Cộng đồng & Đối tác", "Community & partners"],
+  ["Liên hệ", "Contact"],
+  ["Giới thiệu Bách Hóa Tươi", "About FreshMart"],
+  ["Cửa hàng của chúng tôi", "Our stores"],
+  ["Đội ngũ phát triển", "Development team"],
+  ["Đồng hành cùng Bách Hóa Tươi", "Partner with FreshMart"],
+  ["Blog ẩm thực", "Food blog"],
+  ["Hướng dẫn mua hàng", "Shopping guide"],
+  ["Chính sách giao hàng", "Shipping policy"],
+  ["Chính sách đổi trả hoàn tiền", "Return and refund policy"],
+  ["Chính sách bảo mật thông tin", "Privacy policy"],
+  ["Cửa hàng Bách Hóa Tươi", "FreshMart stores"],
+  ["Đồ án Phát triển Web Kinh doanh", "Business Web Development project"]
+]);
+
+function tr(value) {
+  if (!isEnglish()) return value;
+  return DIRECT_EN.get(value) || EN_TEXT.get(value) || value;
+}
+
+const MARKET_PRODUCT_LIMIT = 200;
+const SUBCATEGORY_IMAGE_VARIANTS = {
+  "vegetables-leafy": [
+    "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1518843875459-f738682238a6?auto=format&fit=crop&w=800&q=80"
+  ],
+  "vegetables-fruit": [
+    "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1566383444833-43e2ce4d7d7d?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1603046891744-76e6481be1ea?auto=format&fit=crop&w=800&q=80"
+  ],
+  "vegetables-other": [
+    "https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1518977956812-cd3dbadaaf31?auto=format&fit=crop&w=800&q=80"
+  ],
+  "fruits-fresh": [
+    "https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1471943311424-646960669fbc?auto=format&fit=crop&w=800&q=80"
+  ],
+  "meat-pork": [
+    "https://images.unsplash.com/photo-1602470520998-f4a52199a3d6?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=800&q=80"
+  ],
+  "meat-chicken": [
+    "https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1587593810167-a84920ea0781?auto=format&fit=crop&w=800&q=80"
+  ],
+  "meat-beef": [
+    "https://images.unsplash.com/photo-1603048297172-c92544798d1a?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=800&q=80"
+  ],
+  "seafood-fish": [
+    "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1544943910-4c1dc44aab44?auto=format&fit=crop&w=800&q=80"
+  ],
+  "seafood-other": [
+    "https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?auto=format&fit=crop&w=800&q=80"
+  ],
+  "rice-rice": [
+    "https://images.unsplash.com/photo-1586201375761-83865011e356?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1516684732162-798a0062be99?auto=format&fit=crop&w=800&q=80"
+  ]
+};
+const MARKET_CATEGORY_LABELS = {
+  vegetables: "Rau - Củ",
+  fruits: "Trái cây",
+  meat: "Thịt",
+  seafood: "Hải sản",
+  "dairy-eggs": "Sữa - Trứng",
+  beverages: "Đồ uống",
+  bakery: "Bánh mì - Bakery",
+  snacks: "Bánh kẹo - Ăn vặt",
+  "rice-grains": "Gạo - Ngũ cốc",
+  noodles: "Mì - Bún - Phở",
+  condiments: "Gia vị - Nước sốt",
+  frozen: "Đông lạnh",
+  "tea-coffee": "Trà & cà phê",
+  nutrition: "Dinh dưỡng",
+  "baby-food": "Đồ ăn cho bé",
+};
+
+function cleanText(value) {
+  return String(value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d")
+    .replace(/Đ/g, "D")
+    .trim()
+    .toLowerCase();
+}
+
+function toTitleCase(value) {
+  return String(value || "")
+    .replace(/[-_]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+}
+
+function getProductSalePrice(product) {
+  const salePrice = Number(product?.salePrice ?? product?.sale_price ?? 0);
+  return Number.isFinite(salePrice) ? salePrice : 0;
+}
+
+function pickVariantImage(product, fallback = "") {
+  const variants = SUBCATEGORY_IMAGE_VARIANTS[product?.subcategory];
+  if (!variants?.length) return fallback;
+  const seed = `${product?.id || ""}${product?.name || ""}`;
+  const hash = [...seed].reduce((sum, char) => sum + char.charCodeAt(0), 0);
+  return variants[hash % variants.length] || fallback;
+}
+
+function getProductImage(product) {
+  const image = product?.imageUrl || product?.image_url || product?.image || "";
+  const categoryImage = CATEGORY_IMAGES[getProductCategory(product)] || "";
+  const subcategoryImage = SUBCATEGORY_IMAGES[product?.subcategory] || "";
+  if (!image) return pickVariantImage(product, subcategoryImage || "");
+  if (image.startsWith("/assets/")) return `.${image}`;
+  if (image === categoryImage && subcategoryImage) return pickVariantImage(product, subcategoryImage);
+  return image || pickVariantImage(product, subcategoryImage);
+}
+
+function getRawProductImage(product) {
+  const image = product?.imageUrl || product?.image_url || product?.image || product?.source_image_url || "";
+  if (!image) return "";
+  return image.startsWith("/assets/") ? `.${image}` : image;
+}
+
+const SUBCATEGORY_IMAGE_KEYWORDS = {
+  "meat-chicken": ["ga", "uc ga", "dui ga", "canh ga"],
+  "meat-beef": ["bo", "thit bo", "nam bo", "dui bo", "bo vien"],
+  "meat-pork": ["heo", "ba roi", "ba chi", "suon", "chan gio", "thit dui"],
+  "beverages-water": ["nuoc khoang", "nuoc suoi", "nuoc loc", "lavie", "la vie", "vikoda", "dasani"],
+  "beverages-other": ["bia", "tra", "ca phe", "cafe", "sua", "sting", "coca", "pepsi", "nuoc ep"],
+  "dairy-eggs": ["trung"],
+  "dairy-other": ["sua", "bo", "pho mai", "yogurt", "sua chua"]
+};
+
+function scoreSubcategoryImageCandidate(sub, candidate, usedImages) {
+  const url = candidate?.url || "";
+  if (!url) return -999;
+  const haystack = cleanText(`${candidate?.name || ""} ${candidate?.id || ""} ${url}`);
+  const label = cleanText(sub?.name || "");
+  const keywords = SUBCATEGORY_IMAGE_KEYWORDS[sub?.id] || label.split(/\s+/).filter((word) => word.length > 2);
+  let score = 0;
+
+  if (/cdnv2\.tgdd\.vn|bhx/i.test(url)) score += 120;
+  if (usedImages.has(url)) score -= 160;
+  keywords.forEach((keyword) => {
+    if (keyword && haystack.includes(cleanText(keyword))) score += 45;
+  });
+  label.split(/\s+/).forEach((word) => {
+    if (word.length > 2 && haystack.includes(word)) score += 15;
+  });
+  if (/unsplash|pexels|pixnio|pakutaso|hypeandhyper/i.test(url)) score -= 35;
+  return score;
+}
+
+function resolveSubcategoryImage(sub, candidates, fallbackImage, usedImages) {
+  const uniqueCandidates = [];
+  const seen = new Set();
+
+  (candidates || []).forEach((candidate) => {
+    if (!candidate?.url || seen.has(candidate.url)) return;
+    seen.add(candidate.url);
+    uniqueCandidates.push(candidate);
+  });
+
+  if (fallbackImage && !seen.has(fallbackImage)) {
+    uniqueCandidates.push({ url: fallbackImage, name: sub?.name || "", id: sub?.id || "" });
+  }
+
+  const best = uniqueCandidates
+    .map((candidate) => ({ ...candidate, score: scoreSubcategoryImageCandidate(sub, candidate, usedImages) }))
+    .sort((a, b) => b.score - a.score)[0];
+
+  return best?.url || fallbackImage || "";
+}
+
+function getProductReviewCount(product) {
+  return Number(product?.reviewCount ?? product?.review_count ?? 0) || 0;
+}
+
+function getProductCategory(product) {
+  const category = cleanText(product?.categoryId || product?.category || "");
+  const text = cleanText(`${product?.name || ""} ${product?.description || ""} ${(product?.tags || []).join(" ")}`);
+  if (category === "rice-grains" && /\b(xuc xich|doi sun|cha lua|lap xuong)\b/.test(text)) return "frozen";
+  if (MARKET_CATEGORY_LABELS[category]) return category;
+  if (category === "cleaning") return "cleaning";
+  if (category === "seafood" || /\b(tom|cua|muc|ech|surimi)\b/.test(text)) return "seafood";
+  if (category === "meat" || /\b(thit|cha-ca|cha ca|ca basa|ga|bo|heo)\b/.test(text)) return "meat";
+  if (category === "snacks" || /\b(banh|snack|keo|cookie|brownie|sponge|roll)\b/.test(text)) return "snacks";
+  if (/\b(protein|formula|cereal|ngu coc|ngũ cóc|healthy meal|vitamin)\b/.test(text)) return "nutrition";
+  if (category === "baby") return "baby-food";
+  if (category === "coffee" || /\b(coffee|cafe|ca phe|cà phê|tea|tra|trà)\b/.test(text)) return "tea-coffee";
+  if (category === "dairy-eggs" || category === "dairy") return "dairy-eggs";
+  if (category === "rice-grains" || /\b(rice|gao|gạo|grain|yen mach|yến mạch)\b/.test(text)) return "rice-grains";
+  if (/\b(syrup|maple|sauce|bot|bột)\b/.test(text)) return "condiments";
+  if (category === "beverages" || /\b(juice|nuoc|nước|drink|beverage|milk|sua|sữa)\b/.test(text)) return "beverages";
+  return category || "rice-grains";
+}
+
+function getProductCategoryLabel(product) {
+  return String(product?.categoryName || product?.category || product?.categoryId || "Sản phẩm");
+}
+
+function isProductActive(product) {
+  return product?.isActive !== false && product?.active !== false;
+}
+
+function isMarketProduct(product) {
+  const category = getProductCategory(product);
+  const text = cleanText(`${product?.name || ""} ${product?.description || ""} ${(product?.tags || []).join(" ")}`);
+  if (category === "baby-food" && !/\b(formula|cereal|fruit|apricot|mixed|breakfast|dinner|meal|food|collation|discovery)\b/.test(text)) {
+    return false;
+  }
+  return isProductActive(product) && category !== "cleaning" && category !== "others";
+}
+
+function getSubcategoryForProduct(product) {
+  const category = getProductCategory(product);
+  const nameText = cleanText(product?.name || "");
+  const text = cleanText(`${product?.name || ""} ${product?.description || ""} ${(product?.tags || []).join(" ")}`);
+
+  if (category === "meat") {
+    if (/\b(ga|uc ga|dui ga|canh ga)\b/.test(nameText)) return "Thịt gà";
+    if (/\b(bo|nam bo|dui bo|than bo|bo vien)\b/.test(nameText)) return "Thịt bò";
+    if (/\b(heo|ba roi|ba chi|suon|chan gio|xuong heo|thit dui)\b/.test(nameText)) return "Thịt heo";
+  }
+  if (category === "frozen" && /\b(xuc xich|doi sun|cha lua|vien|banh xep)\b/.test(nameText)) return "Đông lạnh khác";
+  if (category === "rice-grains") {
+    if (/\b(bun|mi|mien|pho|banh trang|yen mach|dau|bot|hat|tran chau)\b/.test(nameText)) return "Đồ khô khác";
+    if (/\b(gao|rice)\b/.test(nameText)) return "Gạo";
+  }
+
+  const rules = {
+    vegetables: [["ca chua|ot|dua leo|bap|dau bap", "Rau ăn quả"], ["rau|xa lach|hanh|ngo|thom", "Rau ăn lá"], ["ca rot|khoai|gung|nam|cu|dua chua", "Rau củ khác"]],
+    fruits: [["xoai|chuoi|tao|thanh long|dao|cam|le|cherry|man", "Trái cây tươi"]],
+    seafood: [["ca|basa|hoi|ngu", "Cá"], ["muc|cua|tom|ech|surimi", "Hải sản khác"]],
+    meat: [["ga", "Thịt gà"], ["bo", "Thịt bò"], ["heo|ba chi|ba roi|suon|chan gio", "Thịt heo"]],
+    beverages: [["nuoc suoi|nuoc loc|khoang|water", "Nước khoáng"], ["juice|cranberry|prune|fruit punch|milk|sua|protein|whey|syrup|maple|drink|beverage|bia", "Đồ uống khác"]],
+    "tea-coffee": [["coffee|cafe|ca phe|maccoffee|starbucks|trung nguyen", "Cà phê"], ["tea|tra|lipton|brisk|earl grey", "Trà"], ["ngu coc|cereal", "Ngũ cốc"], ["kem dac|cream", "Kem đặc"]],
+    nutrition: [["protein|whey", "Protein"], ["formula", "Sữa dinh dưỡng"], ["cereal|ngu coc", "Ngũ cốc"], ["vitamin", "Vitamin"]],
+    "baby-food": [["cereal", "Bột ăn dặm"], ["formula", "Sữa cho bé"], ["fruit|apricot|mixed", "Trái cây nghiền"], ["breakfast|dinner|meal", "Bữa ăn cho bé"]],
+    snacks: [["banh bong lan|sponge|delipie", "Bánh bông lan"], ["banh an sang|orion", "Bánh ăn sáng"], ["brownie|cookie", "Bánh ngọt"]],
+    "rice-grains": [["rice|gao", "Gạo"], ["yen mach|oat|dau hu|dau nanh|bot|duong", "Đồ khô khác"]],
+    condiments: [["dau an|oil", "Dầu ăn"], ["nuoc mam|nuoc tuong|sot|sa te|muoi|mat ong", "Nước sốt"]],
+    "dairy-eggs": [["trung", "Trứng"], ["sua|pho mai|bo", "Sữa - bơ - phô mai"]],
+    noodles: [["mi|bun|pho|banh trang", "Mì ăn liền"]]
+  };
+
+  for (const [pattern, label] of rules[category] || []) {
+    if (new RegExp(pattern).test(text)) return label;
+  }
+
+  if (product?.subcategoryName) return product.subcategoryName;
+  return product?.brand ? toTitleCase(product.brand).slice(0, 28) : (MARKET_CATEGORY_LABELS[category] || "Khác");
+}
+
+function getMarketCategoryLabel(product) {
+  const id = getProductCategory(product);
+  return MARKET_CATEGORY_LABELS[id] || toTitleCase(product?.categoryName || product?.category || product?.categoryId || "Sản phẩm");
+}
+
+function buildProductCategories(products) {
+  const categoryMap = new Map();
+
+  (products || []).filter(isProductActive).forEach((product) => {
+    const rawName = String(product?.category || product?.categoryId || "Khác").trim() || "Khác";
+    const id = getProductCategory(product);
+    const existing = categoryMap.get(id);
+
+    if (existing) {
+      existing.productCount += 1;
+      return;
+    }
+
+    categoryMap.set(id, {
+      id,
+      slug: id,
+      name: toTitleCase(rawName),
+      productCount: 1,
+      subcategories: []
+    });
+  });
+
+  return [...categoryMap.values()].sort((a, b) => a.name.localeCompare(b.name, "vi"));
+}
+
+function sortProductsForMarket(products) {
+  return [...(products || [])].sort((a, b) => {
+    const featuredDiff = Number(!!b.isFeatured) - Number(!!a.isFeatured);
+    if (featuredDiff) return featuredDiff;
+
+    const stockDiff = Number(b.stock || 0) - Number(a.stock || 0);
+    if (stockDiff) return stockDiff;
+
+    const reviewDiff = getProductReviewCount(b) - getProductReviewCount(a);
+    if (reviewDiff) return reviewDiff;
+
+    return Number(b.rating || 0) - Number(a.rating || 0);
+  });
+}
+
+function getMarketProducts(products, limit = MARKET_PRODUCT_LIMIT) {
+  const curatedProducts = (products || []).filter(isMarketProduct);
+  if (curatedProducts.length <= limit) return curatedProducts;
+  const mealPlannerProducts = sortProductsForMarket(curatedProducts.filter((product) => product.baseIngredientId));
+
+  const quotas = {
+    vegetables: 15,
+    fruits: 15,
+    meat: 15,
+    seafood: 15,
+    "dairy-eggs": 15,
+    beverages: 58,
+    bakery: 15,
+    snacks: 15,
+    "rice-grains": 15,
+    noodles: 15,
+    condiments: 15,
+    frozen: 15,
+    "tea-coffee": 54,
+    nutrition: 34,
+    "baby-food": 22,
+  };
+  const selected = [];
+  const selectedIds = new Set();
+  const marketProducts = sortProductsForMarket(curatedProducts);
+  const addProduct = (product) => {
+    if (selectedIds.has(product.id) || selected.length >= limit) return;
+    selected.push(product);
+    selectedIds.add(product.id);
+  };
+
+  mealPlannerProducts.forEach(addProduct);
+
+  Object.entries(quotas).forEach(([category, quota]) => {
+    marketProducts
+      .filter((product) => getProductCategory(product) === category)
+      .slice(0, quota)
+      .forEach(addProduct);
+  });
+
+  marketProducts.forEach(addProduct);
+
+  return selected;
+}
+
+function buildMarketProductCategories(products, categorySource = []) {
+  const categoryMap = new Map();
+  const categoryMeta = new Map((categorySource || []).map((category) => [category.id, category]));
+
+  (products || []).filter(isMarketProduct).forEach((product) => {
+    const id = getProductCategory(product);
+    const meta = categoryMeta.get(id);
+    const metaSubs = meta?.subcategories || [];
+    const productSubId = product?.subcategory || "";
+    const productSubName = product?.subcategoryName || "";
+    const inferredSubName = getSubcategoryForProduct(product);
+    const matchedMetaSub = metaSubs.find((sub) =>
+      cleanText(sub.name) === cleanText(inferredSubName)
+    ) || metaSubs.find((sub) =>
+      sub.id === productSubId ||
+      sub.slug === productSubId ||
+      cleanText(sub.name) === cleanText(productSubName)
+    ) || (metaSubs.length === 1 ? metaSubs[0] : null);
+    const subName = matchedMetaSub?.name || inferredSubName;
+    const subId = matchedMetaSub?.id || `brand:${id}:${cleanText(subName).replace(/\s+/g, "-")}`;
+    const representativeImage = getProductImage(product);
+    const imageCandidate = {
+      url: getRawProductImage(product) || representativeImage,
+      name: product?.name || productSubName || subName,
+      id: product?.id || ""
+    };
+    const existing = categoryMap.get(id);
+
+    if (existing) {
+      existing.productCount += 1;
+      const sub = existing.subcategories.find((item) => item.id === subId);
+      if (sub) {
+        sub.productCount += 1;
+        if (!sub.imageUrl && representativeImage) sub.imageUrl = representativeImage;
+        if (imageCandidate.url) sub.imageCandidates.push(imageCandidate);
+      } else {
+        existing.subcategories.push({
+          id: subId,
+          slug: subId,
+          name: subName,
+          productCount: 1,
+          imageUrl: representativeImage,
+          imageCandidates: imageCandidate.url ? [imageCandidate] : []
+        });
+      }
+      return;
+    }
+
+    categoryMap.set(id, {
+      id,
+      slug: id,
+      name: MARKET_CATEGORY_LABELS[id] || toTitleCase(product?.category || id),
+      productCount: 1,
+      subcategories: [{
+        id: subId,
+        slug: subId,
+        name: subName,
+        productCount: 1,
+        imageUrl: representativeImage,
+        imageCandidates: imageCandidate.url ? [imageCandidate] : []
+      }]
+    });
+  });
+
+  return [...categoryMap.values()]
+    .map((cat) => {
+      const meta = categoryMeta.get(cat.id);
+      const usedImages = new Set();
+      const subcategories = cat.subcategories
+        .map((sub) => {
+          const metaSub = (meta?.subcategories || []).find((item) => item.id === sub.id || item.name === sub.name);
+          const fallbackImageUrl = metaSub?.fallbackImageUrl || sub.fallbackImageUrl || SUBCATEGORY_IMAGES[sub.id] || metaSub?.imageUrl || "";
+          const imageUrl = resolveSubcategoryImage(
+            sub,
+            sub.imageCandidates,
+            metaSub?.imageUrl || sub.imageUrl || SUBCATEGORY_IMAGES[sub.id] || fallbackImageUrl,
+            usedImages
+          );
+          if (imageUrl) usedImages.add(imageUrl);
+          return {
+            ...sub,
+            imageUrl,
+            fallbackImageUrl,
+            imageCandidates: undefined
+          };
+        })
+        .sort((a, b) => b.productCount - a.productCount || a.name.localeCompare(b.name, "vi"))
+        .slice(0, 10);
+
+      return {
+        ...cat,
+        slug: meta?.slug || cat.slug,
+        name: meta?.name || cat.name,
+        imageUrl: meta?.imageUrl || cat.imageUrl,
+        fallbackImageUrl: meta?.fallbackImageUrl || cat.fallbackImageUrl,
+        subcategories
+      };
+    })
+    .sort((a, b) => b.productCount - a.productCount || a.name.localeCompare(b.name, "vi"));
+}
+
 function getCartCount() {
   const cart = getActiveCart();
   if (!cart || !cart.items) return 0;
   return cart.items.reduce((sum, item) => sum + (item.quantity || 0), 0);
 }
 
+function updateHeaderCartBadge(count = getCartCount()) {
+  const cartLink = document.querySelector('.header-action-btn[href="./cart.html"]');
+  if (!cartLink) return;
+  let badge = cartLink.querySelector(".header-action-btn__badge");
+  if (count <= 0) {
+    badge?.remove();
+    return;
+  }
+  if (!badge) {
+    badge = document.createElement("span");
+    badge.className = "header-action-btn__badge";
+    cartLink.appendChild(badge);
+  }
+  badge.textContent = count > 99 ? "99+" : String(count);
+}
+
+if (typeof window !== "undefined") {
+  window.addEventListener("aic:cart-updated", (event) => {
+    const cart = event.detail?.cart || getActiveCart();
+    const count = (cart.items || []).reduce((sum, item) => sum + Number(item.quantity || 0), 0);
+    updateHeaderCartBadge(count);
+  });
+}
+
 function getDiscountPercent(product) {
-  if (!product?.salePrice || product.salePrice >= product.price) return 0;
-  return Math.round(((product.price - product.salePrice) / product.price) * 100);
+  const salePrice = getProductSalePrice(product);
+  if (!salePrice || salePrice >= product.price) return 0;
+  return Math.round(((product.price - salePrice) / product.price) * 100);
 }
 
 /** Track setInterval so we can clear it on page unload */
@@ -26,7 +583,7 @@ function trackInterval(id) {
 }
 
 function showToast(message, type = "success") {
-  const icons = { success: "✅", error: "❌", warning: "⚠️" };
+  const icons = { success: "✓", error: "!", warning: "!" };
   let container = document.querySelector(".toast-container");
   if (!container) {
     container = document.createElement("div");
@@ -35,7 +592,7 @@ function showToast(message, type = "success") {
   }
   const toast = document.createElement("div");
   toast.className = `toast toast--${type}`;
-  toast.innerHTML = `<span class="toast__icon">${icons[type] || "✅"}</span><span>${message}</span>`;
+  toast.innerHTML = `<span class="toast__icon">${icons[type] || "✓"}</span><span>${message}</span>`;
   container.appendChild(toast);
   setTimeout(() => {
     toast.classList.add("toast--exiting");
@@ -46,19 +603,24 @@ function showToast(message, type = "success") {
 // ==================== HEADER ====================
 function createHeaderHTML(activePage) {
   const cartCount = getCartCount();
+  const siteName = langText("Bách Hóa Tươi", "FreshMart");
+  const currentUser = getCurrentUser();
+  const isAdmin = currentUser?.role === "admin";
   const cartBadge = cartCount > 0
     ? `<span class="header-action-btn__badge">${cartCount > 99 ? "99+" : cartCount}</span>`
     : "";
+  const adminHref = isAdmin ? "./admin.html" : "./login.html?redirect=admin";
+  const adminLabel = isAdmin ? "Admin Panel" : "Đăng nhập Admin";
 
   const categoryLinks = [
     { slug: "vegetables", img: "./assets/images/cat-vegetables.webp", name: "Rau - Củ" },
-    { slug: "fruits", img: "./assets/images/cat-fruits.webp", name: "Trái Cây" },
+    { slug: "fruits", img: "./assets/images/cat-fruits.webp", name: "Trái cây" },
     { slug: "meat", img: "./assets/images/cat-meat.webp", name: "Thịt" },
-    { slug: "seafood", img: "./assets/images/cat-seafood.webp", name: "Hải Sản" },
-    { slug: "pantry", img: "./assets/images/cat-pantry.webp", name: "Gạo - Mì" },
-    { slug: "condiments", img: "./assets/images/cat-condiments.webp", name: "Gia Vị" },
-    { slug: "dairy", img: "./assets/images/cat-dairy.webp", name: "Sữa" },
-    { slug: "beverages", img: "./assets/images/cat-beverages.webp", name: "Đồ Uống" }
+    { slug: "seafood", img: "./assets/images/cat-seafood.webp", name: "Hải sản" },
+    { slug: "rice-grains", img: "./assets/images/cat-pantry.webp", name: "Gạo - Mì" },
+    { slug: "condiments", img: "./assets/images/cat-condiments.webp", name: "Gia vị" },
+    { slug: "dairy-eggs", img: "./assets/images/cat-dairy.webp", name: "Sữa" },
+    { slug: "beverages", img: "./assets/images/cat-beverages.webp", name: "Đồ uống" }
   ];
 
   return `
@@ -70,32 +632,48 @@ function createHeaderHTML(activePage) {
 
         <a class="site-logo" href="./index.html">
           <img src="./assets/images/logo-icon.svg" alt="" />
-          <span>Bách Hóa Tươi</span>
+          <span>${siteName}</span>
         </a>
 
         <nav class="header-nav">
-          <a class="header-nav__link${activePage === "index" || activePage === "home" ? " is-active" : ""}" href="./index.html">Trang chủ</a>
-          <a class="header-nav__link${activePage === "catalog" ? " is-active" : ""}" href="./catalog.html">Sản phẩm</a>
+          <a class="header-nav__link${activePage === "index" || activePage === "home" ? " is-active" : ""}" href="./index.html">${langText("Trang chủ", "Home")}</a>
+          <a class="header-nav__link${activePage === "catalog" ? " is-active" : ""}" href="./catalog.html">${langText("Sản phẩm", "Products")}</a>
           <a class="header-nav__link${activePage === "meal-planner" ? " is-active" : ""}" href="./meal-planner.html">Meal Planner</a>
+          <a class="header-nav__link header-nav__link--admin${activePage === "admin" ? " is-active" : ""}" href="${adminHref}">${adminLabel}</a>
         </nav>
+
+        <a class="header-location" href="./stores.html" aria-label="Stores">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          <span>Stores</span>
+        </a>
 
         <form class="header-search" role="search" id="header-search-form">
           <svg class="header-search__icon" viewBox="0 0 24 24"><path d="M10 2a8 8 0 1 0 4.906 14.32l5.387 5.387a1 1 0 0 0 1.414-1.414l-5.387-5.387A8 8 0 0 0 10 2zm0 14a6 6 0 1 1 0-12 6 6 0 0 1 0 12z"/></svg>
-          <input class="header-search__input" type="search" name="q" placeholder="Tìm rau củ, trái cây, thịt cá..." />
+          <input class="header-search__input" type="search" name="q" placeholder="${langText("Tìm rau củ, trái cây, thịt cá...", "Search vegetables, fruits, meat...")}" />
         </form>
 
         <div class="header-actions">
-          <a class="header-action-btn" href="./cart.html" aria-label="Giỏ hàng">
+          <a class="header-action-btn" href="./wishlist.html" aria-label="${langText("Yêu thích", "Wishlist")}">
+            <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          </a>
+
+          <a class="header-action-btn" href="./vouchers.html" aria-label="Voucher">
+            <svg viewBox="0 0 24 24"><path d="M20 12a2 2 0 0 0-2-2V6a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v4a2 2 0 0 0-2 2 2 2 0 0 0 0 4 2 2 0 0 0 2 2v4a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-4a2 2 0 0 0 2-2 2 2 0 0 0 0-4zm-4 8H8v-3a3 3 0 0 1 0-6V8h8v3a3 3 0 0 1 0 6z"/></svg>
+          </a>
+          <a class="header-action-btn" href="./cart.html" aria-label="${langText("Giỏ hàng", "Cart")}">
             <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0 0 20 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
             ${cartBadge}
           </a>
 
-          <button class="header-action-btn header-lang-btn" type="button" aria-label="Ngôn ngữ" id="lang-toggle">
-            <span class="header-lang-flag">🇻🇳</span>
+          <button class="header-action-btn header-lang-btn" type="button" aria-label="${langText("Ngôn ngữ", "Language")}" id="lang-toggle">
+            <span class="header-lang-flag" id="lang-toggle-label">${getLanguageButtonLabel()}</span>
           </button>
 
-          <a class="header-action-btn" href="./account.html" aria-label="Tài khoản">
+          <a class="header-action-btn" href="./account.html" aria-label="${langText("Tài khoản", "Account")}">
             <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+          </a>
+          <a class="header-action-btn header-action-btn--admin" href="${adminHref}" aria-label="${adminLabel}" title="${adminLabel}">
+            <svg viewBox="0 0 24 24"><path d="M12 2 4 5.5v6.1c0 5 3.4 9.6 8 10.4 4.6-.8 8-5.4 8-10.4V5.5L12 2Zm0 3.1 5.5 2.4v4.1c0 3.6-2.3 6.9-5.5 7.8-3.2-.9-5.5-4.2-5.5-7.8V7.5L12 5.1Z"/></svg>
           </a>
         </div>
       </div>
@@ -104,7 +682,7 @@ function createHeaderHTML(activePage) {
     <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
     <div class="mobile-menu" id="mobile-menu">
       <div class="mobile-menu__header">
-        <span class="mobile-menu__logo">Bách Hóa Tươi</span>
+        <span class="mobile-menu__logo">${siteName}</span>
         <button class="mobile-menu__close" id="mobile-menu-close">
           <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </button>
@@ -118,18 +696,19 @@ function createHeaderHTML(activePage) {
           <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
           Trang chủ
         </a>
-        <a class="mobile-menu__item" href="./catalog.html">📦 Tất cả sản phẩm</a>
+        <a class="mobile-menu__item" href="./catalog.html">Tất cả sản phẩm</a>
         ${categoryLinks.map(cat => `
           <a class="mobile-menu__item" href="./catalog.html?category=${cat.slug}">
             <img src="${cat.img}" alt="" loading="lazy" /> ${cat.name}
           </a>
         `).join("")}
         <div class="mobile-menu__divider"></div>
-        <a class="mobile-menu__item" href="./meal-planner.html">🍽️ Meal Planner</a>
-        <a class="mobile-menu__item" href="./cart.html">🛒 Giỏ hàng</a>
-        <a class="mobile-menu__item" href="./wishlist.html">♡ Yêu thích</a>
-        <a class="mobile-menu__item" href="./orders.html">📋 Đơn hàng</a>
-        <a class="mobile-menu__item" href="./account.html">👤 Tài khoản</a>
+        <a class="mobile-menu__item" href="./meal-planner.html">Meal Planner</a>
+        <a class="mobile-menu__item" href="./cart.html">Giỏ hàng</a>
+        <a class="mobile-menu__item" href="./wishlist.html">Yêu thích</a>
+        <a class="mobile-menu__item" href="./orders.html">Đơn hàng</a>
+        <a class="mobile-menu__item" href="./account.html">Tài khoản</a>
+        <a class="mobile-menu__item mobile-menu__item--admin" href="${adminHref}">Admin Panel</a>
       </nav>
     </div>
   `;
@@ -142,39 +721,39 @@ function createFooterHTML() {
     <div class="footer-main">
       <div class="container">
         <div>
-          <h3 class="footer-heading">Về chúng tôi</h3>
+          <h3 class="footer-heading">${tr("Về chúng tôi")}</h3>
           <div class="footer-links">
-            <a href="./about.html">Giới thiệu Bách Hóa Tươi</a>
-            <a href="./stores.html">Cửa hàng của chúng tôi</a>
-            <a href="./team.html">Đội ngũ phát triển</a>
-            <a href="./partner.html">Đồng hành cùng Bách Hóa Tươi</a>
+            <a href="./about.html">${tr("Giới thiệu Bách Hóa Tươi")}</a>
+            <a href="./stores.html">${tr("Cửa hàng của chúng tôi")}</a>
+            <a href="./team.html">${tr("Đội ngũ phát triển")}</a>
+            <a href="./partner.html">${tr("Đồng hành cùng Bách Hóa Tươi")}</a>
           </div>
         </div>
 
         <div>
-          <h3 class="footer-heading">Chăm sóc khách hàng</h3>
+          <h3 class="footer-heading">${tr("Chăm sóc khách hàng")}</h3>
           <div class="footer-links">
-            <a href="./blog.html">Blog ẩm thực</a>
-            <a href="./guide.html">Hướng dẫn mua hàng</a>
-            <a href="./shipping-policy.html">Chính sách giao hàng</a>
-            <a href="./return-policy.html">Chính sách đổi trả hoàn tiền</a>
-            <a href="./privacy-policy.html">Chính sách bảo mật thông tin</a>
+            <a href="./blog.html">${tr("Blog ẩm thực")}</a>
+            <a href="./guide.html">${tr("Hướng dẫn mua hàng")}</a>
+            <a href="./shipping-policy.html">${tr("Chính sách giao hàng")}</a>
+            <a href="./return-policy.html">${tr("Chính sách đổi trả hoàn tiền")}</a>
+            <a href="./privacy-policy.html">${tr("Chính sách bảo mật thông tin")}</a>
           </div>
         </div>
 
         <div>
-          <h3 class="footer-heading">Cộng đồng & Đối tác</h3>
+          <h3 class="footer-heading">${tr("Cộng đồng & Đối tác")}</h3>
           <div class="footer-social">
-            <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
-            <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
-            <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+            <button class="footer-social__btn" type="button" aria-label="Facebook sắp hỗ trợ" disabled><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></button>
+            <button class="footer-social__btn" type="button" aria-label="Instagram sắp hỗ trợ" disabled><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></button>
+            <button class="footer-social__btn" type="button" aria-label="YouTube sắp hỗ trợ" disabled><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></button>
           </div>
         </div>
 
         <div>
-          <h3 class="footer-heading">Liên hệ</h3>
+          <h3 class="footer-heading">${tr("Liên hệ")}</h3>
           <div class="footer-contact__list">
-            <p>Cửa hàng Bách Hóa Tươi</p>
+            <p>${tr("Cửa hàng Bách Hóa Tươi")}</p>
             <p>Mã số thuế: 079088013113</p>
             <p>63 Đường Số 1, P. Tân Hưng, TP. HCM</p>
             <p><strong>038 369 0006</strong> (7:00 - 22:00)</p>
@@ -186,52 +765,71 @@ function createFooterHTML() {
 
     <div class="footer-bottom">
       <div class="container">
-        <span class="footer-bottom__copy">© ${year} Bách Hóa Tươi — AI Nutrition Commerce</span>
-        <span style="color:#6a7a6a;font-size:13px;">Đồ án Phát triển Web Kinh doanh</span>
+        <span class="footer-bottom__copy">© ${year} ${langText("Bách Hóa Tươi", "FreshMart")}</span>
+        <span style="color:#6a7a6a;font-size:13px;">${tr("Đồ án Phát triển Web Kinh doanh")}</span>
       </div>
     </div>
   `;
 }
 
 // ==================== PRODUCT CARD ====================
+function getProductDetailUrl(product) {
+  const slug = String(product?.slug || "").trim();
+  if (slug) return `./product-detail.html?slug=${encodeURIComponent(slug)}`;
+  return `./product-detail.html?id=${encodeURIComponent(product?.id || "")}`;
+}
+
+function getProductStock(product) {
+  const stock = Number(product?.stock ?? product?.stock_quantity ?? product?.quantity ?? 0);
+  if (product?.in_stock === false || product?.isAvailable === false) return 0;
+  return Number.isFinite(stock) ? stock : 0;
+}
+
 function renderProductCard(product) {
   const discount = getDiscountPercent(product);
-  const displayPrice = product.salePrice && product.salePrice < product.price ? product.salePrice : product.price;
+  const salePrice = getProductSalePrice(product);
+  const displayPrice = salePrice && salePrice < product.price ? salePrice : product.price;
+  const detailUrl = getProductDetailUrl(product);
+  const stock = getProductStock(product);
+  const outOfStock = stock <= 0;
 
   let badgesHTML = "";
   if (discount > 0) badgesHTML += `<span class="badge badge--sale">-${discount}%</span>`;
   if (product.isFeatured) badgesHTML += `<span class="badge badge--hot">HOT</span>`;
+  if (outOfStock) badgesHTML += `<span class="badge badge--soldout">Hết hàng</span>`;
 
   const productImage = PRODUCT_IMAGES[product.id]
-    || ((product.imageUrl && !product.imageUrl.includes('placeholder'))
-      ? product.imageUrl
-      : (CATEGORY_IMAGES[product.categoryId] || './assets/images/placeholder-product.svg'));
+    || ((getProductImage(product) && !getProductImage(product).includes("placeholder"))
+      ? getProductImage(product)
+      : (SUBCATEGORY_IMAGES[product.subcategory] || CATEGORY_IMAGES[getProductCategory(product)] || "./assets/images/placeholder-product.svg"));
+  const productFallbackImage = SUBCATEGORY_IMAGES[product.subcategory]
+    || CATEGORY_IMAGES[getProductCategory(product)]
+    || "./assets/images/placeholder-product.svg";
 
   return `
-    <div class="product-card" data-product-id="${product.id}">
-      <a href="./product-detail.html?slug=${encodeURIComponent(product.slug)}" class="product-card__image-wrap">
+    <div class="product-card ${outOfStock ? "is-out-of-stock" : ""}" data-product-id="${product.id}">
+      <a href="${detailUrl}" class="product-card__image-wrap">
         ${badgesHTML ? `<div class="product-card__badges">${badgesHTML}</div>` : ""}
-        <img src="${productImage}" alt="${escapeHTML(product.name)}" loading="lazy" />
+        <img src="${productImage}" alt="${escapeHTML(product.name)}" loading="lazy" onerror="this.onerror=null;this.src='${productFallbackImage}'" />
       </a>
       <div class="product-card__body">
-        <a href="./product-detail.html?slug=${encodeURIComponent(product.slug)}" class="product-card__name">
+        <a href="${detailUrl}" class="product-card__name">
           ${escapeHTML(product.name)}
         </a>
         <span class="product-card__unit">${escapeHTML(product.brand || "")} · ${escapeHTML(product.unit)}</span>
         <div class="product-card__rating">
           <span class="product-card__rating-star">★</span>
           ${(product.rating || 0).toFixed(1)}
-          <span class="text-muted">(${product.reviewCount || 0})</span>
+          <span class="text-muted">(${getProductReviewCount(product)})</span>
         </div>
         <div class="product-card__footer">
           <div class="price">
             <span class="price__current ${discount > 0 ? 'price__current--sale' : ''}">${formatCurrency(displayPrice)}</span>
-            ${product.salePrice && product.salePrice < product.price ? `<span class="price__original">${formatCurrency(product.price)}</span>` : ""}
+            ${salePrice && salePrice < product.price ? `<span class="price__original">${formatCurrency(product.price)}</span>` : ""}
           </div>
           <div class="product-card__actions">
             ${renderWishlistButton(product.id)}
-            <button class="product-card__add-btn" data-action="add-to-cart" data-product-id="${product.id}" title="Thêm vào giỏ">+</button>
-            <button class="product-card__compare-btn" data-action="add-to-compare" data-product-id="${product.id}" title="So sánh" aria-label="So sánh ${escapeHTML(product.name)}">⊕</button>
+            <button class="product-card__add-btn" data-action="add-to-cart" data-product-id="${product.id}" data-stock="${stock}" title="${outOfStock ? "Sản phẩm tạm hết hàng" : "Thêm vào giỏ"}" ${outOfStock ? "disabled" : ""}>${outOfStock ? "Hết hàng" : "Thêm vào giỏ"}</button>
           </div>
         </div>
       </div>
@@ -246,17 +844,17 @@ function renderHero() {
       <div class="hero__pattern"></div>
       <div class="hero__slides">
         ${HERO_SLIDES.map((slide, i) => `
-          <div class="hero__slide ${i === 0 ? "is-active" : ""}" role="group" aria-label="Slide ${i + 1}: ${slide.title}" aria-hidden="${i !== 0}">
+            <div class="hero__slide ${i === 0 ? "is-active" : ""}" role="group" aria-label="Slide ${i + 1}: ${tr(slide.title)}" aria-hidden="${i !== 0}">
             <div class="hero__visual">
-              <img class="hero__visual-img" src="${slide.image}" alt="${slide.title}" ${i > 0 ? 'loading="lazy"' : 'fetchpriority="high"'} />
+              <img class="hero__visual-img" src="${slide.image}" alt="${tr(slide.title)}" ${i > 0 ? 'loading="lazy"' : 'fetchpriority="high"'} />
             </div>
             <div class="container hero__slide-inner">
               <div class="hero__content">
-                <span class="hero__label">${slide.badge}</span>
-                <h1 class="hero__title">${slide.title}</h1>
-                <p class="hero__desc">${slide.subtitle}</p>
+                <span class="hero__label">${tr(slide.badge)}</span>
+                <h1 class="hero__title">${tr(slide.title)}</h1>
+                <p class="hero__desc">${tr(slide.subtitle)}</p>
                 <div class="hero__actions">
-                  <a class="btn btn--accent btn--lg" href="${slide.btnLink}">${slide.btnText}</a>
+                  <a class="btn btn--accent btn--lg" href="${slide.btnLink}">${tr(slide.btnText)}</a>
                 </div>
               </div>
             </div>
@@ -279,10 +877,10 @@ function renderFeaturesStrip() {
       <div class="container">
         <div class="features-strip__grid">
           ${FEATURES.map((f, i) => `
-            <div class="features-strip__item reveal reveal-delay-${i + 1}" data-bg="${f.image}" role="img" aria-label="${f.title}">
+            <div class="features-strip__item features-strip__item--${i + 1} reveal reveal-delay-${i + 1}" data-bg="${f.image}" role="img" aria-label="${f.title}">
               <div class="features-strip__text">
-                <span class="features-strip__label">${f.title}</span>
-                <span class="features-strip__sub">${f.desc}</span>
+                <span class="features-strip__label">${tr(f.title)}</span>
+                <span class="features-strip__sub">${tr(f.desc)}</span>
               </div>
             </div>
           `).join("")}
@@ -308,13 +906,19 @@ function renderVoucherSection(vouchers) {
             <span class="eyebrow">Khuyến mãi</span>
             <h2 class="section-header__title">Voucher giảm giá hôm nay</h2>
           </div>
-          <a class="btn btn--outline btn--sm" href="./catalog.html">Xem tất cả</a>
+          <a class="btn btn--outline btn--sm" href="./vouchers.html">Xem tất cả</a>
         </div>
         <div class="voucher-grid">
           ${sorted.slice(0, 6).map((v) => {
+            v = {
+              ...v,
+              minOrder: Number(v.minOrder ?? v.minOrderValue ?? 0) || 0,
+              expiresAt: v.expiresAt || v.endDate || ""
+            };
             const discountLabel = v.discountType === "percent"
               ? `${v.discountValue}%`
               : formatCurrency(v.discountValue);
+            const saved = !!getCurrentUser()?.id && isVoucherSaved(v.id);
 
             return `
               <div class="voucher-card">
@@ -325,10 +929,13 @@ function renderVoucherSection(vouchers) {
                 <div class="voucher-card__info">
                   <span class="voucher-card__code">${escapeHTML(v.code)}</span>
                   <span class="voucher-card__desc">${escapeHTML(v.description || v.title)}</span>
-                  <span class="voucher-card__expiry">${v.expiresAt ? 'HSD: ' + formatDate(v.expiresAt) : ''}</span>
+                  <span class="voucher-card__expiry">${v.expiresAt ? 'HSD: 31/12/2026' : ''}</span>
                 </div>
-                <div class="voucher-card__action" style="display:flex;align-items:center;padding:0 20px;">
-                  <a class="btn btn--primary btn--sm voucher-card__btn" href="./catalog.html">Dùng ngay</a>
+                <div class="voucher-card__action">
+                  <button class="btn ${saved ? "btn--outline" : "btn--primary"} btn--sm voucher-card__btn" data-action="save-voucher" data-voucher-id="${escapeHTML(v.id)}" type="button">
+                    ${saved ? "Đã lưu" : "Lưu voucher"}
+                  </button>
+                  <a class="btn btn--ghost btn--sm voucher-card__btn" href="./catalog.html">Dùng ngay</a>
                 </div>
               </div>
             `;
@@ -351,13 +958,14 @@ function renderCategorySection(categories, products) {
         </div>
         <div class="category-grid">
           ${categories.map((cat, i) => {
-            const count = products.filter(p => p.categoryId === cat.id).length;
-            const img = CATEGORY_IMAGES[cat.id] || "./assets/images/placeholder-banner.svg";
+            const count = products.filter((p) => getProductCategory(p) === cat.id).length;
+            const img = cat.imageUrl || CATEGORY_IMAGES[cat.id] || "./assets/images/placeholder-banner.svg";
+            const fallbackImg = cat.fallbackImageUrl || CATEGORY_IMAGES[cat.id] || "./assets/images/placeholder-banner.svg";
             const delayClass = ` reveal reveal-delay-${(i % 6) + 1}`;
             return `
               <a class="category-card${delayClass}" href="./catalog.html?category=${encodeURIComponent(cat.slug || cat.id)}">
                 <div class="category-card__bg">
-                  <img src="${img}" alt="" loading="lazy" />
+                  <img src="${img}" alt="" loading="lazy" onerror="this.onerror=null;this.src='${fallbackImg}'" />
                 </div>
                 <div class="category-card__content">
                   <span class="category-card__name">${escapeHTML(cat.name)}</span>
@@ -373,10 +981,20 @@ function renderCategorySection(categories, products) {
 }
 
 function renderFlashSale(products) {
-  const saleProducts = products
-    .filter(p => p.salePrice && p.salePrice < p.price)
+  let saleProducts = products
+    .filter((p) => {
+      const salePrice = getProductSalePrice(p);
+      return salePrice && salePrice < p.price;
+    })
     .sort((a, b) => getDiscountPercent(b) - getDiscountPercent(a))
     .slice(0, 10);
+  if (!saleProducts.length) {
+    saleProducts = products
+      .filter((p) => Number(p.price || 0) > 0)
+      .sort((a, b) => getProductReviewCount(b) - getProductReviewCount(a))
+      .slice(0, 10)
+      .map((p) => ({ ...p, sale_price: Math.round(Number(p.price) * 0.85 / 1000) * 1000 }));
+  }
 
   return `
     <section class="flash-sale-section reveal">
@@ -450,21 +1068,29 @@ function renderPromoBanners() {
   const promoImages = {
     green: "https://images.unsplash.com/photo-1610832958506-aa56368176cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     orange: "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    purple: "https://images.unsplash.com/photo-1544145945-f90425340c7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+    blue: "https://images.unsplash.com/photo-1544145945-f90425340c7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    purple: "https://images.unsplash.com/photo-1544145945-f90425340c7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    pantry: "https://images.unsplash.com/photo-1606914501449-5a96b6ce24ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&q=80",
+    fruit: "https://images.unsplash.com/photo-1619566636858-adf3ef46400b?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&q=80"
   };
+  const promoItems = [
+    ...PROMO_BANNERS,
+    { theme: "pantry", title: "Gian bếp gọn", desc: "Gia vị và hàng khô cho bữa ăn nhanh", link: "./catalog.html?category=gia-vi-nuoc-sot" },
+    { theme: "fruit", title: "Trái cây mỗi ngày", desc: "Chọn trọn vị ngọt tươi cho cả nhà", link: "./catalog.html?category=trai-cay" }
+  ];
   return `
     <section class="promo-section reveal">
       <div class="container">
         <div class="promo-grid">
-          ${PROMO_BANNERS.map(p => `
+          ${promoItems.map(p => `
             <a class="promo-banner promo-banner--${p.theme}" href="${p.link}">
               <div class="promo-banner__bg">
-                <img src="${promoImages[p.theme]}" alt="" loading="lazy" />
+                <img src="${promoImages[p.theme] || promoImages.green}" alt="" loading="lazy" />
               </div>
               <div class="promo-banner__content">
-                <span class="promo-banner__title">${p.title}</span>
-                <span class="promo-banner__desc">${p.desc}</span>
-                <span class="btn btn--white btn--sm">Xem ngay →</span>
+                <span class="promo-banner__title">${tr(p.title)}</span>
+                <span class="promo-banner__desc">${tr(p.desc)}</span>
+                <span class="btn btn--white btn--sm">${tr("Xem ngay →")}</span>
               </div>
             </a>
           `).join("")}
@@ -482,13 +1108,13 @@ function renderTrustBanner() {
           <picture><source srcset="./assets/images/hero-fresh.webp" type="image/webp"><source srcset="./assets/images/hero-fresh.jpg" type="image/jpeg"><img src="./assets/images/hero-fresh.jpg" alt="" role="presentation" loading="lazy" /></picture>
         </div>
         <div class="trust-section__content">
-          <h2 class="trust-section__title">Siêu thị trực tuyến hàng đầu cho gia đình Việt</h2>
-          <p class="trust-section__desc">Hơn 1,000 sản phẩm tươi ngon, giao nhanh toàn quốc, chất lượng đảm bảo</p>
+          <h2 class="trust-section__title">${tr("Siêu thị trực tuyến cho gia đình Việt")}</h2>
+          <p class="trust-section__desc">${tr("200 sản phẩm chọn lọc, 12 cửa hàng tại TP.HCM, giao nhanh trong 2 giờ nội thành.")}</p>
           <div class="trust-grid" role="list">
             ${TRUST_STATS.map(s => `
               <div class="trust-item" role="listitem">
-                <div class="trust-item__number" data-count="${s.num}" data-suffix="${s.suffix}" aria-label="${s.label}">0</div>
-                <div class="trust-item__label">${s.label}</div>
+                <div class="trust-item__number" data-count="${s.num}" data-suffix="${s.suffix}" aria-label="${tr(s.label)}">0</div>
+                <div class="trust-item__label">${tr(s.label)}</div>
               </div>
             `).join("")}
           </div>
@@ -504,8 +1130,8 @@ function renderBenefits() {
       <div class="container">
         <div class="section-header">
           <div class="section-header__text">
-            <span class="eyebrow">Tại sao chọn chúng tôi</span>
-            <h2 class="section-header__title">Cam kết với gia đình bạn</h2>
+            <span class="eyebrow">${tr("Tại sao chọn chúng tôi")}</span>
+            <h2 class="section-header__title">${tr("Cam kết với gia đình bạn")}</h2>
           </div>
         </div>
         <div class="benefits-grid">
@@ -515,8 +1141,8 @@ function renderBenefits() {
                 <img src="${b.image}" alt="" loading="lazy" />
               </div>
               <div class="benefit-card__content">
-                <h3 class="benefit-card__title">${b.title}</h3>
-                <p class="benefit-card__desc">${b.desc}</p>
+                <h3 class="benefit-card__title">${tr(b.title)}</h3>
+                <p class="benefit-card__desc">${tr(b.desc)}</p>
               </div>
             </div>
           `).join("")}
@@ -532,22 +1158,19 @@ function renderMealPlannerCTA() {
       <div class="container">
         <div class="meal-cta">
           <div class="meal-cta__content">
-            <span class="meal-cta__eyebrow">Tính năng đặc biệt</span>
-            <h2 class="meal-cta__title">Không biết hôm nay ăn gì?</h2>
-            <p class="meal-cta__desc">
-              Tạo thực đơn hàng tuần và danh sách mua sắm tự động chỉ trong vài bước.
-              Hoàn toàn miễn phí, chạy ngay trên trình duyệt.
-            </p>
+            <span class="meal-cta__eyebrow">${tr("Tính năng đặc biệt")}</span>
+            <h2 class="meal-cta__title">${tr("Không biết hôm nay ăn gì?")}</h2>
+            <p class="meal-cta__desc">${tr("Tạo thực đơn hằng tuần và danh sách mua sắm tự động chỉ trong vài bước.\n              Hoàn toàn miễn phí, chạy ngay trên trình duyệt.")}</p>
             <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:28px;">
               ${MEAL_STEPS.map((step, i) => `
                 <div style="display:flex;align-items:center;gap:14px;">
                   <span style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.12);color:var(--color-accent);font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">${i + 1}</span>
-                  <span style="font-size:15px;color:rgba(255,255,255,0.8);">${step}</span>
+                  <span style="font-size:15px;color:rgba(255,255,255,0.8);">${tr(step)}</span>
                 </div>
               `).join("")}
             </div>
             <a class="btn btn--accent btn--lg" href="./meal-planner.html" style="font-size:17px;padding:20px 44px;gap:14px;">
-              <span>Khám phá Meal Planner</span>
+              <span>${tr("Khám phá Meal Planner")}</span>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
           </div>
@@ -566,8 +1189,8 @@ function renderTestimonials() {
       <div class="container">
         <div class="section-header" style="text-align:center">
           <div class="section-header__text">
-            <span class="eyebrow">Khách hàng nói gì</span>
-            <h2 class="section-header__title">Gửi gắm niềm tin từ những bữa cơm</h2>
+            <span class="eyebrow">${tr("Khách hàng nói gì")}</span>
+            <h2 class="section-header__title">${tr("Gửi gắm niềm tin từ những bữa cơm")}</h2>
           </div>
         </div>
         <div class="testimonials-carousel" id="testimonials-carousel" aria-live="polite" aria-label="Khách hàng đánh giá">
@@ -580,10 +1203,10 @@ function renderTestimonials() {
                   </div>
                   <div class="testimonials-slide__content">
                     <div class="testimonials-slide__stars">${'★'.repeat(t.rating)}${'☆'.repeat(5 - t.rating)}</div>
-                    <blockquote class="testimonials-slide__text">"${t.text}"</blockquote>
+                    <blockquote class="testimonials-slide__text">"${tr(t.text)}"</blockquote>
                     <div class="testimonials-slide__author">
-                      <span class="testimonials-slide__name">${t.name}</span>
-                      <span class="testimonials-slide__title">${t.title}</span>
+                      <span class="testimonials-slide__name">${tr(t.name)}</span>
+                      <span class="testimonials-slide__title">${tr(t.title)}</span>
                     </div>
                   </div>
                 </div>
@@ -607,20 +1230,20 @@ function renderNewsletter() {
       <div class="container">
         <div class="newsletter">
           <div class="newsletter__copy">
-            <span class="newsletter__eyebrow">Đăng ký nhận ưu đãi</span>
-            <h2 class="newsletter__title" id="newsletter-title">Thông tin độc quyền, gửi thẳng hòm thư</h2>
-            <p class="newsletter__desc">Voucher mỗi tuần, deal theo mùa, và mẹo chọn rau củ trái cây tươi ngon — không rác, chỉ giá trị.</p>
+            <span class="newsletter__eyebrow">${tr("Đăng ký nhận ưu đãi")}</span>
+            <h2 class="newsletter__title" id="newsletter-title">${tr("Thông tin độc quyền, gửi thẳng hòm thư")}</h2>
+            <p class="newsletter__desc">Voucher mỗi tuần, deal theo mùa, và mẹo chọn rau củ trái cây tươi ngon - không rác, chỉ giá trị.</p>
           </div>
           <form class="newsletter__form" id="newsletter-form">
             <label for="newsletter-email" class="visually-hidden">Email của bạn</label>
             <input class="newsletter__input" id="newsletter-email" type="email" name="email" placeholder="your@email.com" required autocomplete="email" />
             <button class="newsletter__btn" type="submit">
-              <span>Đăng ký</span>
+              <span>${tr("Đăng ký")}</span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </button>
           </form>
           <p class="newsletter__message" id="newsletter-message" aria-live="polite"></p>
-          <p class="newsletter__trust">Không spam. Hủy đăng ký bất cứ lúc nào. <a href="./privacy-policy.html" target="_blank" rel="noopener">Chính sách bảo mật</a></p>
+          <p class="newsletter__trust">${tr("Không spam. Hủy đăng ký bất cứ lúc nào.")} <a href="./privacy-policy.html" target="_blank" rel="noopener">${tr("Chính sách bảo mật thông tin")}</a></p>
         </div>
       </div>
     </section>
@@ -732,6 +1355,15 @@ function bindFlashCountdown() {
     const scrollAmount = 250;
     prevBtn.addEventListener("click", () => scrollContainer.scrollBy({ left: -scrollAmount, behavior: "smooth" }));
     nextBtn.addEventListener("click", () => scrollContainer.scrollBy({ left: scrollAmount, behavior: "smooth" }));
+  }
+
+  const trendingScroll = document.querySelector(".trending-section .product-scroll");
+  const trendingPrev = document.getElementById("trending-scroll-prev");
+  const trendingNext = document.getElementById("trending-scroll-next");
+  if (trendingScroll && trendingPrev && trendingNext) {
+    const scrollAmount = 320;
+    trendingPrev.addEventListener("click", () => trendingScroll.scrollBy({ left: -scrollAmount, behavior: "smooth" }));
+    trendingNext.addEventListener("click", () => trendingScroll.scrollBy({ left: scrollAmount, behavior: "smooth" }));
   }
 }
 
@@ -996,12 +1628,15 @@ function bindMobileMenu() {
 }
 
 function bindSearchForm() {
-  const form = document.getElementById("header-search-form");
-  if (!form) return;
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const q = new FormData(form).get("q")?.toString().trim();
-    window.location.href = q ? `./catalog.html?q=${encodeURIComponent(q)}` : "./catalog.html";
+  const forms = document.querySelectorAll("#header-search-form, .mobile-menu__search");
+  forms.forEach((form) => {
+    if (form.dataset.searchBound === "true") return;
+    form.dataset.searchBound = "true";
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const q = new FormData(form).get("q")?.toString().trim();
+      window.location.href = q ? `./catalog.html?q=${encodeURIComponent(q)}` : "./catalog.html";
+    });
   });
 }
 
@@ -1015,30 +1650,35 @@ function bindAddToCart() {
 
     const productId = btn.dataset.productId;
     if (!productId) return;
+    const stock = Number(btn.dataset.stock || 0);
+    if (btn.disabled || stock <= 0) {
+      showToast("Sản phẩm tạm hết hàng", "warning");
+      return;
+    }
 
-    const { getActiveCart: gac, setActiveCart: sac } = window.__storageExports || {};
-    if (!gac || !sac) return;
-
-    const cart = gac();
+    const cart = getActiveCart();
     if (!cart.items) cart.items = [];
     const existing = cart.items.find(item => item.productId === productId);
+    const currentQty = Number(existing?.quantity || 0);
+    if (currentQty >= stock) {
+      showToast("Số lượng trong giỏ đã đạt tồn kho hiện có", "warning");
+      return;
+    }
     if (existing) {
       existing.quantity += 1;
     } else {
-      cart.items.push({ productId, quantity: 1 });
+      cart.items.push({ productId, quantity: 1, selected: true });
     }
     cart.updatedAt = new Date().toISOString();
-    sac(cart);
+    setActiveCart(cart);
 
-    btn.textContent = "✓";
-    setTimeout(() => { btn.textContent = "+"; }, 1000);
+    const originalText = btn.textContent;
+    btn.textContent = "Đã thêm";
+    setTimeout(() => { btn.textContent = originalText || "Thêm vào giỏ"; }, 1000);
     showToast("Đã thêm vào giỏ hàng!");
 
-    const badge = document.querySelector(".header-action-btn__badge");
     const newCount = cart.items.reduce((s, i) => s + i.quantity, 0);
-    if (badge) {
-      badge.textContent = newCount > 99 ? "99+" : newCount;
-    }
+    updateHeaderCartBadge(newCount);
   });
 }
 
@@ -1051,15 +1691,12 @@ function bindAddToCompare() {
     const productId = btn.dataset.productId;
     if (!productId) return;
 
-    const { addToCompare: atc, getCompareProducts: gcp } = window.__storageExports || {};
-    if (!atc || !gcp) return;
-
-    const before = gcp();
-    const updated = atc(productId);
+    const before = getCompareProducts();
+    const updated = addToCompare(productId);
 
     if (updated.length > before.length) {
       btn.textContent = "✓";
-      setTimeout(() => { btn.textContent = "⊕"; }, 1000);
+      setTimeout(() => { btn.textContent = "+"; }, 1000);
       showToast("Đã thêm vào so sánh!");
     } else if (before.length >= 4) {
       showToast("Tối đa 4 sản phẩm để so sánh");
@@ -1083,6 +1720,8 @@ function bindProductAccordions() {
 function bindSearchAutocomplete() {
   const input = document.querySelector(".header-search__input");
   if (!input) return;
+  if (input.dataset.autocompleteBound === "true") return;
+  input.dataset.autocompleteBound = "true";
 
   let debounceTimer = null;
   let productsCache = null;
@@ -1098,17 +1737,35 @@ function bindSearchAutocomplete() {
     if (productsCache) return productsCache;
     try {
       const raw = await fetchJSON(DATA_PATHS.products);
-      productsCache = (raw || []).filter(p => p.isActive !== false);
+      productsCache = getMarketProducts(mergeAdminProducts(raw || []));
       return productsCache;
     } catch { return []; }
   }
 
   function renderSuggestions(query, products) {
-    if (!query || query.length < 2) { dropdown.style.display = "none"; return; }
+    if (!query || query.length < 1) { dropdown.style.display = "none"; return; }
     const q = query.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const normalizeSearchValue = (value) => String(value || "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+    const getSearchRank = (product) => {
+      const name = normalizeSearchValue(product.name);
+      const brand = normalizeSearchValue(product.brand);
+      const category = normalizeSearchValue(getMarketCategoryLabel(product));
+      const subcategory = normalizeSearchValue(getSubcategoryForProduct(product));
+      if (name.startsWith(q)) return 0;
+      if (name.split(/\s+/).some((word) => word.startsWith(q))) return 1;
+      if (brand.startsWith(q) || category.startsWith(q) || subcategory.startsWith(q)) return 2;
+      return 3;
+    };
     const matches = products.filter(p => {
-      const name = p.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-      return name.includes(q);
+      const text = normalizeSearchValue(`${p.name || ""} ${p.brand || ""} ${getMarketCategoryLabel(p)} ${getSubcategoryForProduct(p)} ${(p.tags || []).join(" ")}`);
+      return text.includes(q);
+    }).sort((a, b) => {
+      const rankDiff = getSearchRank(a) - getSearchRank(b);
+      if (rankDiff) return rankDiff;
+      return String(a.name || "").localeCompare(String(b.name || ""), "vi", { sensitivity: "base" });
     }).slice(0, 8);
 
     if (!matches.length) {
@@ -1117,11 +1774,12 @@ function bindSearchAutocomplete() {
     }
 
     dropdown.innerHTML = matches.map(p => {
-      const displayPrice = p.salePrice && p.salePrice < p.price ? p.salePrice : p.price;
-      const img = PRODUCT_IMAGES[p.id] || "";
+      const salePrice = getProductSalePrice(p);
+      const displayPrice = salePrice && salePrice < p.price ? salePrice : p.price;
+      const img = PRODUCT_IMAGES[p.id] || getProductImage(p) || "";
       return `
-        <a class="search-autocomplete__item" href="./catalog.html?q=${encodeURIComponent(p.name)}" style="display:flex;align-items:center;gap:12px;padding:10px 16px;text-decoration:none;color:var(--color-text);transition:background 0.15s;border-bottom:1px solid var(--color-border);">
-          ${img ? `<img src="${img}" alt="" style="width:40px;height:40px;border-radius:var(--radius-sm);object-fit:cover;flex-shrink:0;" />` : ""}
+        <a class="search-autocomplete__item" href="${getProductDetailUrl(p)}" style="display:flex;align-items:center;gap:12px;padding:10px 16px;text-decoration:none;color:var(--color-text);transition:background 0.15s;border-bottom:1px solid var(--color-border);">
+          <img src="${img || "./assets/images/placeholder-product.svg"}" alt="" style="width:40px;height:40px;border-radius:var(--radius-sm);object-fit:cover;flex-shrink:0;" onerror="this.src='./assets/images/placeholder-product.svg'" />
           <div style="flex:1;min-width:0;">
             <div style="font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escapeHTML(p.name)}</div>
             <div style="font-size:13px;color:var(--color-muted);">${escapeHTML(p.brand || "")} · ${escapeHTML(p.unit)}</div>
@@ -1143,7 +1801,7 @@ function bindSearchAutocomplete() {
   input.addEventListener("input", () => {
     clearTimeout(debounceTimer);
     const value = input.value.trim();
-    if (value.length < 2) { dropdown.style.display = "none"; return; }
+    if (value.length < 1) { dropdown.style.display = "none"; return; }
     debounceTimer = setTimeout(async () => {
       const products = await fetchProducts();
       renderSuggestions(value, products);
@@ -1155,7 +1813,7 @@ function bindSearchAutocomplete() {
   });
 
   input.addEventListener("focus", () => {
-    if (input.value.trim().length >= 2) {
+    if (input.value.trim().length >= 1) {
       dropdown.style.display = "block";
     }
   });
@@ -1168,7 +1826,9 @@ function bindSearchAutocomplete() {
 
 // ==================== TRENDING / SUGGESTED PRODUCTS ====================
 function renderTrendingSection(products) {
-  const trending = products.filter(p => p.isFeatured || p.stock > 50).slice(0, 5);
+  const trending = [...products]
+    .sort((a, b) => Number(b.sold_count || 0) - Number(a.sold_count || 0) || getProductReviewCount(b) - getProductReviewCount(a))
+    .slice(0, 10);
   if (!trending.length) return "";
 
   return `
@@ -1179,7 +1839,11 @@ function renderTrendingSection(products) {
             <span class="eyebrow">Gợi ý hôm nay</span>
             <h2 class="section-header__title">Sản phẩm bán chạy</h2>
           </div>
-          <a class="btn btn--outline btn--sm" href="./catalog.html">Xem tất cả</a>
+          <div class="trending-actions">
+            <button class="trending-nav__btn" id="trending-scroll-prev" aria-label="Trước"><svg viewBox="0 0 24 24"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
+            <button class="trending-nav__btn" id="trending-scroll-next" aria-label="Sau"><svg viewBox="0 0 24 24"><path d="m10 6-1.41 1.41L13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button>
+            <a class="btn btn--outline btn--sm" href="./catalog.html">Xem tất cả</a>
+          </div>
         </div>
         <div class="product-scroll">
           ${trending.map(p => renderProductCard(p)).join("")}
@@ -1191,7 +1855,7 @@ function renderTrendingSection(products) {
 
 // ==================== SAVE-FOR-LATER (WISHLIST CARD BUTTON) ====================
 function renderWishlistButton(productId) {
-  const isFav = isWishlisted(productId);
+  const isFav = !!getCurrentUser()?.id && isWishlisted(productId);
   return `
     <button class="product-card__wishlist ${isFav ? 'is-active' : ''}" data-action="toggle-wishlist" data-product-id="${productId}" aria-label="${isFav ? 'Bỏ yêu thích' : 'Yêu thích'}" title="${isFav ? 'Bỏ yêu thích' : 'Yêu thích'}">
       <svg viewBox="0 0 24 24" width="18" height="18" fill="${isFav ? 'var(--color-sale)' : 'none'}" stroke="currentColor" stroke-width="2"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
@@ -1200,6 +1864,8 @@ function renderWishlistButton(productId) {
 }
 
 function bindWishlistToggle() {
+  if (document.body.dataset.wishlistToggleBound === "true") return;
+  document.body.dataset.wishlistToggleBound = "true";
   document.addEventListener("click", (e) => {
     const btn = e.target.closest("[data-action='toggle-wishlist']");
     if (!btn) return;
@@ -1207,11 +1873,16 @@ function bindWishlistToggle() {
     const productId = btn.dataset.productId;
     if (!productId) return;
 
-    const { toggleWishlist: tw, isWishlisted: iw } = window.__storageExports || {};
-    if (!tw || !iw) return;
+    if (!getCurrentUser()?.id) {
+      showToast("Vui lòng đăng nhập để lưu sản phẩm yêu thích", "warning");
+      setTimeout(() => {
+        window.location.href = "./login.html?redirect=wishlist";
+      }, 700);
+      return;
+    }
 
-    tw(productId);
-    const nowFav = iw(productId);
+    toggleWishlist(productId);
+    const nowFav = isWishlisted(productId);
     btn.classList.toggle("is-active", nowFav);
     btn.setAttribute("aria-label", nowFav ? "Bỏ yêu thích" : "Yêu thích");
     btn.querySelector("svg")?.setAttribute("fill", nowFav ? "var(--color-sale)" : "none");
@@ -1219,29 +1890,370 @@ function bindWishlistToggle() {
   });
 }
 
+function bindVoucherSave() {
+  if (document.body.dataset.voucherSaveBound === "true") return;
+  document.body.dataset.voucherSaveBound = "true";
+  document.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-action='save-voucher']");
+    if (!button) return;
+    event.preventDefault();
+
+    if (!getCurrentUser()?.id) {
+      showToast("Vui lòng đăng nhập để lưu voucher vào ví", "warning");
+      setTimeout(() => {
+        window.location.href = "./login.html?redirect=vouchers";
+      }, 700);
+      return;
+    }
+
+    const voucherId = button.dataset.voucherId;
+    if (!voucherId) return;
+    saveVoucher(voucherId);
+    button.textContent = "Đã lưu";
+    button.classList.remove("btn--primary");
+    button.classList.add("btn--outline");
+    showToast("Đã lưu voucher vào ví của bạn");
+  });
+}
+
+function bindLanguageToggle() {
+  const button = document.getElementById("lang-toggle");
+  if (!button) return;
+  button.addEventListener("click", () => {
+    toggleLanguage();
+    window.location.reload();
+  });
+}
+
+const EN_TEXT = new Map([
+  ["Bách Hóa Tươi", "FreshMart"],
+  ["FreshMart", "FreshMart"],
+  ["Trang chủ", "Home"],
+  ["Sản phẩm", "Products"],
+  ["Sản phẩm bán chạy", "Best sellers"],
+  ["Sản phẩm nổi bật", "Featured products"],
+  ["Danh mục sản phẩm", "Product categories"],
+  ["Tất cả sản phẩm", "All products"],
+  ["Danh mục", "Categories"],
+  ["Rau - Củ", "Vegetables"],
+  ["Rau củ", "Vegetables"],
+  ["Trái cây", "Fruits"],
+  ["Thịt", "Meat"],
+  ["Hải sản", "Seafood"],
+  ["Sữa - Trứng", "Dairy & eggs"],
+  ["Đồ uống", "Drinks"],
+  ["Bánh mì - Bakery", "Bakery"],
+  ["Bánh kẹo - Ăn vặt", "Snacks"],
+  ["Gạo - Ngũ cốc", "Rice & grains"],
+  ["Mì - Bún - Phở", "Noodles"],
+  ["Gia vị - Nước sốt", "Seasoning & sauces"],
+  ["Đông lạnh", "Frozen"],
+  ["Trà & cà phê", "Tea & coffee"],
+  ["Giỏ hàng", "Cart"],
+  ["Giỏ hàng đang trống", "Your cart is empty"],
+  ["Mua sắm ngay", "Shop now"],
+  ["Chọn tất cả", "Select all"],
+  ["Xóa tất cả", "Clear all"],
+  ["Tạm tính", "Subtotal"],
+  ["Phí vận chuyển", "Shipping fee"],
+  ["Miễn phí", "Free"],
+  ["Giảm giá", "Discount"],
+  ["Tổng cộng", "Total"],
+  ["Tiến hành thanh toán", "Proceed to checkout"],
+  ["Đơn hàng", "Order"],
+  ["Đơn hàng của bạn", "Your order"],
+  ["Thanh toán", "Checkout"],
+  ["Thông tin nhận hàng", "Delivery information"],
+  ["Họ và tên *", "Full name *"],
+  ["Số điện thoại *", "Phone number *"],
+  ["Ghi chú cho người giao hàng", "Note for courier"],
+  ["Kho voucher của tôi", "My voucher wallet"],
+  ["Voucher khác có thể lưu", "More vouchers to save"],
+  ["Sẵn sàng dùng khi thanh toán", "Ready at checkout"],
+  ["Bạn chưa lưu voucher nào", "You have not saved any vouchers"],
+  ["Voucher đã lưu", "Saved vouchers"],
+  ["Lưu thêm voucher", "Save more vouchers"],
+  ["Bạn chưa lưu voucher nào.", "You have not saved any vouchers yet."],
+  ["Chỉ hiển thị các mã bạn đã lưu", "Only your saved vouchers are shown"],
+  ["Địa chỉ giao hàng *", "Delivery address *"],
+  ["Chưa có địa chỉ giao hàng", "No delivery address yet"],
+  ["Thay đổi", "Change"],
+  ["Nhập địa chỉ", "Enter address"],
+  ["Xác nhận", "Confirm"],
+  ["Phương thức thanh toán", "Payment method"],
+  ["Đặt hàng", "Place order"],
+  ["Quay lại giỏ hàng", "Back to cart"],
+  ["Tiếp tục mua sắm", "Continue shopping"],
+  ["Yêu thích", "Wishlist"],
+  ["Tài khoản", "Account"],
+  ["Giới thiệu", "About"],
+  ["Cửa hàng", "Stores"],
+  ["Đơn mua", "Orders"],
+  ["Lưu voucher", "Save voucher"],
+  ["Đã lưu", "Saved"],
+  ["Đã lưu trong ví", "Saved"],
+  ["Bỏ lưu", "Remove"],
+  ["Dùng ngay", "Use now"],
+  ["Có thể lưu", "Available"],
+  ["Gợi ý hôm nay", "Today picks"],
+  ["Gợi ý thêm", "More picks"],
+  ["Xem tất cả", "View all"],
+  ["Xem chi tiết", "View details"],
+  ["Thêm vào giỏ", "Add to cart"],
+  ["Thêm sản phẩm vào giỏ", "Add products to cart"],
+  ["Tìm sản phẩm", "Search products"],
+  ["Tìm kiếm", "Search"],
+  ["Meal Planner", "Meal Planner"],
+  ["Meal Planner", "Meal Planner"],
+  ["Nguyên liệu bạn đang có", "Ingredients you have"],
+  ["Tìm nguyên liệu", "Search ingredients"],
+  ["Đã chọn:", "Selected:"],
+  ["Tiêu chí món ăn", "Recipe preferences"],
+  ["Phong cách nấu ăn", "Cuisine"],
+  ["Loại món", "Meal type"],
+  ["Độ khó", "Difficulty"],
+  ["Thời gian", "Time"],
+  ["Khẩu phần", "Servings"],
+  ["Yêu cầu", "Preferences"],
+  ["Tạo món ngay", "Generate recipe"],
+  ["Đặt lại", "Reset"],
+  ["Kết quả gợi ý", "Suggested recipes"],
+  ["Cách làm", "Steps"],
+  ["Thông tin dinh dưỡng", "Nutrition"],
+  ["Mẹo nấu ăn", "Cooking tips"],
+  ["Không tìm thấy món phù hợp", "No matching recipes found"],
+  ["Quay lại bộ lọc", "Back to filters"],
+  ["Chọn sản phẩm thêm vào giỏ", "Choose products to add"],
+  ["Hủy", "Cancel"]
+]);
+
+function translateStaticText() {
+  if (!isEnglish()) return;
+  document.title = "FreshMart";
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  const entries = [...EN_TEXT.entries()].sort((a, b) => b[0].length - a[0].length);
+  nodes.forEach((node) => {
+    const parent = node.parentElement;
+    if (!parent || ["SCRIPT", "STYLE", "NOSCRIPT"].includes(parent.tagName)) return;
+    let next = node.nodeValue;
+    entries.forEach(([vi, en]) => {
+      next = next.replaceAll(vi, en);
+    });
+    if (next !== node.nodeValue) {
+      node.nodeValue = next;
+    }
+  });
+  document.querySelectorAll("[placeholder]").forEach((el) => {
+    const value = el.getAttribute("placeholder");
+    if (!value) return;
+    if (value.includes("Tìm") || value.includes("Nhập")) el.setAttribute("placeholder", "Search or enter information...");
+    if (value.includes("số nhà")) el.setAttribute("placeholder", "Enter house number, street, ward, district...");
+  });
+}
+
+function observeEnglishTranslation() {
+  if (!isEnglish() || document.body.dataset.enObserverBound === "true") return;
+  document.body.dataset.enObserverBound = "true";
+  let pending = false;
+  const observer = new MutationObserver(() => {
+    if (pending) return;
+    pending = true;
+    window.requestAnimationFrame(() => {
+      pending = false;
+      translateStaticText();
+    });
+  });
+  observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+}
+
 function renderCategorySidebar(categories, activeCategory = "") {
   return `
-    <aside class="category-sidebar">
-      <div class="category-sidebar__header">Danh mục sản phẩm</div>
+    <aside class="category-sidebar" id="category-sidebar">
+      <div class="category-sidebar__header">
+        <span class="category-sidebar__header-text">Danh mục sản phẩm</span>
+      </div>
       <div class="category-sidebar__list">
-        <a class="category-sidebar__item ${!activeCategory ? 'is-active' : ''}" href="./catalog.html">
-          <span class="category-sidebar__item-text">Tất cả sản phẩm</span>
+        <a class="category-sidebar__item category-sidebar__item--all ${!activeCategory ? 'is-active' : ''}" href="./catalog.html" data-cat-filter="">
+          <span class="category-sidebar__item-text">
+            <span class="category-sidebar__item-name">Tất cả sản phẩm</span>
+          </span>
         </a>
         ${categories.map(cat => {
-          const img = CATEGORY_IMAGES[cat.id] || "./assets/images/placeholder-banner.svg";
-          const isActive = activeCategory === cat.id;
+          const img = cat.imageUrl || CATEGORY_IMAGES[cat.id] || "./assets/images/placeholder-banner.svg";
+          const fallbackImg = cat.fallbackImageUrl || CATEGORY_IMAGES[cat.id] || "./assets/images/placeholder-banner.svg";
+          const isActive = activeCategory === cat.id || activeCategory?.startsWith(`brand:${cat.id}:`);
+          const hasSubcategories = cat.subcategories && cat.subcategories.length > 0;
           return `
-            <a class="category-sidebar__item ${isActive ? 'is-active' : ''}" href="./catalog.html?category=${encodeURIComponent(cat.slug || cat.id)}" data-cat-filter="${cat.id}">
-              <span class="category-sidebar__item-img"><img src="${img}" alt="" loading="lazy" /></span>
-              <span class="category-sidebar__item-text">
-                <span class="category-sidebar__item-name">${escapeHTML(cat.name)}</span>
-              </span>
-            </a>
+            <div class="category-sidebar__item-wrapper" data-category-id="${cat.id}">
+              <a class="category-sidebar__item ${isActive ? 'is-active' : ''}" href="./catalog.html?category=${encodeURIComponent(cat.slug || cat.id)}" data-cat-filter="${cat.id}">
+                <span class="category-sidebar__item-img"><img src="${img}" alt="" loading="lazy" onerror="this.onerror=null;this.src='${fallbackImg}'" /></span>
+                <span class="category-sidebar__item-text">
+                  <span class="category-sidebar__item-name">${escapeHTML(cat.name)}</span>
+                  ${cat.productCount ? `<span class="category-sidebar__item-count">${cat.productCount} sp</span>` : ''}
+                </span>
+              </a>
+              ${hasSubcategories ? `
+                <div class="category-sidebar__flyout">
+                  <div class="category-sidebar__flyout-header">
+                    <span class="category-sidebar__flyout-header-img"><img src="${img}" alt="" loading="lazy" onerror="this.onerror=null;this.src='${fallbackImg}'" /></span>
+                    <span class="category-sidebar__flyout-header-title">${escapeHTML(cat.name)}</span>
+                    <button class="category-sidebar__flyout-header-close" aria-label="Đóng">
+                      <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                    </button>
+                  </div>
+                  <div class="category-sidebar__flyout-content">
+                    ${cat.subcategories.map(sub => {
+                      const subFilter = `brand:${cat.id}:${cleanText(sub.name).replace(/\s+/g, "-")}`;
+                      const subImg = sub.imageUrl || SUBCATEGORY_IMAGES[sub.id] || img;
+                      const subFallbackImg = sub.fallbackImageUrl || SUBCATEGORY_IMAGES[sub.id] || fallbackImg;
+                      return `
+                      <a class="category-sidebar__flyout-item" href="./catalog.html?category=${encodeURIComponent(subFilter)}" data-cat-filter="${subFilter}">
+                        <span class="category-sidebar__flyout-item-img"><img src="${subImg}" alt="" loading="lazy" onerror="this.onerror=null;this.src='${subFallbackImg}'" /></span>
+                        <span class="category-sidebar__flyout-item-name">${escapeHTML(sub.name)}</span>
+                        ${sub.productCount ? `<span class="category-sidebar__flyout-item-count">${sub.productCount}</span>` : ''}
+                      </a>
+                    `;
+                    }).join('')}
+                  </div>
+                  <a class="category-sidebar__flyout-view-all" href="./catalog.html?category=${encodeURIComponent(cat.slug || cat.id)}" data-cat-filter="${cat.id}">
+                    <span>Xem tất cả ${escapeHTML(cat.name)}</span>
+                    <span class="category-sidebar__flyout-view-all-arrow">→</span>
+                  </a>
+                </div>
+              ` : ''}
+            </div>
           `;
         }).join("")}
       </div>
     </aside>
+    <div class="category-sidebar__flyout-overlay"></div>
   `;
+}
+
+function bindSidebarHover() {
+  const sidebar = document.getElementById("category-sidebar");
+  if (!sidebar || sidebar.dataset.sidebarBound === "true") return;
+  sidebar.dataset.sidebarBound = "true";
+
+  const overlay = document.querySelector(".category-sidebar__flyout-overlay");
+  const pageLayout = document.querySelector(".page-layout");
+  let activeFlyout = null;
+  let closeTimer = null;
+
+  function positionFlyout(wrapper, flyoutEl) {
+    if (!wrapper || !flyoutEl) return;
+    const sidebarRect = sidebar.getBoundingClientRect();
+    const wrapperRect = wrapper.getBoundingClientRect();
+    const flyoutHeight = Math.min(flyoutEl.offsetHeight || 460, window.innerHeight - 32);
+    const minTop = 12;
+    const maxTop = Math.max(minTop, window.innerHeight - flyoutHeight - 16 - sidebarRect.top);
+    const desiredTop = wrapperRect.top - sidebarRect.top;
+    const nextTop = Math.max(minTop, Math.min(desiredTop, maxTop));
+    flyoutEl.style.setProperty("--flyout-offset", `${Math.round(nextTop)}px`);
+  }
+
+  function openFlyout(flyoutEl, wrapper) {
+    if (activeFlyout === flyoutEl) return;
+    if (activeFlyout) activeFlyout.classList.remove("is-visible");
+    if (!flyoutEl) return;
+    positionFlyout(wrapper, flyoutEl);
+    flyoutEl.classList.add("is-visible");
+    overlay?.classList.add("is-visible");
+    pageLayout?.classList.add("has-active-flyout");
+    activeFlyout = flyoutEl;
+  }
+
+  function closeFlyout() {
+    if (closeTimer) {
+      clearTimeout(closeTimer);
+      closeTimer = null;
+    }
+    if (activeFlyout) {
+      activeFlyout.classList.remove("is-visible");
+      activeFlyout = null;
+    }
+    overlay?.classList.remove("is-visible");
+    pageLayout?.classList.remove("has-active-flyout");
+  }
+
+  function scheduleClose(wrapper, relatedTarget) {
+    const flyout = wrapper?.querySelector(".category-sidebar__flyout");
+    if (!flyout) return;
+    if (relatedTarget && (wrapper.contains(relatedTarget) || flyout.contains(relatedTarget))) return;
+    if (closeTimer) clearTimeout(closeTimer);
+    closeTimer = window.setTimeout(() => {
+      if (activeFlyout === flyout) closeFlyout();
+    }, 80);
+  }
+
+  sidebar.querySelectorAll(".category-sidebar__item-wrapper").forEach((wrapper) => {
+    const flyout = wrapper.querySelector(".category-sidebar__flyout");
+    wrapper.addEventListener("mouseenter", () => {
+      if (closeTimer) {
+        clearTimeout(closeTimer);
+        closeTimer = null;
+      }
+      wrapper.classList.add("is-hovered");
+      if (flyout) openFlyout(flyout, wrapper);
+    });
+    wrapper.addEventListener("mouseleave", (e) => {
+      wrapper.classList.remove("is-hovered");
+      scheduleClose(wrapper, e.relatedTarget);
+    });
+    flyout?.addEventListener("mouseenter", () => {
+      if (closeTimer) {
+        clearTimeout(closeTimer);
+        closeTimer = null;
+      }
+      wrapper.classList.add("is-hovered");
+    });
+    flyout?.addEventListener("mouseleave", (e) => {
+      wrapper.classList.remove("is-hovered");
+      scheduleClose(wrapper, e.relatedTarget);
+    });
+  });
+
+  sidebar.addEventListener("mouseover", (event) => {
+    const wrapper = event.target.closest(".category-sidebar__item-wrapper");
+    if (!wrapper || !sidebar.contains(wrapper)) return;
+    const flyout = wrapper.querySelector(".category-sidebar__flyout");
+    if (!flyout) return;
+    if (closeTimer) {
+      clearTimeout(closeTimer);
+      closeTimer = null;
+    }
+    sidebar.querySelectorAll(".category-sidebar__item-wrapper.is-hovered").forEach((item) => {
+      if (item !== wrapper) item.classList.remove("is-hovered");
+    });
+    wrapper.classList.add("is-hovered");
+    openFlyout(flyout, wrapper);
+  });
+
+  sidebar.addEventListener("focusin", (event) => {
+    const wrapper = event.target.closest(".category-sidebar__item-wrapper");
+    if (!wrapper || !sidebar.contains(wrapper)) return;
+    const flyout = wrapper.querySelector(".category-sidebar__flyout");
+    if (flyout) openFlyout(flyout, wrapper);
+  });
+
+  sidebar.addEventListener("click", (e) => {
+    const target = e.target;
+    if (target.classList.contains("category-sidebar__flyout-header-close") || target.closest(".category-sidebar__flyout-header-close")) {
+      e.stopPropagation();
+      closeFlyout();
+    }
+  }, true);
+
+  overlay?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    closeFlyout();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeFlyout();
+  });
 }
 
 // ==================== INIT ====================
@@ -1259,9 +2271,9 @@ async function initHomePage() {
       fetchJSON(DATA_PATHS.vouchers)
     ]);
 
-    const products = (productsRaw || []).filter(p => p.isActive !== false);
-    const categories = (categoriesRaw || []).filter(c => c.isActive !== false).sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
-    const vouchers = (vouchersRaw || []).filter(v => v.isActive !== false);
+    const products = getMarketProducts(mergeAdminProducts(productsRaw || []));
+    const categories = buildMarketProductCategories(products, categoriesRaw || []);
+    const vouchers = mergeAdminVouchers(vouchersRaw || []).filter(v => v.isActive !== false);
 
     main.innerHTML = [
       renderHero(),
@@ -1288,6 +2300,7 @@ async function initHomePage() {
     bindTestimonialsTouch();
     bindSearchAutocomplete();
     bindWishlistToggle();
+    bindVoucherSave();
     bindProductAccordions();
     bindSkeletonLoading();
   } catch (error) {
@@ -1351,6 +2364,7 @@ function bindSkeletonLoading() {
 
 async function mountSharedLayout() {
   try {
+    initLanguage();
     const activePage = document.body.dataset.page || "home";
     const header = document.getElementById("site-header");
     const footer = document.getElementById("site-footer");
@@ -1359,21 +2373,27 @@ async function mountSharedLayout() {
     if (footer) footer.innerHTML = createFooterHTML();
 
     bindSearchForm();
+    bindLanguageToggle();
     bindMobileMenu();
     bindAddToCart();
     bindAddToCompare();
+    bindWishlistToggle();
+    bindVoucherSave();
     bindBackToTop();
+    bindSearchAutocomplete();
 
     if (activePage === "home") {
       await initHomePage();
     }
+    translateStaticText();
+    observeEnglishTranslation();
+    window.setTimeout(translateStaticText, 100);
+    window.setTimeout(translateStaticText, 600);
   } catch (error) {
     console.error("Failed to mount layout:", error);
   }
 }
 
-import { getActiveCart as _gac, setActiveCart as _sac, toggleWishlist as _tw, isWishlisted as _iw, addToCompare as _atc, getCompareProducts as _gcp } from "./storage.js";
-window.__storageExports = { getActiveCart: _gac, setActiveCart: _sac, toggleWishlist: _tw, isWishlisted: _iw, addToCompare: _atc, getCompareProducts: _gcp };
 
 // Cleanup all tracked intervals on page unload
 window.addEventListener("beforeunload", () => {
@@ -1395,5 +2415,17 @@ export {
   initHomePage,
   CATEGORY_IMAGES,
   PRODUCT_IMAGES,
-  renderCategorySidebar
+  renderCategorySidebar,
+  bindSidebarHover,
+  buildMarketProductCategories as buildProductCategories,
+  getMarketProducts,
+  getProductCategory,
+  getMarketCategoryLabel as getProductCategoryLabel,
+  getProductSalePrice,
+  getProductReviewCount,
+  getProductImage,
+  getSubcategoryForProduct,
+  isProductActive,
+  cleanText
 };
+

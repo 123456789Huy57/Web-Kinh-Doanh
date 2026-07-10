@@ -9,8 +9,8 @@
     "shippingAddress": "Ho Chi Minh City",
     "guestToken": null,
     "items": [
-      { "productId": "p-001", "productName": "Trứng gà ta", "unitPrice": 3000, "quantity": 12, "imageUrl": "/assets/images/placeholder-product.svg" },
-      { "productId": "p-018", "productName": "Gạo thơm Jasmine", "unitPrice": 98000, "quantity": 1, "imageUrl": "/assets/images/placeholder-product.svg" }
+      { "productId": "p-001", "productName": "Trứng gà ta", "unitPrice": 3000, "quantity": 12, "imageUrl": "./assets/images/placeholder-product.svg" },
+      { "productId": "p-018", "productName": "Gạo thơm Jasmine", "unitPrice": 98000, "quantity": 1, "imageUrl": "./assets/images/placeholder-product.svg" }
     ],
     "subtotal": 134000,
     "shippingFee": 20000,
@@ -22,8 +22,7 @@
     "paymentStatus": "paid",
     "createdAt": "2026-06-01T08:10:00.000Z",
     "updatedAt": "2026-06-01T12:00:00.000Z",
-    "notes": "Giao giờ hành chính",
-    "guestToken": null
+    "notes": "Giao giờ hành chính"
   },
   {
     "id": "ord-002",
@@ -35,8 +34,8 @@
     "shippingAddress": "District 3, Ho Chi Minh City",
     "guestToken": null,
     "items": [
-      { "productId": "p-002", "productName": "Ức gà tươi", "unitPrice": 85000, "quantity": 2, "imageUrl": "/assets/images/placeholder-product.svg" },
-      { "productId": "p-013", "productName": "Xà lách", "unitPrice": 10000, "quantity": 2, "imageUrl": "/assets/images/placeholder-product.svg" }
+      { "productId": "p-002", "productName": "Ức gà tươi", "unitPrice": 85000, "quantity": 2, "imageUrl": "./assets/images/placeholder-product.svg" },
+      { "productId": "p-013", "productName": "Xà lách", "unitPrice": 10000, "quantity": 2, "imageUrl": "./assets/images/placeholder-product.svg" }
     ],
     "subtotal": 190000,
     "shippingFee": 20000,
@@ -48,8 +47,7 @@
     "paymentStatus": "paid",
     "createdAt": "2026-06-03T09:30:00.000Z",
     "updatedAt": "2026-06-03T11:20:00.000Z",
-    "notes": null,
-    "guestToken": null
+    "notes": null
   },
   {
     "id": "ord-003",
@@ -61,8 +59,8 @@
     "shippingAddress": "District 1, Ho Chi Minh City",
     "guestToken": "GT-20260605-A1",
     "items": [
-      { "productId": "p-014", "productName": "Xoài cát Hòa Lộc", "unitPrice": 32000, "quantity": 2, "imageUrl": "/assets/images/placeholder-product.svg" },
-      { "productId": "p-028", "productName": "Nước suối", "unitPrice": 7000, "quantity": 6, "imageUrl": "/assets/images/placeholder-product.svg" }
+      { "productId": "p-014", "productName": "Xoài cát Hòa Lộc", "unitPrice": 32000, "quantity": 2, "imageUrl": "./assets/images/placeholder-product.svg" },
+      { "productId": "p-028", "productName": "Nước suối", "unitPrice": 7000, "quantity": 6, "imageUrl": "./assets/images/placeholder-product.svg" }
     ],
     "subtotal": 106000,
     "shippingFee": 15000,
@@ -74,8 +72,7 @@
     "paymentStatus": "unpaid",
     "createdAt": "2026-06-05T10:05:00.000Z",
     "updatedAt": "2026-06-05T10:10:00.000Z",
-    "notes": "Giao buổi tối",
-    "guestToken": "GT-20260605-A1"
+    "notes": "Giao buổi tối"
   },
   {
     "id": "ord-004",
@@ -87,8 +84,8 @@
     "shippingAddress": "Ha Noi",
     "guestToken": null,
     "items": [
-      { "productId": "p-021", "productName": "Yến mạch", "unitPrice": 45000, "quantity": 1, "imageUrl": "/assets/images/placeholder-product.svg" },
-      { "productId": "p-026", "productName": "Sữa tươi không đường", "unitPrice": 29000, "quantity": 2, "imageUrl": "/assets/images/placeholder-product.svg" }
+      { "productId": "p-021", "productName": "Yến mạch", "unitPrice": 45000, "quantity": 1, "imageUrl": "./assets/images/placeholder-product.svg" },
+      { "productId": "p-026", "productName": "Sữa tươi không đường", "unitPrice": 29000, "quantity": 2, "imageUrl": "./assets/images/placeholder-product.svg" }
     ],
     "subtotal": 103000,
     "shippingFee": 18000,
@@ -100,8 +97,7 @@
     "paymentStatus": "paid",
     "createdAt": "2026-06-08T07:45:00.000Z",
     "updatedAt": "2026-06-08T08:10:00.000Z",
-    "notes": "Call before delivery",
-    "guestToken": null
+    "notes": "Gọi trước khi giao"
   },
   {
     "id": "ord-005",
@@ -113,8 +109,8 @@
     "shippingAddress": "Ho Chi Minh City",
     "guestToken": null,
     "items": [
-      { "productId": "p-005", "productName": "Tôm sú", "unitPrice": 165000, "quantity": 1, "imageUrl": "/assets/images/placeholder-product.svg" },
-      { "productId": "p-009", "productName": "Cà chua", "unitPrice": 15000, "quantity": 2, "imageUrl": "/assets/images/placeholder-product.svg" }
+      { "productId": "p-005", "productName": "Tôm sú", "unitPrice": 165000, "quantity": 1, "imageUrl": "./assets/images/placeholder-product.svg" },
+      { "productId": "p-009", "productName": "Cà chua", "unitPrice": 15000, "quantity": 2, "imageUrl": "./assets/images/placeholder-product.svg" }
     ],
     "subtotal": 195000,
     "shippingFee": 20000,
@@ -126,7 +122,6 @@
     "paymentStatus": "unpaid",
     "createdAt": "2026-06-10T15:00:00.000Z",
     "updatedAt": "2026-06-10T15:00:00.000Z",
-    "notes": null,
-    "guestToken": null
+    "notes": null
   }
 ]

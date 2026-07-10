@@ -1,25 +1,20 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Xem hệ thống cửa hàng FreshMart - Bách Hóa Tươi tại TP. HCM, giờ mở cửa, địa chỉ và dịch vụ giao thực phẩm nhanh trong ngày." />
     <meta name="theme-color" content="#1a3c2a" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://images.unsplash.com; font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com; connect-src 'self' https://www.google-analytics.com https://www.google.com https://analytics.google.com; base-uri 'self'; form-action 'self';" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://images.unsplash.com https://cdnv2.tgdd.vn https://*; font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com; connect-src 'self' https://www.google.com; frame-src https://www.google.com; base-uri 'self'; form-action 'self';" />
     <title>Cửa hàng của chúng tôi | Bách Hóa Tươi</title>
     <link rel="stylesheet" href="./css/style.css" />
     <link rel="stylesheet" href="./css/pages.css" />
       <!-- Google Analytics 4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-XXXXXXXXXX');
-    </script>
   
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;600&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" />
     </head>
   <body data-page="stores">
     <header id="site-header"></header>
@@ -32,7 +27,7 @@
         </nav>
         <!-- Hero -->
         <div class="page-hero">
-          <picture><source srcset="./assets/images/hero-fresh.webp" type="image/webp"><source srcset="./assets/images/hero-fresh.jpg" type="image/jpeg"><img src="./assets/images/hero-fresh.jpg" alt="Cửa hàng Bách Hóa Tươi" /></picture>
+          <img src="./assets/images/stores/freshmart-storefront.png" alt="Cửa hàng FreshMart với quầy thực phẩm tươi" />
           <div class="page-hero__overlay">
             <span class="page-hero__eyebrow">Về chúng tôi</span>
             <h1 class="page-hero__title">Cửa hàng của chúng tôi</h1>
@@ -41,10 +36,10 @@
 
         <!-- Intro -->
         <div class="content-2col">
-          <div class="content-2col__image"><picture><source srcset="./assets/images/cat-vegetables.webp" type="image/webp"><source srcset="./assets/images/cat-vegetables.jpg" type="image/jpeg"><img src="./assets/images/cat-vegetables.jpg" alt="Gian hàng" /></picture></div>
+          <div class="content-2col__image"><img src="./assets/images/stores/freshmart-produce-aisle.png" alt="Gian hàng rau củ và trái cây tại FreshMart" /></div>
           <div class="content-2col__text">
             <h3>Hệ thống cửa hàng</h3>
-            <p>Bách Hóa Tươi hiện có nhiều cửa hàng trên khắp các quận trung tâm Thành phố Hồ Chí Minh. Mỗi cửa hàng đều cung cấp đầy đủ các mặt hàng thực phẩm tươi sống, rau củ, trái cây, thịt cá và các sản phẩm tiện lợi khác với chất lượng đồng nhất.</p>
+            <p>Bách Hóa Tươi hiện có 12 cửa hàng mock tại các khu vực đông dân ở TP. Hồ Chí Minh. Mỗi điểm bán phục vụ thực phẩm tươi sống, rau củ, trái cây, thịt cá và nhận đơn online để giao nhanh trong 2 giờ.</p>
           </div>
         </div>
 
@@ -75,32 +70,42 @@
 
         <div class="divider"></div>
 
-        <!-- Chi nhánh -->
         <div class="content-block">
-          <div class="content-block__title">Các chi nhánh khác</div>
-          <div class="hours-list">
-            <div class="hours-item">
-              <span class="hours-day">Cửa hàng Quận 1</span>
-              <span class="hours-time">123 Nguyễn Huệ, P. Bến Nghé — 028 3822 1111</span>
-            </div>
-            <div class="hours-item">
-              <span class="hours-day">Cửa hàng Quận 3</span>
-              <span class="hours-time">456 Võ Văn Tần, P. Võ Thị Sáu — 028 3932 2222</span>
-            </div>
-            <div class="hours-item">
-              <span class="hours-day">Cửa hàng Quận Thủ Đức</span>
-              <span class="hours-time">789 Võ Văn Ngân, P. Linh Chiểu — 028 3896 3333</span>
-            </div>
-            <div class="hours-item">
-              <span class="hours-day">Cửa hàng Quận Bình Thạnh</span>
-              <span class="hours-time">321 Xô Viết Nghệ Tĩnh, P. 21 — 028 3512 4444</span>
-            </div>
+          <div class="content-block__title">Không gian FreshMart</div>
+          <div class="store-gallery">
+            <img src="./assets/images/stores/freshmart-storefront.png" alt="Mặt tiền và không gian chính FreshMart" />
+            <img src="./assets/images/stores/freshmart-checkout.png" alt="Quầy thanh toán FreshMart" />
+            <img src="./assets/images/stores/freshmart-delivery.png" alt="Khu nhận đơn giao hàng FreshMart" />
           </div>
         </div>
 
-        <div class="map-placeholder">
-          <svg class="map-placeholder__icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-          <div class="map-placeholder__text">Bản đồ chi tiết sẽ được cập nhật sau</div>
+        <div class="divider"></div>
+
+        <!-- Chi nhánh -->
+        <div class="content-block">
+          <div class="content-block__title">12 cửa hàng đang phục vụ</div>
+          <div class="store-grid">
+            <article class="store-card"><strong>Quận 1 - Nguyễn Huệ</strong><span>123 Nguyễn Huệ, P. Bến Nghé</span><small>028 3822 1111</small></article>
+            <article class="store-card"><strong>Quận 3 - Võ Văn Tần</strong><span>456 Võ Văn Tần, P. Võ Thị Sáu</span><small>028 3932 2222</small></article>
+            <article class="store-card"><strong>Quận 4 - Khánh Hội</strong><span>88 Khánh Hội, P. 6</span><small>028 3940 3333</small></article>
+            <article class="store-card"><strong>Quận 5 - Trần Hưng Đạo</strong><span>210 Trần Hưng Đạo, P. 11</span><small>028 3855 4444</small></article>
+            <article class="store-card"><strong>Quận 7 - Tân Hưng</strong><span>63 Đường Số 1, P. Tân Hưng</span><small>038 369 0006</small></article>
+            <article class="store-card"><strong>Quận 10 - Sư Vạn Hạnh</strong><span>540 Sư Vạn Hạnh, P. 12</span><small>028 3868 5555</small></article>
+            <article class="store-card"><strong>Bình Thạnh - Xô Viết Nghệ Tĩnh</strong><span>321 Xô Viết Nghệ Tĩnh, P. 21</span><small>028 3512 4444</small></article>
+            <article class="store-card"><strong>Phú Nhuận - Phan Xích Long</strong><span>75 Phan Xích Long, P. 2</span><small>028 3995 6666</small></article>
+            <article class="store-card"><strong>Gò Vấp - Quang Trung</strong><span>602 Quang Trung, P. 11</span><small>028 3894 7777</small></article>
+            <article class="store-card"><strong>Tân Bình - Cộng Hòa</strong><span>234 Cộng Hòa, P. 12</span><small>028 3811 8888</small></article>
+            <article class="store-card"><strong>Thủ Đức - Võ Văn Ngân</strong><span>789 Võ Văn Ngân, P. Linh Chiểu</span><small>028 3896 3333</small></article>
+            <article class="store-card"><strong>Bình Tân - Tên Lửa</strong><span>110 Tên Lửa, P. Bình Trị Đông B</span><small>028 3752 9999</small></article>
+          </div>
+        </div>
+
+        <div class="store-map">
+          <iframe
+            title="Bản đồ cửa hàng Bách Hóa Tươi tại TP. Hồ Chí Minh"
+            src="https://www.google.com/maps?q=Ho%20Chi%20Minh%20City%20Vietnam&output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
       </div>
     </main>

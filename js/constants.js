@@ -1,115 +1,149 @@
 /* =============================================================
-   Constants — Data, images, and static content
+   Constants - data, images, and static homepage content
    ============================================================= */
 
 export const CATEGORY_IMAGES = {
-  vegetables: "https://images.unsplash.com/photo-1566385101042-1a0aa0c1269c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-  fruits: "https://images.unsplash.com/photo-1619566636858-adf3ef46400b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-  meat: "https://images.unsplash.com/photo-1603048297172-c92544798d1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-  seafood: "https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-  pantry: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-  condiments: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-  dairy: "https://images.unsplash.com/photo-1550583724-b2692b85b150?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-  beverages: "https://images.unsplash.com/photo-1596803244618-8b702b0eae8a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  vegetables: "./assets/images/cat-vegetables.webp",
+  fruits: "./assets/images/cat-fruits.webp",
+  meat: "./assets/images/cat-meat.webp",
+  seafood: "./assets/images/cat-seafood.webp",
+  dairy: "./assets/images/cat-dairy.webp",
+  beverages: "./assets/images/cat-beverages.webp",
+  bakery: "./assets/images/cat-pantry.webp",
+  snacks: "./assets/images/cat-condiments.webp",
+  pantry: "./assets/images/cat-pantry.webp",
+  noodles: "./assets/images/cat-pantry.webp",
+  condiments: "./assets/images/cat-condiments.webp",
+  frozen: "./assets/images/cat-meat.webp",
+  "tea-coffee": "./assets/images/cat-beverages.webp"
 };
 
-export const PRODUCT_IMAGES = {
-  "p-001": "https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-  "p-002": "https://images.unsplash.com/photo-1604503468506-a8da13d82791?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-  "p-003": "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-  "p-004": "https://images.unsplash.com/photo-1546833999-b9f581a1996d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-  "p-005": "https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-  "p-006": "https://images.unsplash.com/photo-1467003909585-2f8a72700288?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-  "p-007": "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-  "p-008": "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-  "p-009": "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-  "p-010": "https://images.unsplash.com/photo-1576045057995-568f588f82fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-  "p-011": "https://images.unsplash.com/photo-1449300079323-02e209d9d3a6?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-  "p-012": "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-  "p-013": "https://images.unsplash.com/photo-1622206151226-18ca2c9ab4a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-  "p-014": "https://images.unsplash.com/photo-1601093395153-7c669f5c36b6?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-  "p-015": "https://images.unsplash.com/photo-1603833665858-e61d17a86224?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-  "p-016": "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-  "p-017": "https://images.unsplash.com/photo-1590268682396-7c8e27c2b4e9?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-  "p-018": "https://images.unsplash.com/photo-1586201375761-83865011e356?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-  "p-019": "https://images.unsplash.com/photo-1551757817-a89d6b4f423e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-  "p-020": "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-  "p-021": "https://images.unsplash.com/photo-1517673400267-02580548d51e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-  "p-022": "https://images.unsplash.com/photo-1581636625402-29b2a704ef13?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-  "p-023": "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-  "p-024": "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-  "p-025": "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-  "p-026": "https://images.unsplash.com/photo-1550583724-b2692b85b150?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-  "p-027": "https://images.unsplash.com/photo-1488477181946-6428a0291777?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-  "p-028": "https://images.unsplash.com/photo-1559181567-c3190ca9959b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-  "p-029": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-  "p-030": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+export const SUBCATEGORY_IMAGES = {
+  "vegetables-leafy": "https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&w=500&q=80",
+  "vegetables-fruit": "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=500&q=80",
+  "vegetables-other": "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=500&q=80",
+  "fruits-tropical": "https://images.unsplash.com/photo-1528825871115-3581a5387919?auto=format&fit=crop&w=500&q=80",
+  "fruits-berries": "https://images.unsplash.com/photo-1464965911861-746a04b4bca6?auto=format&fit=crop&w=500&q=80",
+  "fruits-imported": "https://images.unsplash.com/photo-1519996529931-28324d5a630e?auto=format&fit=crop&w=500&q=80",
+  "fruits-dried": "https://images.unsplash.com/photo-1596591606975-97ee5cef3a1e?auto=format&fit=crop&w=500&q=80",
+  "fruits-other": "https://images.unsplash.com/photo-1619566636858-adf3ef46400b?auto=format&fit=crop&w=500&q=80",
+  "meat-chicken": "https://images.unsplash.com/photo-1587593810167-a84920ea0781?auto=format&fit=crop&w=500&q=80",
+  "meat-beef": "https://images.unsplash.com/photo-1603048297172-c92544798d1a?auto=format&fit=crop&w=500&q=80",
+  "meat-pork": "https://images.unsplash.com/photo-1602470520998-f4a52199a3d6?auto=format&fit=crop&w=500&q=80",
+  "meat-processed": "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=500&q=80",
+  "seafood-fish": "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=500&q=80",
+  "seafood-shrimp-crab": "https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?auto=format&fit=crop&w=500&q=80",
+  "seafood-other": "https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?auto=format&fit=crop&w=500&q=80",
+  "dairy-milk": "https://images.unsplash.com/photo-1563636619-e9143da7973b?auto=format&fit=crop&w=500&q=80",
+  "dairy-yogurt": "https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=500&q=80",
+  "dairy-eggs": "https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?auto=format&fit=crop&w=500&q=80",
+  "dairy-cheese": "https://images.unsplash.com/photo-1452195100486-9cc805987862?auto=format&fit=crop&w=500&q=80",
+  "beverages-water": "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=500&q=80",
+  "beverages-juice": "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?auto=format&fit=crop&w=500&q=80",
+  "beverages-soft-drink": "https://images.unsplash.com/photo-1596803244618-8b702b0eae8a?auto=format&fit=crop&w=500&q=80",
+  "beverages-other": "https://images.unsplash.com/photo-1523362628745-0c100150b504?auto=format&fit=crop&w=500&q=80",
+  "bakery-bread": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=500&q=80",
+  "bakery-cake": "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=500&q=80",
+  "bakery-other": "https://images.unsplash.com/photo-1517433670267-08bbd4be890f?auto=format&fit=crop&w=500&q=80",
+  "snacks-candy": "https://images.unsplash.com/photo-1581798459219-318e76aecc7b?auto=format&fit=crop&w=500&q=80",
+  "snacks-cookies": "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=500&q=80",
+  "snacks-other": "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?auto=format&fit=crop&w=500&q=80",
+  "pantry-rice": "https://images.unsplash.com/photo-1586201375761-83865011e356?auto=format&fit=crop&w=500&q=80",
+  "pantry-grains": "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=500&q=80",
+  "pantry-other": "https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?auto=format&fit=crop&w=500&q=80",
+  "noodles-instant": "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=500&q=80",
+  "noodles-rice-noodle": "https://images.unsplash.com/photo-1552611052-33e04de081de?auto=format&fit=crop&w=500&q=80",
+  "noodles-other": "https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=500&q=80",
+  "condiments-sauce": "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=500&q=80",
+  "condiments-seasoning": "https://images.unsplash.com/photo-1532336414038-cf19250c5757?auto=format&fit=crop&w=500&q=80",
+  "condiments-oil": "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=500&q=80",
+  "condiments-other": "https://images.unsplash.com/photo-1506368249639-73a05d6f6488?auto=format&fit=crop&w=500&q=80",
+  "frozen-meat": "https://images.unsplash.com/photo-1588168333986-5078d3ae3976?auto=format&fit=crop&w=500&q=80",
+  "frozen-ready-meal": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=500&q=80",
+  "frozen-other": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=500&q=80",
+  "tea-coffee-tea": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=500&q=80",
+  "tea-coffee-coffee": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=500&q=80",
+  "tea-coffee-other": "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=500&q=80"
 };
+
+export const PRODUCT_IMAGES = {};
+
+Object.assign(SUBCATEGORY_IMAGES, {
+  "fruits-fresh": "https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=800&q=80",
+  "meat-other": "https://images.unsplash.com/photo-1603048297172-c92544798d1a?auto=format&fit=crop&w=800&q=80",
+  "dairy-other": "https://images.unsplash.com/photo-1628088062854-d1870b4553da?auto=format&fit=crop&w=800&q=80",
+  "beverages-soft": "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=800&q=80",
+  "bakery-sweet": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80",
+  "snacks-biscuit": "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=800&q=80",
+  "rice-rice": "https://images.unsplash.com/photo-1586201375761-83865011e356?auto=format&fit=crop&w=800&q=80",
+  "rice-other": "https://images.unsplash.com/photo-1515543904379-3d757afe72e4?auto=format&fit=crop&w=800&q=80",
+  "frozen-ready": "https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=800&q=80",
+  tea: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=800&q=80",
+  coffee: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=800&q=80"
+});
 
 export const HERO_SLIDES = [
   {
-    badge: "Tươi mỗi ngày — Giao tận nhà",
+    badge: "Tươi mỗi ngày - giao tận nhà",
     title: "Thực phẩm tươi cho bữa cơm gia đình Việt",
-    subtitle: "Rau củ sạch, trái cây chín mọng, thịt cá tươi ngon — chọn lọc từ nông trại đến bàn ăn. Giao nhanh trong 2h.",
+    subtitle: "Rau củ sạch, trái cây chín mọng, thịt cá tươi ngon được chọn lọc mỗi sáng. Giao nhanh trong 2 giờ tại khu vực nội thành.",
     btnText: "Mua sắm ngay",
     btnLink: "./catalog.html",
-    image: "https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+    image: "./assets/images/hero-fresh.webp"
   },
   {
-    badge: "Flash Sale — Giảm đến 30%",
-    title: "Ưu đãi đặc biệt cho đơn hàng đầu tiên",
-    subtitle: "Nhập mã WELCOME10 nhận giảm giá ngay. Áp dụng cho tất cả sản phẩm — rau củ, thịt cá, trái cây và nhiều hơn nữa.",
+    badge: "Flash sale - giảm đến 30%",
+    title: "Ưu đãi hôm nay cho căn bếp luôn đầy",
+    subtitle: "Săn voucher rau củ, thịt cá, trái cây và đồ uống. Giá rõ ràng, sản phẩm dễ chọn, giao đúng khung giờ.",
     btnText: "Xem khuyến mãi",
     btnLink: "./catalog.html?sort=sale",
-    image: "https://images.unsplash.com/photo-1607082349566-187342175e2f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+    image: "./assets/images/hero-sale.webp"
   },
   {
-    badge: "Meal Planner — Miễn phí",
-    title: "Không biết hôm nay ăn gì? Để chúng tôi gợi ý!",
-    subtitle: "Trả lời vài câu hỏi đơn giản — nhận thực đơn tuần miễn phí cùng danh sách mua sắm tự động. Tiết kiệm thời gian mỗi ngày.",
+    badge: "Meal planner miễn phí",
+    title: "Chọn món nhanh hơn cho cả tuần",
+    subtitle: "Gợi ý thực đơn theo số người, ngân sách và mục tiêu sức khỏe. Thêm nguyên liệu vào giỏ chỉ trong vài lượt chạm.",
     btnText: "Khám phá Meal Planner",
     btnLink: "./meal-planner.html",
-    image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+    image: "./assets/images/hero-mealplan.webp"
   }
 ];
 
 export const FEATURES = [
-  { title: "Giao nhanh 2h", desc: "Nội thành HCM", image: "https://images.unsplash.com/photo-1526367790999-0150786686a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" },
-  { title: "Tươi mỗi ngày", desc: "Đảm bảo chất lượng", image: "https://images.unsplash.com/photo-1540420773420-3366772f4999?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" },
-  { title: "Deal mỗi ngày", desc: "Giảm đến 30%", image: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" },
-  { title: "Đổi trả 24h", desc: "Hoàn tiền 100%", image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" }
+  { title: "Giao nhanh 2h", desc: "Nội thành TP.HCM", image: "./assets/images/hero-sale.webp" },
+  { title: "Tươi mỗi ngày", desc: "Nhập hàng mỗi sáng", image: "./assets/images/hero-fresh.webp" },
+  { title: "Deal mỗi ngày", desc: "Ưu đãi đến 30%", image: "./assets/images/cat-pantry.webp" },
+  { title: "Đổi trả 24h", desc: "Hoàn tiền nếu không tươi", image: "./assets/images/cat-fruits.webp" }
 ];
 
 export const BENEFITS = [
-  { title: "Tươi sạch mỗi ngày", desc: "Hàng tươi được chọn lọc kỹ lưỡng, nhập về mỗi sáng để đảm bảo chất lượng tốt nhất.", image: "https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-  { title: "Giao hàng siêu tốc", desc: "Giao nhanh trong 2 giờ nội thành, đóng gói cẩn thận, giữ nguyên độ tươi.", image: "https://images.unsplash.com/photo-1607344645866-009c320b63e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-  { title: "Giá cả hợp lý", desc: "Cam kết giá tốt nhất thị trường, nhiều voucher và chương trình khuyến mãi.", image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-  { title: "Chất lượng tin cậy", desc: "Nguồn gốc rõ ràng, thông tin minh bạch, an toàn vệ sinh thực phẩm.", image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" }
+  { title: "Tươi sạch mỗi ngày", desc: "Hàng tươi được chọn lọc kỹ, nhập về mỗi sáng để giữ đúng chất lượng.", image: "./assets/images/hero-fresh.webp" },
+  { title: "Giao hàng đúng hẹn", desc: "Đóng gói riêng từng nhóm hàng, giao nhanh trong 2 giờ tại nội thành.", image: "./assets/images/hero-sale.webp" },
+  { title: "Giá tốt, voucher rõ", desc: "Giá niêm yết minh bạch, voucher tách riêng để dễ dùng khi thanh toán.", image: "./assets/images/cat-pantry.webp" },
+  { title: "Nguồn gốc rõ ràng", desc: "Thông tin sản phẩm, xuất xứ và dinh dưỡng được trình bày để dễ kiểm tra.", image: "./assets/images/cat-vegetables.webp" }
 ];
 
 export const PROMO_BANNERS = [
-  { theme: "green", title: "Rau củ hữu cơ", desc: "Giảm 15% cho rau củ organic", link: "./catalog.html?category=rau-cu" },
-  { theme: "orange", title: "Combo tiết kiệm", desc: "Mua 3 giảm 20% thịt cá", link: "./catalog.html?category=thit" },
-  { theme: "purple", title: "Đồ uống mùa hè", desc: "Mua 2 tặng 1 nước giải khát", link: "./catalog.html?category=do-uong" }
+  { theme: "green", title: "Rau củ tươi", desc: "Giảm 15% cho nhóm rau củ", link: "./catalog.html?category=rau-cu" },
+  { theme: "orange", title: "Combo tiết kiệm", desc: "Mua đủ bữa với thịt cá tươi", link: "./catalog.html?category=thit" },
+  { theme: "blue", title: "Đồ uống mùa hè", desc: "Nước ép, sữa và trà cà phê", link: "./catalog.html?category=do-uong" }
 ];
 
 export const TESTIMONIALS = [
-  { name: "Chị Ngọc Hân", title: "Mẹ nội trợ", text: "Rau củ lúc nào cũng tươi, đóng gói rất sạch sẽ. Giao hàng nhanh trong 2h như cam kết. Từ ngày có Bách Hóa Tươi, việc đi chợ của mình nhẹ nhàng hơn hẳn!", rating: 5, image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" },
-  { name: "Anh Quốc Bảo", title: "Dân văn phòng", text: "Đặt hàng trên web dễ dàng, có Meal Planner nữa rất tiện. Tối về không cần nghĩ ăn gì, xem thực đơn tuần là xong. Sản phẩm fresh, đáng đồng tiền!", rating: 5, image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" },
-  { name: "Chị Minh Tâm", title: "Nhân viên văn phòng", text: "Thích nhất là phần thịt bò Úc và cá hồi. Chất lượng rất tốt, đóng gói chuyên nghiệp. Giá cả hợp lý so với mặt bằng chung. Sẽ ủng hộ dài dài!", rating: 5, image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" },
-  { name: "Anh Đức Huy", title: "Chủ quán cà phê", text: "Đầu mối nhập nguyên liệu dài hạn. Trái cây và rau củ tới tay cực kỳ tươi ngon. Giá nhập ổn định, nhân viên support nhiệt tình. Recommend cho các quán nhỏ!", rating: 5, image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" },
-  { name: "Cô Lan Phương", title: "Chủ nhà hàng", text: "Chọn Bách Hóa Tươi vì yêu thích cam kết 'tươi mỗi ngày'. Nhiều mặt hàng organic, nguồn gốc rõ ràng. Nhà hàng của tôi gắn sao chất lượng cũng nhờ nguồn nguyên liệu này!", rating: 5, image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" }
+  { name: "Chị Ngọc Hân", title: "Khách hàng Quận 7", text: "Rau củ tươi, đóng gói sạch và giao đúng giờ. Tôi hay đặt trước giờ tan làm để tối về nấu ngay.", rating: 5, image: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=600&h=600&q=82" },
+  { name: "Anh Quốc Bảo", title: "Dân văn phòng", text: "Web dễ chọn hàng, phần gợi ý bán chạy khá hữu ích. Giá và voucher hiển thị rõ nên đặt hàng nhanh hơn.", rating: 5, image: "https://images.unsplash.com/photo-1746105625407-5d49d69a2a47?auto=format&fit=crop&w=600&h=600&q=82" },
+  { name: "Chị Minh Tâm", title: "Khách hàng Thủ Đức", text: "Tôi thích phần thịt cá và trái cây. Sản phẩm về tới nhà vẫn lạnh và nhìn rất tươi.", rating: 5, image: "https://images.unsplash.com/photo-1580894908361-967195033215?auto=format&fit=crop&w=600&h=600&q=82" }
 ];
 
 export const TRUST_STATS = [
-  { value: "1,000+", label: "Sản phẩm", num: 1000, suffix: "+" },
-  { value: "500+", label: "Cửa hàng", num: 500, suffix: "+" },
-  { value: "2M+", label: "Khách hàng", num: 2, suffix: "M+" },
-  { value: "99%", label: "Hài lòng", num: 99, suffix: "%" }
+  { value: "200", label: "Sản phẩm chọn lọc", num: 200, suffix: "" },
+  { value: "12+", label: "Cửa hàng TP.HCM", num: 12, suffix: "+" },
+  { value: "2h", label: "Giao nhanh nội thành", num: 2, suffix: "h" },
+  { value: "99%", label: "Đơn hàng hài lòng", num: 99, suffix: "%" }
 ];
 
 export const MEAL_STEPS = [
   "Chọn số người và ngân sách",
-  "Xác định mục tiêu sức khỏe",
-  "Nhận thực đơn tuần + shopping list"
+  "Chọn mục tiêu sức khỏe",
+  "Nhận thực đơn tuần và danh sách mua sắm"
 ];

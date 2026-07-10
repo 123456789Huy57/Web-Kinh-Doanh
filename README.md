@@ -1,114 +1,181 @@
-# Bách Hóa Tươi 🛒
+# FreshMart - AI Nutrition Commerce
 
-Website thương mại điện tử thực phẩm Việt Nam — đồ án môn Phát triển Web Kinh doanh.
+Website thương mại điện tử bán thực phẩm tươi, có danh mục sản phẩm, giỏ hàng, voucher, checkout, tài khoản khách hàng, meal planner và dashboard admin.
 
-**Stack:** HTML + CSS + JavaScript thuần. Không có backend, không có npm, không có framework.
+## Công nghệ sử dụng
 
----
+- HTML, CSS, JavaScript thuần
+- Dữ liệu tĩnh bằng file JSON trong thư mục `data/`
+- Lưu trạng thái demo bằng `localStorage`
+- Không dùng backend riêng
+- Không dùng database thật
+- Deploy bằng Vercel Static Hosting
 
-## Chạy dự án
+## Vì sao web frontend nhưng vẫn chạy Python hoặc Node.js?
+
+Dự án này không có backend xử lý nghiệp vụ. Python hoặc Node.js chỉ được dùng để mở một local static server khi chạy thử trên máy.
+
+Nếu mở trực tiếp file `.html` bằng double click, trình duyệt có thể chặn một số chức năng như:
+
+- `fetch()` file JSON trong thư mục `data/`
+- import/export JavaScript module
+- load tài nguyên qua đường dẫn tương đối
+- một số luồng định tuyến bằng query string
+
+Vì vậy khi demo local, em chạy server tĩnh để trình duyệt truy cập website qua `localhost`, giống cách website được host trên Vercel.
+
+Nói ngắn gọn:
+
+- Python/Node.js không phải backend của website.
+- Python/Node.js chỉ serve file tĩnh: HTML, CSS, JS, ảnh và JSON.
+- Logic đăng nhập, giỏ hàng, wishlist, meal plan đang chạy ở phía trình duyệt.
+- Khi deploy lên Vercel, người dùng chỉ cần mở link web, không cần chạy Python hay Node.js.
+
+## Cách chạy dự án
+
+### Cách 1: chạy bằng Node.js
 
 ```bash
-python -m http.server 3001
+npm install
+npm run serve
 ```
 
-Mở trình duyệt: **http://localhost:3001**
+Sau đó mở:
 
-> Yêu cầu Python 3. Không dùng `npx serve` hay `Live Server` vì sẽ lỗi query string.
-
----
-
-## Cấu trúc project
-
+```text
+http://127.0.0.1:8088
 ```
-├── index.html              # Trang chủ
-├── catalog.html            # Danh mục sản phẩm
-├── product-detail.html     # Chi tiết sản phẩm  (?slug=xxx)
-├── cart.html               # Giỏ hàng
-├── checkout.html           # Thanh toán
-├── orders.html             # Đơn hàng
-├── login.html              # Đăng nhập
-├── register.html           # Đăng ký
-├── account.html            # Tài khoản
-├── wishlist.html           # Yêu thích
-├── meal-planner.html       # Lập thực đơn
-│
+
+`npm run serve` dùng file `tools/static-server.cjs` để tạo static server local.
+
+### Cách 2: chạy bằng Python
+
+```bash
+python -m http.server 8088
+```
+
+Sau đó mở:
+
+```text
+http://127.0.0.1:8088
+```
+
+Cách này cũng chỉ tạo static server, không phải backend.
+
+### Kiểm tra nhanh dự án
+
+```bash
+npm run check
+```
+
+Lệnh này chạy `tools/check-static.js` để kiểm tra các file HTML, CSS, JavaScript, JSON và đường dẫn tài nguyên cơ bản.
+
+## Link deploy
+
+```text
+https://freshmart-nutrition-commerce.vercel.app
+```
+
+## Tài khoản demo
+
+User:
+
+```text
+a@example.com
+123456
+```
+
+Admin:
+
+```text
+admin@example.com
+admin123
+```
+
+Trang đăng nhập có nút fill nhanh tài khoản demo để tiện thuyết trình.
+
+## Cấu trúc thư mục
+
+```text
+AI-Nutrition-Commerce/
+├── index.html
+├── catalog.html
+├── product-detail.html
+├── cart.html
+├── checkout.html
+├── orders.html
+├── login.html
+├── register.html
+├── account.html
+├── wishlist.html
+├── vouchers.html
+├── meal-planner.html
+├── admin.html
+├── stores.html
+├── about.html
 ├── css/
-│   ├── style.css           # Design system (màu, font, button, grid...)
-│   ├── home.css            # Trang chủ
-│   ├── catalog.css         # Danh mục
-│   ├── product.css         # Chi tiết sản phẩm
-│   ├── cart.css            # Giỏ hàng
-│   ├── checkout.css        # Thanh toán
-│   ├── orders.css          # Đơn hàng
-│   ├── account.css         # Tài khoản / Auth
-│   └── meal.css            # Meal Planner
-│
 ├── js/
-│   ├── utils.js            # Helpers: formatCurrency, fetchJSON, escapeHTML...
-│   ├── storage.js          # localStorage wrapper (prefix: aic_)
-│   ├── main.js             # Header/footer + homepage logic (SHARED)
-│   ├── catalog.js
-│   ├── product.js
-│   ├── cart.js
-│   ├── checkout.js
-│   ├── orders.js
-│   ├── account.js          # Xử lý 4 trang: login/register/account/wishlist
-│   └── meal-planner.js
-│
-├── data/                   # JSON tĩnh, load bằng fetch()
-│   ├── products.json       # 30 sản phẩm (id: p-001 → p-030)
-│   ├── categories.json     # 8 danh mục
-│   ├── vouchers.json       # 10 voucher
-│   ├── meals.json          # 20 meal templates
-│   ├── recipes.json        # 20 recipes
-│   ├── meal-templates.json # 5 weekly templates
-│   ├── users.json          # Seed users
-│   └── orders.json         # Seed orders
-│
-└── assets/
-    └── images/             # SVG placeholder images
+├── data/
+├── assets/
+├── tools/
+├── docs/
+├── package.json
+├── vercel.json
+└── README.md
 ```
 
----
+## Vai trò các thư mục chính
 
-## Phân chia công việc nhóm (4 người)
+`css/`
 
-| Người | Phụ trách |
-|-------|-----------|
-| **Người 1** | `css/style.css`, `js/main.js`, `js/storage.js`, `js/utils.js`, `index.html` + `css/home.css` |
-| **Người 2** | `catalog.html/css/js`, `product-detail.html/css/js` |
-| **Người 3** | `cart.html/css/js`, `checkout.html/css/js`, `orders.html/css/js` |
-| **Người 4** | `login/register/account/wishlist` (account.html/css/js), `meal-planner.html/css/js` |
+Chứa toàn bộ giao diện, responsive layout và style cho từng trang.
 
-> Mỗi người chỉ sửa file của mình để tránh conflict khi merge.
+`js/`
 
----
+Chứa logic frontend: render sản phẩm, giỏ hàng, đăng nhập demo, wishlist, voucher, meal planner, dashboard admin.
 
-## Quy tắc code
+`data/`
 
-- **Không dùng** React, Vue, jQuery, npm packages
-- **escapeHTML()** bắt buộc khi render dữ liệu người dùng vào DOM
-- **showToast()** thay cho `alert()`
-- CSS đặt tên theo BEM: `.block__element--modifier`
-- Mobile-first, breakpoints: `480px / 768px / 1024px`
-- Màu sắc dùng CSS variables: `var(--color-primary)`, `var(--color-accent)`, `var(--color-sale)`
+Chứa dữ liệu JSON tĩnh như sản phẩm, danh mục, voucher, user demo, order demo, nguyên liệu và công thức món ăn.
 
----
+`assets/`
 
-## Thêm trang mới
+Chứa hình ảnh, icon và tài nguyên hiển thị.
 
-Xem file **`PROMPT-ADD-PAGE.md`** — copy prompt vào AI, thay `[TÊN_TRANG]` là xong.
+`tools/`
 
----
+Chứa công cụ hỗ trợ chạy và kiểm tra dự án:
 
-## Design tokens chính
+- `static-server.cjs`: mở local static server
+- `check-static.js`: kiểm tra nhanh file và đường dẫn
 
-| Variable | Giá trị | Dùng cho |
-|----------|---------|---------|
-| `--color-primary` | `#2d8f4e` | Xanh lá chính |
-| `--color-accent` | `#f97316` | Cam highlight |
-| `--color-sale` | `#ef4444` | Giá sale / badge đỏ |
-| `--color-muted` | `#6b7280` | Text phụ |
-| `--color-bg` | `#f0f7f0` | Nền trang |
-| `--color-surface` | `#ffffff` | Card / panel |
+`docs/`
+
+Chứa tài liệu phụ như mô tả dữ liệu, design brief, sitemap, report assets. Các file này không bắt buộc để website chạy, nhưng dùng để giải thích quá trình làm dự án.
+
+## Các chức năng chính
+
+- Xem sản phẩm theo danh mục và sub-category
+- Tìm kiếm sản phẩm
+- Xem chi tiết sản phẩm
+- Thêm sản phẩm vào giỏ hàng
+- Badge giỏ hàng cập nhật tự động
+- Lưu wishlist
+- Lưu voucher
+- Checkout demo
+- Đăng nhập user/admin demo
+- Meal Planner theo nguyên liệu đã chọn
+- Lưu meal plan vào tài khoản người dùng bằng localStorage
+- Dashboard admin có thống kê và biểu đồ
+
+## Ghi chú về dữ liệu và backend
+
+Website này dùng dữ liệu tĩnh từ JSON để phù hợp phạm vi đồ án frontend. Các thao tác như đăng nhập, giỏ hàng, wishlist, voucher, meal plan được mô phỏng bằng JavaScript và `localStorage`.
+
+Nếu phát triển thành sản phẩm thật, phần backend có thể được bổ sung sau để xử lý:
+
+- Xác thực tài khoản thật
+- Cơ sở dữ liệu sản phẩm
+- Đơn hàng thật
+- Thanh toán online
+- Phân quyền admin bảo mật hơn

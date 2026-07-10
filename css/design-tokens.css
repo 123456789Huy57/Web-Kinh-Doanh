@@ -9,11 +9,11 @@
 
 :root {
   /* ---- Colors: Surfaces ---- */
-  --color-bg: #f7f3ed;
+  --color-bg: #f5f0e8;
   --color-surface: #ffffff;
-  --color-surface-alt: #f0ece4;
-  --color-surface-strong: #e4ded4;
-  --color-secondary: #eeeae2;
+  --color-surface-alt: #ebe4d9;
+  --color-surface-strong: #ddd4c6;
+  --color-secondary: #e5ddd3;
 
   /* ---- Colors: Text ---- */
   --color-text: #1b1b19;
@@ -22,24 +22,24 @@
   --color-ink: #000000;
 
   /* ---- Colors: Brand ---- */
-  --color-primary: #1a3c2a;
-  --color-primary-dark: #0f2818;
-  --color-primary-light: #e6eee6;
-  --color-accent: #c4883a;
-  --color-accent-dark: #9e6e2e;
-  --color-accent-light: #f5ecdd;
+  --color-primary: #0e3822;
+  --color-primary-dark: #082413;
+  --color-primary-light: #d4e8da;
+  --color-accent: #b8772b;
+  --color-accent-dark: #8c5a1f;
+  --color-accent-light: #f0e2cc;
 
   /* ---- Colors: Semantic ---- */
-  --color-sale: #b5372a;
-  --color-sale-light: #f9e6e3;
-  --color-success: #2a6238;
-  --color-danger: #b5372a;
-  --color-warning: #c4883a;
+  --color-sale: #a3291e;
+  --color-sale-light: #f5dbd7;
+  --color-success: #1e5631;
+  --color-danger: #a3291e;
+  --color-warning: #b8772b;
   --color-border: #ddd7cd;
 
   /* ---- Colors: Footer ---- */
-  --color-footer-bg: #112b1c;
-  --color-footer-dark: #0a1a10;
+  --color-footer-bg: #0b2417;
+  --color-footer-dark: #06170d;
 
   /* ---- Typography ---- */
   --font-display: 'EB Garamond', Georgia, serif;

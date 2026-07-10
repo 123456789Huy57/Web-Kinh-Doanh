@@ -1,4 +1,4 @@
-export function formatCurrency(value) {
+﻿export function formatCurrency(value) {
   return new Intl.NumberFormat("vi-VN", {
     style: "currency",
     currency: "VND",
@@ -54,6 +54,25 @@ export function getQueryParam(name) {
   return new URLSearchParams(window.location.search).get(name);
 }
 
+export function normalizeRedirectTarget(value, fallback = "./account.html") {
+  const raw = String(value || "").trim();
+  if (!raw) return fallback;
+  if (/^(https?:)?\/\//i.test(raw)) return fallback;
+
+  const clean = raw.replace(/^\.?\//, "");
+  const knownPages = new Set([
+    "account", "admin", "cart", "catalog", "checkout", "compare", "index", "login",
+    "meal-planner", "orders", "product-detail", "register", "vouchers", "wishlist"
+  ]);
+
+  if (clean.endsWith(".html") || clean.includes(".html?") || clean.includes(".html#")) {
+    return `./${clean}`;
+  }
+  if (knownPages.has(clean)) return `./${clean}.html`;
+  if (clean.startsWith("#")) return `./account.html${clean}`;
+  return fallback;
+}
+
 export function formatNumber(value) {
   return new Intl.NumberFormat("vi-VN").format(Number(value || 0));
 }
@@ -64,6 +83,124 @@ export async function fetchJSON(path) {
     throw new Error(`Failed to fetch ${path}`);
   }
   return response.json();
+}
+
+export function convertToProductUnit(quantity, recipeUnit, productUnit, productUnitWeight) {
+  if (!recipeUnit || !productUnit || recipeUnit === productUnit) return quantity;
+
+  if (productUnitWeight && productUnitWeight > 0) {
+    if (recipeUnit === "g") {
+      if (productUnit === "kg") return quantity / 1000;
+      return quantity / productUnitWeight;
+    }
+    if (recipeUnit === "ml") {
+      if (productUnit === "lít") return quantity / 1000;
+      return quantity / productUnitWeight;
+    }
+    const gramEstimate = {
+      "muỗng": 15,
+      "chén": 200,
+      "quả": 150,
+      "củ": 150,
+      "cây": 200,
+      "bó": 300,
+      "nải": 1500,
+      "lát": 30
+    };
+    if (gramEstimate[recipeUnit]) {
+      return quantity * gramEstimate[recipeUnit] / productUnitWeight;
+    }
+  }
+
+  if (recipeUnit === "g" && productUnit === "kg") return quantity / 1000;
+  if (recipeUnit === "g" && productUnit === "5kg") return quantity / 5000;
+  if (recipeUnit === "g" && productUnit === "gói") return quantity / 500;
+  if (recipeUnit === "ml" && productUnit === "lít") return quantity / 1000;
+  if (recipeUnit === "ml" && (productUnit === "chai" || productUnit === "hộp")) return quantity / 1000;
+  if (recipeUnit === "muỗng" && productUnit === "chai") return quantity * 15 / 1000;
+  if (recipeUnit === "muỗng" && productUnit === "kg") return quantity * 10 / 1000;
+  if (recipeUnit === "muỗng" && productUnit === "gói") return quantity * 10 / 500;
+  if (recipeUnit === "quả" && productUnit === "kg") return quantity * 0.15;
+  if (recipeUnit === "quả" && productUnit === "nải") return quantity / 10;
+  if (recipeUnit === "củ" && productUnit === "kg") return quantity * 0.15;
+  if (recipeUnit === "cây" && productUnit === "kg") return quantity * 0.2;
+  if (recipeUnit === "bó" && productUnit === "kg") return quantity * 0.3;
+  if (recipeUnit === "chén" && productUnit === "kg") return quantity * 0.2;
+  if (recipeUnit === "chén" && productUnit === "5kg") return quantity * 0.2 / 5;
+
+  return quantity;
+}
+
+export function getDisplayUnit(quantity, productUnit, productUnitWeight) {
+  const fmt = (n) => new Intl.NumberFormat("vi-VN", { maximumFractionDigits: 1 }).format(n);
+  if (!productUnit) return fmt(quantity);
+
+  if (productUnitWeight && productUnitWeight > 0) {
+    const baseWeight = productUnitWeight;
+
+    if (productUnit === "chai" || productUnit === "hộp") {
+      const ml = quantity * baseWeight;
+      if (ml < 1) return `< 1ml`;
+      if (ml < 1000) return `${Math.round(ml)}ml`;
+      return `${fmt(ml / 1000)} lít`;
+    }
+
+    if (productUnit === "5kg" || productUnit === "gói" || productUnit === "kg") {
+      const g = quantity * baseWeight;
+      if (g < 1000) return `${Math.round(g)}g`;
+      if (g < 10000) return `${fmt(g / 1000)}kg`;
+      if (productUnit === "5kg") return `${fmt(g / 5000)} bao`;
+      if (productUnit === "gói") return `${fmt(g / baseWeight)} gói`;
+      return `${fmt(g / 1000)}kg`;
+    }
+  }
+
+  if (productUnit === "kg") {
+    if (quantity < 0.01) return `${Math.round(quantity * 1000000)}mg`;
+    if (quantity < 1) return `${Math.round(quantity * 1000)}g`;
+    return `${fmt(quantity)}kg`;
+  }
+
+  if (productUnit === "chai") {
+    const ml = quantity * 1000;
+    if (ml < 1) return `< 1ml`;
+    if (ml < 1000) return `${Math.round(ml)}ml`;
+    return `${fmt(ml / 1000)} lít`;
+  }
+
+  if (productUnit === "5kg") {
+    const g = quantity * 5000;
+    if (g < 1000) return `${Math.round(g)}g`;
+    if (g < 10000) return `${fmt(g / 1000)}kg`;
+    return `${fmt(g / 5000)} bao`;
+  }
+
+  if (productUnit === "gói") {
+    const g = quantity * 500;
+    if (g < 1000) return `${Math.round(g)}g`;
+    return `${fmt(g / 500)} gói`;
+  }
+
+  if (productUnit === "hộp") {
+    const ml = quantity * 1000;
+    if (ml < 1000) return `${Math.round(ml)}ml`;
+    return `${fmt(ml / 1000)} lít`;
+  }
+
+  if (productUnit === "cây") return `${fmt(quantity)} cây`;
+  if (productUnit === "củ") return `${fmt(quantity)} củ`;
+  if (productUnit === "bó") return `${fmt(quantity)} bó`;
+  if (productUnit === "quả") return `${fmt(quantity)} quả`;
+  if (productUnit === "nải") {
+    if (quantity < 1) {
+      const bananas = Math.round(quantity * 10);
+      return `${bananas} quả`;
+    }
+    return `${fmt(quantity)} nải`;
+  }
+  if (productUnit === "muỗng") return `${fmt(quantity)} muỗng`;
+  if (productUnit === "chén") return `${fmt(quantity)} chén`;
+  return `${fmt(quantity)} ${productUnit}`;
 }
 
 /**
@@ -231,3 +368,4 @@ export function createBreadcrumbItems(options) {
       return [{ label: "Trang chủ", isCurrent: true }];
   }
 }
+

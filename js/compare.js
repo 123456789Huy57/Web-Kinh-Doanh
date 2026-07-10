@@ -1,6 +1,6 @@
 import { fetchJSON, formatCurrency, escapeHTML, renderBreadcrumb, createBreadcrumbItems, formatNumber } from "./utils.js";
-import { getActiveCart, setActiveCart, getCompareProducts, setCompareProducts, addToCompare, removeFromCompare, clearCompare } from "./storage.js";
-import { showToast, PRODUCT_IMAGES, CATEGORY_IMAGES } from "./main.js";
+import { getActiveCart, setActiveCart, getCompareProducts, setCompareProducts, addToCompare, removeFromCompare, clearCompare, mergeAdminProducts } from "./storage.js";
+import { showToast, PRODUCT_IMAGES, CATEGORY_IMAGES, getProductImage, getProductSalePrice, getProductCategory, getProductReviewCount } from "./main.js";
 
 const DATA_PATHS = {
   products: "./data/products.json",
@@ -18,24 +18,27 @@ function getProduct(id) {
 }
 
 function getActivePrice(p) {
-  return p.salePrice && p.salePrice < p.price ? p.salePrice : p.price;
+  const salePrice = getProductSalePrice(p);
+  return salePrice && salePrice < p.price ? salePrice : p.price;
 }
 
 function getDiscountPercent(p) {
-  if (!p.salePrice || p.salePrice >= p.price) return 0;
-  return Math.round((1 - p.salePrice / p.price) * 100);
+  const salePrice = getProductSalePrice(p);
+  if (!salePrice || salePrice >= p.price) return 0;
+  return Math.round((1 - salePrice / p.price) * 100);
 }
 
-function getProductImage(product) {
+function getCompareProductImage(product) {
   return PRODUCT_IMAGES[product.id]
-    || (product.imageUrl && !product.imageUrl.includes('placeholder')
-      ? product.imageUrl
-      : (CATEGORY_IMAGES[product.categoryId] || './assets/images/placeholder-product.svg'));
+    || (getProductImage(product) && !getProductImage(product).includes('placeholder')
+      ? getProductImage(product)
+      : (CATEGORY_IMAGES[getProductCategory(product)] || './assets/images/placeholder-product.svg'));
 }
 
-function getCategoryName(id) {
+function getCategoryName(product) {
+  const id = getProductCategory(product);
   const cat = state.categories.find(c => c.id === id || c.slug === id);
-  return cat ? cat.name : "";
+  return cat ? cat.name : product.categoryName || product.category || "";
 }
 
 function renderComparePage() {
@@ -79,12 +82,12 @@ function renderComparePage() {
               <th scope="col">
                 <div class="compare-product" data-product-id="${p.id}">
                   <button class="compare-product__remove" data-action="remove-compare" data-product-id="${p.id}" aria-label="Xóa ${escapeHTML(p.name)}">✕</button>
-                  <img class="compare-product__image" src="${getProductImage(p)}" alt="${escapeHTML(p.name)}" loading="lazy" />
+                  <img class="compare-product__image" src="${getCompareProductImage(p)}" alt="${escapeHTML(p.name)}" loading="lazy" onerror="this.onerror=null;this.src='./assets/images/placeholder-product.svg'" />
                   <div class="compare-product__name">${escapeHTML(p.name)}</div>
                   <div class="compare-product__brand">${escapeHTML(p.brand || "")}</div>
                   <div class="compare-product__price">
                     <span class="price__current ${getDiscountPercent(p) > 0 ? 'price__current--sale' : ''}">${formatCurrency(getActivePrice(p))}</span>
-                    ${p.salePrice && p.salePrice < p.price ? `<span class="price__original">${formatCurrency(p.price)}</span>` : ""}
+                    ${getProductSalePrice(p) && getProductSalePrice(p) < p.price ? `<span class="price__original">${formatCurrency(p.price)}</span>` : ""}
                     ${getDiscountPercent(p) > 0 ? `<span class="badge badge--sale">-${getDiscountPercent(p)}%</span>` : ""}
                   </div>
                   <button class="btn btn--primary btn--sm compare-product__add-btn" data-action="add-to-cart" data-product-id="${p.id}" type="button">Thêm giỏ</button>
@@ -122,8 +125,8 @@ function renderCompareRows(products) {
   rows.push(renderRow("Giá bán", products, p => formatCurrency(getActivePrice(p)), "price"));
 
   // Original price if any on sale
-  if (products.some(p => p.salePrice && p.salePrice < p.price)) {
-    rows.push(renderRow("Giá gốc", products, p => p.salePrice && p.salePrice < p.price ? formatCurrency(p.price) : "—", "text"));
+  if (products.some(p => getProductSalePrice(p) && getProductSalePrice(p) < p.price)) {
+    rows.push(renderRow("Giá gốc", products, p => getProductSalePrice(p) && getProductSalePrice(p) < p.price ? formatCurrency(p.price) : "—", "text"));
   }
 
   // Discount
@@ -138,10 +141,10 @@ function renderCompareRows(products) {
   rows.push(renderRow("Thương hiệu", products, p => p.brand || "—", "text"));
 
   // Category
-  rows.push(renderRow("Danh mục", products, p => getCategoryName(p.categoryId), "text"));
+  rows.push(renderRow("Danh mục", products, p => getCategoryName(p), "text"));
 
   // Rating
-  rows.push(renderRow("Đánh giá", products, p => p.rating ? `★ ${p.rating.toFixed(1)} (${p.reviewCount || 0})` : "—", "text"));
+  rows.push(renderRow("Đánh giá", products, p => p.rating ? `★ ${p.rating.toFixed(1)} (${getProductReviewCount(p)})` : "—", "text"));
 
   // Stock
   rows.push(renderRow("Tồn kho", products, p => p.stock ? `${formatNumber(p.stock)} ${p.unit || "sp"}` : "Hết hàng", "text"));
@@ -245,7 +248,7 @@ async function initComparePage() {
     fetchJSON(DATA_PATHS.categories)
   ]);
 
-  state.products = productsRaw.filter(p => p.isActive !== false);
+  state.products = mergeAdminProducts(productsRaw || []).filter(p => p.isActive !== false && p.active !== false);
   state.categories = categoriesRaw;
   state.compareIds = getCompareProducts();
 
@@ -276,7 +279,7 @@ function attachCompareHandlers() {
       cart.items = cart.items || [];
       const existing = cart.items.find(item => item.productId === productId);
       if (existing) existing.quantity += 1;
-      else cart.items.push({ productId, quantity: 1 });
+      else cart.items.push({ productId, quantity: 1, selected: true });
       cart.updatedAt = new Date().toISOString();
       setActiveCart(cart);
       showToast("Đã thêm vào giỏ hàng");

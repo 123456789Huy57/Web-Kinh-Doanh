@@ -1,0 +1,12 @@
+{
+  "type": "module",
+  "scripts": {
+    "check": "node tools/check-static.js",
+    "serve": "node tools/static-server.cjs"
+  },
+  "dependencies": {
+    "http-server": "^14.1.1",
+    "stream-json": "^3.4.0",
+    "uuid": "^14.0.1"
+  }
+}
